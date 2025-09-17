@@ -13,7 +13,7 @@ function Projects() {
                     description="Software projects and applications I've built"
                 />
 
-                <div className="mt-12 pb-40">
+                <div className="mt-12 pb-20">
                     {/* Projects Grid */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 

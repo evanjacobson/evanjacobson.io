@@ -1,9 +1,6 @@
 import { PageHeader } from '@/Components/Shared/PageHeader';
-import CompactEmailSignup from '@/Components/Shared/CompactEmailSignup';
 import { Card, CardHeader, CardContent } from '@/Components/ui/Card';
 import { Icon } from '@/Components/ui/Icon';
-import { Badge, BadgeGroup } from '@/Components/ui/Badge';
-import { FeatureItem, FeatureList } from '@/Components/ui/FeatureItem';
 import { ExperienceItem, ExperienceList } from '@/Components/ui/ExperienceItem';
 import { CertificationItem, CertificationList } from '@/Components/ui/CertificationItem';
 import { TechStackCategory, TechStackGrid } from '@/Components/ui/TechStackCategory';
@@ -34,7 +31,7 @@ function Resume() {
 
 
                 {/* Main Content */}
-                <div className="space-y-8 lg:space-y-12 pb-40">
+                <div className="space-y-8 lg:space-y-12 pb-20">
 
                     {/* Personal Statement */}
                     <Card accentColor="emerald-500" padding="p-10" className="mt-12">

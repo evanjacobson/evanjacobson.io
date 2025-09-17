@@ -1,10 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Mail, Linkedin } from 'lucide-react';
 
-export function Footer({ 
+export function Footer({
     title = "Ready to Start a Conversation?",
-    text = "Whether you have an exciting project, a startup opportunity, or just want to chat about technology, I'd love to hear from you."
+    text = "Whatever your reason for reaching out, I'd love to hear from you."
 }) {
+    const [email, setEmail] = useState('');
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (!email.trim()) return;
+
+        setIsSubmitting(true);
+
+        try {
+            const workerUrl = 'https://portfolio-email-subscription.evanjacobson.workers.dev/';
+
+            const response = await fetch(workerUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email: email.trim() }),
+            });
+
+            if (response.ok) {
+                setIsSubmitted(true);
+                setEmail('');
+            } else {
+                console.error('Failed to subscribe', response);
+            }
+        } catch (error) {
+            console.error('Error subscribing:', error);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
     return (
         <section id="footer" className="bg-gradient-to-br from-emerald-500 to-blue-500 p-12 text-center">
             <h2 className="text-4xl font-bold text-white mb-4">{title}</h2>
@@ -37,16 +70,34 @@ export function Footer({
                     <Mail className="w-4 sm:w-5 h-4 sm:h-5" />
                     Stay Updated
                 </h3>
-                <div className="flex flex-col sm:flex-row gap-3">
-                    <input
-                        type="email"
-                        placeholder="your@email.com"
-                        className="flex-1 px-4 py-3 border border-white/30 rounded-xl bg-white/10 backdrop-blur-sm text-white placeholder-white/70 focus:outline-none focus:border-white/50 focus:ring-2 focus:ring-white/20 text-sm sm:text-base"
-                    />
-                    <button className="px-6 py-3 bg-white text-emerald-600 rounded-xl font-semibold hover:bg-white/90 transition-all duration-300 hover:-translate-y-1 w-full sm:w-auto whitespace-nowrap text-sm sm:text-base">
-                        Subscribe
-                    </button>
-                </div>
+                {isSubmitted ? (
+                    <div className="bg-white/20 border border-white/30 rounded-xl p-4 text-center">
+                        <div className="flex items-center justify-center gap-2">
+                            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                            <span className="text-white font-medium">Thanks! You're all set.</span>
+                        </div>
+                    </div>
+                ) : (
+                    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+                        <input
+                            type="email"
+                            placeholder="your@email.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="flex-1 px-4 py-3 border border-white/30 rounded-xl bg-white/10 backdrop-blur-sm text-white placeholder-white/70 focus:outline-none focus:border-white/50 focus:ring-2 focus:ring-white/20 text-sm sm:text-base"
+                            required
+                        />
+                        <button
+                            type="submit"
+                            disabled={isSubmitting || !email.trim()}
+                            className="px-6 py-3 bg-white text-emerald-600 rounded-xl font-semibold hover:bg-white/90 transition-all duration-300 hover:-translate-y-1 w-full sm:w-auto whitespace-nowrap text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {isSubmitting ? 'Subscribing...' : 'Subscribe'}
+                        </button>
+                    </form>
+                )}
             </div>
         </section>
     );
