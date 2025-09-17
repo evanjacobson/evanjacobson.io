@@ -13,6 +13,8 @@ export function ProjectComponent({
     gradientFrom = "red-500",
     gradientTo = "red-600",
     icon: Icon,
+    date,
+    buttons = [],
     href,
     target = "_blank",
     rel = "noopener noreferrer"
@@ -29,14 +31,21 @@ export function ProjectComponent({
 
             <div className="relative z-10">
                 {/* Header */}
-                <div className="flex items-center gap-4 mb-6">
-                    <div className={`w-12 h-12 bg-gradient-to-br ${colors.gradient} rounded-2xl flex items-center justify-center shadow-lg ${colors.shadow}`}>
-                        {Icon && <Icon className="w-6 h-6 text-white" />}
+                <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-4">
+                        <div className={`w-12 h-12 bg-gradient-to-br ${colors.gradient} rounded-2xl flex items-center justify-center shadow-lg ${colors.shadow}`}>
+                            {Icon && <Icon className="w-6 h-6 text-white" />}
+                        </div>
+                        <div>
+                            <h3 className="text-xl font-bold text-slate-50 group-hover:text-white transition-colors">{title}</h3>
+                            <p className={`${colors.status} text-sm font-medium`}>{status}</p>
+                        </div>
                     </div>
-                    <div>
-                        <h3 className="text-xl font-bold text-slate-50 group-hover:text-white transition-colors">{title}</h3>
-                        <p className={`${colors.status} text-sm font-medium`}>{status}</p>
-                    </div>
+                    {date && (
+                        <div className="text-slate-400 text-sm font-medium">
+                            {date}
+                        </div>
+                    )}
                 </div>
 
                 {/* Description */}
@@ -53,17 +62,40 @@ export function ProjectComponent({
                     </BadgeGroup>
                 )}
 
-                {/* CTA */}
-                {href && (
-                    <a 
-                        href={href} 
-                        target={target} 
-                        rel={rel} 
-                        className={`inline-flex items-center gap-3 bg-gradient-to-r ${colors.gradient} text-white px-6 py-3 rounded-2xl font-semibold text-sm ${colors.gradientHover} hover:shadow-lg ${colors.shadowHover} transition-all duration-300 group/btn`}
-                    >
-                        <span>Visit {title}</span>
-                        <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-                    </a>
+                {/* CTA Buttons */}
+                {(buttons.length > 0 || href) && (
+                    <div className="flex flex-wrap gap-3">
+                        {buttons.map((button, index) => {
+                            // Get button colors - use override or default
+                            const buttonColors = button.colorOverride ? getProjectColors(button.colorOverride) : colors;
+                            const ButtonIcon = button.icon;
+                            
+                            return (
+                                <a
+                                    key={index}
+                                    href={button.href}
+                                    target={button.target || target}
+                                    rel={button.rel || rel}
+                                    className={`inline-flex items-center gap-3 bg-gradient-to-r ${buttonColors.gradient} text-white px-6 py-3 rounded-2xl font-semibold text-sm ${buttonColors.gradientHover} hover:shadow-lg ${buttonColors.shadowHover} transition-all duration-300 group/btn`}
+                                >
+                                    {ButtonIcon && <ButtonIcon className="w-4 h-4" />}
+                                    <span>{button.text}</span>
+                                    <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                                </a>
+                            );
+                        })}
+                        {href && (
+                            <a 
+                                href={href} 
+                                target={target} 
+                                rel={rel} 
+                                className={`inline-flex items-center gap-3 bg-gradient-to-r ${colors.gradient} text-white px-6 py-3 rounded-2xl font-semibold text-sm ${colors.gradientHover} hover:shadow-lg ${colors.shadowHover} transition-all duration-300 group/btn`}
+                            >
+                                <span>Visit {title}</span>
+                                <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                            </a>
+                        )}
+                    </div>
                 )}
             </div>
         </div>
