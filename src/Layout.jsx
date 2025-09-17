@@ -1,14 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Footer } from "./Components/Shared/Footer";
+import { getCalApi } from "@calcom/embed-react";
 
 function Sidebar({ isOpen, setIsOpen }) {
   const location = useLocation();
+
+  // Initialize Cal.com
+  useEffect(() => {
+    (async function () {
+      const cal = await getCalApi();
+      cal("ui", {
+        theme: "dark",
+        styles: {
+          branding: { brandColor: "#10b981" }, // emerald-500
+        },
+      });
+    })();
+  }, []);
+
+  const handleBookingClick = () => {
+    setIsOpen(false);
+  };
 
   const links = [
     { label: "Home", to: "/" },
     { label: "Resume", to: "/resume" },
     { label: "Projects", to: "/projects" },
+    { label: "Book a Call", to: "/booking", isBooking: true, onClick: handleBookingClick },
   ];
 
   const externalLinks = [
@@ -16,11 +35,9 @@ function Sidebar({ isOpen, setIsOpen }) {
   ];
 
   const socialLinks = [
-    { label: "Schedule a Call", url: "https://cal.com/evanjacobson" },
     { label: "Email", url: "mailto:contact@evanjacobson.io" },
     { label: "LinkedIn", url: "https://www.linkedin.com/in/evanjacobson3/" },
     { label: "GitHub", url: "https://github.com/evanjacobson" },
-    
   ];
 
 
@@ -66,20 +83,36 @@ function Sidebar({ isOpen, setIsOpen }) {
               Navigation
             </div>
             <div className="space-y-1.5">
-              {links.map((item) => (
-                <Link
-                  key={item.label}
-                  to={item.to}
-                  className={`flex w-full items-center gap-3 px-4 py-2.5 text-sm rounded-xl transition-all
-                    ${isActive(item.to)
-                      ? "bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/30"
-                      : "text-slate-300 hover:text-white hover:bg-slate-700/40"}
-                  `}
-                  onClick={handleLinkClick}
-                >
-                  <span className="font-medium">{item.label}</span>
-                </Link>
-              ))}
+              {links.map((item) => {
+                if (item.isBooking) {
+                  return (
+                    <button
+                      key={item.label}
+                      data-cal-link="evanjacobson"
+                      data-cal-config='{"theme":"dark"}'
+                      className="flex w-full items-center gap-3 px-4 py-2.5 text-sm rounded-xl transition-all text-slate-300 hover:text-white hover:bg-slate-700/40"
+                      onClick={item.onClick}
+                    >
+                      <span className="font-medium">{item.label}</span>
+                    </button>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={item.label}
+                    to={item.to}
+                    className={`flex w-full items-center gap-3 px-4 py-2.5 text-sm rounded-xl transition-all
+                      ${isActive(item.to)
+                        ? "bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/30"
+                        : "text-slate-300 hover:text-white hover:bg-slate-700/40"}
+                    `}
+                    onClick={handleLinkClick}
+                  >
+                    <span className="font-medium">{item.label}</span>
+                  </Link>
+                );
+              })}
             </div>
           </div>
 

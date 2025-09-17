@@ -97,7 +97,7 @@ function Home() {
             <section className="py-20 px-4">
                 <div className="max-w-6xl mx-auto">
                     <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-slate-50 mb-8 sm:mb-12 text-center">
-                        What I'm Looking For
+                        Where I'll Thrive
                     </h2>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
@@ -108,7 +108,7 @@ function Home() {
                                     Early-Stage Startups
                                 </h3>
                                 <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-                                    I'm interested in connecting with potential cofounders to build something from the ground up, or to join an existing team.
+                                    I'm eager to connect with potential cofounders to build something from the ground up, or to join an existing team.
                                 </p>
                             </CardContent>
                         </Card>
@@ -117,10 +117,10 @@ function Home() {
                             <CardContent className="p-6 sm:p-8">
                                 <div className="h-1 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-full mb-6 absolute top-0 left-0 right-0"></div>
                                 <h3 className="text-lg sm:text-xl font-semibold text-emerald-400 mb-4">
-                                    Building AI-Powered Solutions
+                                    Building Your Solutions
                                 </h3>
                                 <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-                                    I enjoy building AI-powered tools, automations, pipelines, and more to solve complex problems.
+                                    I enjoy building AI-powered tools, automations, pipelines, and more, to solve complex problems.
                                 </p>
                             </CardContent>
                         </Card>
@@ -132,7 +132,7 @@ function Home() {
                                     Technical Leadership
                                 </h3>
                                 <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-                                    I thrive leading technical initiatives, mentoring teams, and driving architectural decisions.
+                                    I excel atleading technical initiatives, mentoring teams, and driving architectural decisions.
                                 </p>
                             </CardContent>
                         </Card>

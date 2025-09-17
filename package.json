@@ -13,6 +13,7 @@
     "dev:full": "concurrently \"npm run dev\" \"npm run worker:dev\""
   },
   "dependencies": {
+    "@calcom/embed-react": "^1.5.3",
     "lucide-react": "^0.544.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -31,7 +31,8 @@ function Projects() {
                                     text: "GitHub (Coming Soon)", 
                                     href: "#",
                                     icon: Github,
-                                    colorOverride: "slate"
+                                    colorOverride: "slate",
+                                    disabled: true
                                 }
                             ]}
                         />
