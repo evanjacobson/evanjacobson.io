@@ -6,7 +6,7 @@ export function Footer({
     text = "Whether you have an exciting project, a startup opportunity, or just want to chat about technology, I'd love to hear from you."
 }) {
     return (
-        <section className="bg-gradient-to-br from-emerald-500 to-blue-500 p-12 text-center">
+        <section id="footer" className="bg-gradient-to-br from-emerald-500 to-blue-500 p-12 text-center">
             <h2 className="text-4xl font-bold text-white mb-4">{title}</h2>
             <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
                 {text}

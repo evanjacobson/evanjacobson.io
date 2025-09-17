@@ -32,7 +32,7 @@ function Home() {
                     </p>
                     
                     <button
-                        onClick={() => scrollToSection('contact')}
+                        onClick={() => scrollToSection('footer')}
                         className="inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-6 sm:px-10 py-3 sm:py-4 rounded-2xl font-semibold text-base sm:text-lg transition-all duration-300 hover:-translate-y-1 shadow-lg hover:shadow-emerald-500/25 hover:shadow-xl"
                     >
                         <Mail className="w-5 h-5" />
