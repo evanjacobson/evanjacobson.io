@@ -41,17 +41,60 @@ const createShadowWithOpacity = (colorName, opacity = 30) => {
   return `shadow-${getColor(colorName, 500)}/${opacity}`;
 };
 
-// Project Component Color Mappings
+// Project Component Color Mappings - Static for Tailwind purging
+export const projectColors = {
+  red: {
+    bg: 'from-red-500/5 to-red-600/5',
+    gradient: 'from-red-500 to-red-600',
+    gradientHover: 'hover:from-red-600 hover:to-red-700',
+    shadow: 'shadow-red-500/30',
+    shadowHover: 'hover:shadow-red-500/25',
+    status: 'text-red-400'
+  },
+  blue: {
+    bg: 'from-blue-500/5 to-blue-600/5',
+    gradient: 'from-blue-500 to-blue-600',
+    gradientHover: 'hover:from-blue-600 hover:to-blue-700',
+    shadow: 'shadow-blue-500/30',
+    shadowHover: 'hover:shadow-blue-500/25',
+    status: 'text-blue-400'
+  },
+  green: {
+    bg: 'from-green-500/5 to-green-600/5',
+    gradient: 'from-green-500 to-green-600',
+    gradientHover: 'hover:from-green-600 hover:to-green-700',
+    shadow: 'shadow-green-500/30',
+    shadowHover: 'hover:shadow-green-500/25',
+    status: 'text-green-400'
+  },
+  purple: {
+    bg: 'from-purple-500/5 to-purple-600/5',
+    gradient: 'from-purple-500 to-purple-600',
+    gradientHover: 'hover:from-purple-600 hover:to-purple-700',
+    shadow: 'shadow-purple-500/30',
+    shadowHover: 'hover:shadow-purple-500/25',
+    status: 'text-purple-400'
+  },
+  orange: {
+    bg: 'from-orange-500/5 to-orange-600/5',
+    gradient: 'from-orange-500 to-orange-600',
+    gradientHover: 'hover:from-orange-600 hover:to-orange-700',
+    shadow: 'shadow-orange-500/30',
+    shadowHover: 'hover:shadow-orange-500/25',
+    status: 'text-orange-400'
+  },
+  slate: {
+    bg: 'from-slate-700/5 to-slate-800/5',
+    gradient: 'from-slate-700 to-slate-800',
+    gradientHover: 'hover:from-slate-800 hover:to-slate-900',
+    shadow: 'shadow-slate-700/30',
+    shadowHover: 'hover:shadow-slate-700/25',
+    status: 'text-slate-400'
+  }
+};
+
 export const getProjectColors = (colorName = 'red') => {
-  const color = colorName.toLowerCase();
-  return {
-    bg: `from-${getColor(color, 500)}/5 to-${getColor(color, 600)}/5`,
-    gradient: createGradient(color),
-    gradientHover: `hover:from-${getColor(color, 600)} hover:to-${getColor(color, 700)}`,
-    shadow: createShadowWithOpacity(color),
-    shadowHover: `hover:shadow-${getColor(color, 500)}/25`,
-    status: createTextColor(color, 400)
-  };
+  return projectColors[colorName.toLowerCase()] || projectColors.red;
 };
 
 // Badge Component Color Mappings
