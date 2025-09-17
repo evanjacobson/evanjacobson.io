@@ -1,0 +1,13 @@
+{
+  "name": "portfolio-email-subscription-worker",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "wrangler dev --local",
+    "deploy": "wrangler deploy",
+    "d1:create": "wrangler d1 create portfolio-users",
+    "d1:migrate": "wrangler d1 execute portfolio-users --local --file=./migrations/schema.sql"
+  },
+  "devDependencies": {
+    "wrangler": "^4.37.1"
+  }
+}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Footer } from "./Components/Shared/Footer";
 
@@ -13,6 +13,14 @@ function Sidebar({ isOpen, setIsOpen }) {
 
   const externalLinks = [
     { label: "Trade Intel", url: "https://app.evanjacobson.io" },
+  ];
+
+  const socialLinks = [
+    { label: "Schedule a Call", url: "https://cal.com/evanjacobson" },
+    { label: "Email", url: "mailto:contact@evanjacobson.io" },
+    { label: "LinkedIn", url: "https://www.linkedin.com/in/evanjacobson3/" },
+    { label: "GitHub", url: "https://github.com/evanjacobson" },
+    
   ];
 
 
@@ -78,10 +86,34 @@ function Sidebar({ isOpen, setIsOpen }) {
           {/* Links Section */}
           <div className="mb-6">
             <div className="px-2 py-1.5 text-[11px] uppercase tracking-wider text-slate-400 mb-2">
-              Links
+              Launched Projects
             </div>
             <div className="space-y-1.5">
               {externalLinks.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex w-full items-center justify-between px-4 py-2.5 text-sm rounded-xl transition-all text-slate-300 hover:text-white hover:bg-slate-700/40"
+                  onClick={handleLinkClick}
+                >
+                  <span className="font-medium">{item.label}</span>
+                  <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Social Links Section */}
+          <div className="mb-6">
+            <div className="px-2 py-1.5 text-[11px] uppercase tracking-wider text-slate-400 mb-2">
+              Connect
+            </div>
+            <div className="space-y-1.5">
+              {socialLinks.map((item) => (
                 <a
                   key={item.label}
                   href={item.url}
@@ -108,6 +140,11 @@ function Sidebar({ isOpen, setIsOpen }) {
 export default function Layout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
+
+  // Scroll to top when route changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   // Define footer content based on route
   const getFooterProps = () => {

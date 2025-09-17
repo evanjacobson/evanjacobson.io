@@ -1,8 +1,5 @@
-import { Card, CardHeader, CardContent } from '@/Components/ui/Card';
-import { Icon } from '@/Components/ui/Icon';
-import { ContactItem } from '@/Components/ui/ContactItem';
-import CompactEmailSignup from '@/Components/Shared/CompactEmailSignup';
-import { Star, Briefcase, Mail, Linkedin, MapPin, ChevronDown } from 'lucide-react';
+import { Card, CardContent } from '@/Components/ui/Card';
+import { Briefcase, Mail, MapPin, ChevronDown } from 'lucide-react';
 
 function Home() {
     const scrollToSection = (sectionId) => {
@@ -43,7 +40,7 @@ function Home() {
                 {/* Scroll indicator */}
                 <button
                     onClick={() => scrollToSection('about')}
-                    className="absolute bottom-8 left-1/2 -translate-x-1/2 text-slate-400 animate-bounce hover:text-emerald-400 transition-colors"
+                    className="absolute bottom-8 -translate-x-1/2 text-slate-400 animate-bounce hover:text-emerald-400 transition-colors"
                 >
                     <ChevronDown className="w-10 h-10" />
                 </button>
@@ -53,7 +50,7 @@ function Home() {
             <section id="about" className="py-20 px-4 bg-slate-800/20">
                 <div className="max-w-6xl mx-auto text-center">
                     <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-slate-50 mb-8 sm:mb-12">
-                        Currently
+                        Currently...
                     </h2>
 
                     <div className="flex justify-center gap-4 sm:gap-8 flex-wrap mb-8 sm:mb-12">
@@ -96,8 +93,8 @@ function Home() {
                 </div>
             </section>
 
-            {/* OPPORTUNITIES: What you're seeking */}
-            <section className="py-20 px-4 pb-40">
+            {/* OPPORTUNITIES */}
+            <section className="py-20 px-4">
                 <div className="max-w-6xl mx-auto">
                     <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-slate-50 mb-8 sm:mb-12 text-center">
                         What I'm Looking For
@@ -108,10 +105,10 @@ function Home() {
                             <CardContent className="p-6 sm:p-8">
                                 <div className="h-1 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-full mb-6 absolute top-0 left-0 right-0"></div>
                                 <h3 className="text-lg sm:text-xl font-semibold text-emerald-400 mb-4">
-                                    Startup Opportunities
+                                    Early-Stage Startups
                                 </h3>
                                 <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-                                    Early-stage startups where I can make a significant impact and build something from the ground up.
+                                    I'm interested in connecting with potential cofounders to build something from the ground up, or to join an existing team.
                                 </p>
                             </CardContent>
                         </Card>
@@ -120,10 +117,10 @@ function Home() {
                             <CardContent className="p-6 sm:p-8">
                                 <div className="h-1 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-full mb-6 absolute top-0 left-0 right-0"></div>
                                 <h3 className="text-lg sm:text-xl font-semibold text-emerald-400 mb-4">
-                                    AI-Powered Solutions
+                                    Building AI-Powered Solutions
                                 </h3>
                                 <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-                                    Opportunities to build AI-powered tools and automations, pipelines, and more.
+                                    I enjoy building AI-powered tools, automations, pipelines, and more to solve complex problems.
                                 </p>
                             </CardContent>
                         </Card>
@@ -135,7 +132,7 @@ function Home() {
                                     Technical Leadership
                                 </h3>
                                 <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-                                    Roles where I can lead technical initiatives, mentor teams, and drive architectural decisions.
+                                    I thrive leading technical initiatives, mentoring teams, and driving architectural decisions.
                                 </p>
                             </CardContent>
                         </Card>

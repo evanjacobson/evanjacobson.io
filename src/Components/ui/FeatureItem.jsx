@@ -1,4 +1,5 @@
 import React from 'react';
+import { getFeatureBorderColor } from '@/utils/colorUtils';
 
 export function FeatureItem({
   title,
@@ -7,17 +8,7 @@ export function FeatureItem({
   padding = "p-6",
   className = ""
 }) {
-  const borderColorClasses = {
-    'emerald-500': 'border-l-emerald-500',
-    'blue-500': 'border-l-blue-500',
-    'purple-500': 'border-l-purple-500',
-    'purple-600': 'border-l-purple-600',
-    'cyan-500': 'border-l-cyan-500',
-    'amber-500': 'border-l-amber-500',
-    'green-500': 'border-l-green-500'
-  };
-
-  const borderColor = borderColorClasses[accentColor] || borderColorClasses['emerald-500'];
+  const borderColor = getFeatureBorderColor(accentColor);
 
   return (
     <div className={`bg-slate-900/60 border border-slate-700 border-l-4 ${borderColor} rounded-xl ${padding} ${className}`}>
