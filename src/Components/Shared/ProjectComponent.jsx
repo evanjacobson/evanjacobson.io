@@ -1,0 +1,71 @@
+import { Card, CardHeader, CardContent } from '@/Components/ui/Card';
+import { Badge, BadgeGroup } from '@/Components/ui/Badge';
+import { ArrowUpRight } from 'lucide-react';
+import { getProjectColors } from '@/utils/colorUtils';
+
+export function ProjectComponent({
+    title,
+    status,
+    statusColor = "red-400",
+    description,
+    techStack = [],
+    accentColor = "red",
+    gradientFrom = "red-500",
+    gradientTo = "red-600",
+    icon: Icon,
+    href,
+    target = "_blank",
+    rel = "noopener noreferrer"
+}) {
+    // Get color classes based on accent color
+    const colors = getProjectColors(accentColor);
+    return (
+        <div className="group relative bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-3xl p-8 overflow-hidden hover:bg-slate-800/70 hover:border-slate-600/50 hover:-translate-y-2 transition-all duration-500">
+            {/* Gradient Background */}
+            <div className={`absolute inset-0 bg-gradient-to-br ${colors.bg} via-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-500`}></div>
+
+            {/* Top Accent Line */}
+            <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${colors.gradient} rounded-t-3xl`}></div>
+
+            <div className="relative z-10">
+                {/* Header */}
+                <div className="flex items-center gap-4 mb-6">
+                    <div className={`w-12 h-12 bg-gradient-to-br ${colors.gradient} rounded-2xl flex items-center justify-center shadow-lg ${colors.shadow}`}>
+                        {Icon && <Icon className="w-6 h-6 text-white" />}
+                    </div>
+                    <div>
+                        <h3 className="text-xl font-bold text-slate-50 group-hover:text-white transition-colors">{title}</h3>
+                        <p className={`${colors.status} text-sm font-medium`}>{status}</p>
+                    </div>
+                </div>
+
+                {/* Description */}
+                <p className="text-slate-300 mb-6 leading-relaxed">
+                    {description}
+                </p>
+
+                {/* Tech Stack */}
+                {techStack.length > 0 && (
+                    <BadgeGroup accentColor={accentColor} className="mb-8">
+                        {techStack.map((tech, index) => (
+                            <Badge key={index} color="slate">{tech}</Badge>
+                        ))}
+                    </BadgeGroup>
+                )}
+
+                {/* CTA */}
+                {href && (
+                    <a 
+                        href={href} 
+                        target={target} 
+                        rel={rel} 
+                        className={`inline-flex items-center gap-3 bg-gradient-to-r ${colors.gradient} text-white px-6 py-3 rounded-2xl font-semibold text-sm ${colors.gradientHover} hover:shadow-lg ${colors.shadowHover} transition-all duration-300 group/btn`}
+                    >
+                        <span>Visit {title}</span>
+                        <ArrowUpRight className="w-4 h-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                    </a>
+                )}
+            </div>
+        </div>
+    );
+}

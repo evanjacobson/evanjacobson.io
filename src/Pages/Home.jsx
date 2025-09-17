@@ -120,7 +120,7 @@ function Home() {
                                     Building AI-Powered Solutions
                                 </h3>
                                 <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-                                    I enjoy building AI-powered tools, automations, pipelines, and more to deterministically solve complex problems.
+                                    I enjoy building AI-powered tools, automations, pipelines, and more to solve complex problems.
                                 </p>
                             </CardContent>
                         </Card>
