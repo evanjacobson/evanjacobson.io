@@ -254,7 +254,7 @@ export default function Layout({ children }) {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <button
-                  onClick={() => setSidebarOpen(true)}
+                  onClick={() => setSidebarOpen(!sidebarOpen)}
                   className="hover:bg-slate-700 p-2 rounded-lg transition-colors"
                 >
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
