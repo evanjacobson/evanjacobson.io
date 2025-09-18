@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Mail, Linkedin } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Mail, Linkedin, Calendar } from 'lucide-react';
+import { getCalApi } from "@calcom/embed-react";
 
 export function Footer({
     title = "Ready to Start a Conversation?",
@@ -8,6 +9,19 @@ export function Footer({
     const [email, setEmail] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    // Initialize Cal.com
+    useEffect(() => {
+        (async function () {
+            const cal = await getCalApi();
+            cal("ui", {
+                theme: "dark",
+                styles: {
+                    branding: { brandColor: "#10b981" }, // emerald-500
+                },
+            });
+        })();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -45,6 +59,15 @@ export function Footer({
                 {text}
             </p>
             <div className="flex justify-center gap-4 sm:gap-6 flex-wrap mb-8 sm:mb-12">
+                <button
+                    data-cal-link="evanjacobson"
+                    data-cal-config='{"theme":"dark"}'
+                    className="inline-flex items-center gap-2 sm:gap-3 bg-white/10 backdrop-blur-sm border-2 border-white/20 text-white px-4 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base transition-all duration-300 hover:bg-white/20 hover:-translate-y-1 hover:border-white/40"
+                >
+                    <Calendar className="w-4 sm:w-5 h-4 sm:h-5" />
+                    Book a Call
+                </button>
+
                 <a
                     href="mailto:contact@evanjacobson.io"
                     className="inline-flex items-center gap-2 sm:gap-3 bg-white/10 backdrop-blur-sm border-2 border-white/20 text-white px-4 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-sm sm:text-base transition-all duration-300 hover:bg-white/20 hover:-translate-y-1 hover:border-white/40"

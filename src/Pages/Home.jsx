@@ -47,46 +47,46 @@ function Home() {
             </section>
 
             {/* ABOUT: Current status and credentials */}
-            <section id="about" className="py-20 px-4 bg-slate-800/20">
+            <section id="about" className="py-20 md:pb-20 px-4 bg-slate-800/20">
                 <div className="max-w-6xl mx-auto text-center">
-                    <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-slate-50 mb-8 sm:mb-12">
+                    <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-slate-50 mb-6 md:mb-8 lg:mb-12">
                         Currently...
                     </h2>
 
-                    <div className="flex justify-center gap-4 sm:gap-8 flex-wrap mb-8 sm:mb-12">
-                        <Card accentColor="emerald-500" className="min-w-[240px] sm:min-w-[280px] hover:-translate-y-2 transition-transform duration-300">
-                            <CardContent className="p-6 sm:p-8 text-center">
-                                <div className="w-12 h-12 bg-emerald-500 rounded-xl mx-auto mb-4 flex items-center justify-center">
-                                    <Briefcase className="w-6 h-6 text-white" />
+                    <div className="flex justify-center gap-3 sm:gap-4 md:gap-8 flex-wrap mb-6 md:mb-8 lg:mb-12">
+                        <Card accentColor="emerald-500" className="min-w-[200px] sm:min-w-[240px] md:min-w-[280px] hover:-translate-y-2 transition-transform duration-300">
+                            <CardContent className="p-2 py-3 sm:p-4 md:p-8 text-center">
+                                <div className="w-8 h-8 sm:w-12 sm:h-12 bg-emerald-500 rounded-xl mx-auto mb-1 sm:mb-4 flex items-center justify-center">
+                                    <Briefcase className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                                 </div>
-                                <h3 className="text-lg sm:text-xl font-semibold text-emerald-400 mb-2">
+                                <h3 className="text-sm sm:text-lg md:text-xl font-semibold text-emerald-400 mb-0 sm:mb-2">
                                     Software Engineer
                                 </h3>
-                                <p className="text-slate-400">Alarm.com</p>
+                                <p className="text-xs sm:text-sm text-slate-400">Alarm.com</p>
                             </CardContent>
                         </Card>
 
-                        <Card accentColor="emerald-500" className="min-w-[240px] sm:min-w-[280px] hover:-translate-y-2 transition-transform duration-300">
-                            <CardContent className="p-6 sm:p-8 text-center">
-                                <div className="w-12 h-12 bg-emerald-500 rounded-xl mx-auto mb-4 flex items-center justify-center">
-                                    <Briefcase className="w-6 h-6 text-white" />
+                        <Card accentColor="emerald-500" className="min-w-[200px] sm:min-w-[240px] md:min-w-[280px] hover:-translate-y-2 transition-transform duration-300">
+                            <CardContent className="p-2 py-3 sm:p-4 md:p-8 text-center">
+                                <div className="w-8 h-8 sm:w-12 sm:h-12 bg-emerald-500 rounded-xl mx-auto mb-1 sm:mb-4 flex items-center justify-center">
+                                    <Briefcase className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                                 </div>
-                                <h3 className="text-lg sm:text-xl font-semibold text-emerald-400 mb-2">
+                                <h3 className="text-sm sm:text-lg md:text-xl font-semibold text-emerald-400 mb-0 sm:mb-2">
                                     Founding Engineer
                                 </h3>
-                                <p className="text-slate-400">OneDeal</p>
+                                <p className="text-xs sm:text-sm text-slate-400">OneDeal</p>
                             </CardContent>
                         </Card>
 
-                        <Card accentColor="emerald-500" className="min-w-[240px] sm:min-w-[280px] hover:-translate-y-2 transition-transform duration-300">
-                            <CardContent className="p-6 sm:p-8 text-center">
-                                <div className="w-12 h-12 bg-emerald-500 rounded-xl mx-auto mb-4 flex items-center justify-center">
-                                    <MapPin className="w-6 h-6 text-white" />
+                        <Card accentColor="emerald-500" className="min-w-[200px] sm:min-w-[240px] md:min-w-[280px] hover:-translate-y-2 transition-transform duration-300">
+                            <CardContent className="p-2 py-3 sm:p-4 md:p-8 text-center">
+                                <div className="w-8 h-8 sm:w-12 sm:h-12 bg-emerald-500 rounded-xl mx-auto mb-2 sm:mb-4 flex items-center justify-center">
+                                    <MapPin className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                                 </div>
-                                <h3 className="text-lg sm:text-xl font-semibold text-emerald-400 mb-2">
+                                <h3 className="text-sm sm:text-lg md:text-xl font-semibold text-emerald-400 mb-1 sm:mb-2">
                                     Based in
                                 </h3>
-                                <p className="text-slate-400">Denver, Colorado</p>
+                                <p className="text-xs sm:text-sm text-slate-400">Denver, Colorado</p>
                             </CardContent>
                         </Card>
                     </div>
@@ -101,38 +101,35 @@ function Home() {
                     </h2>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                        <Card accentColor="emerald-500" className="hover:-translate-y-2 transition-all duration-300">
-                            <CardContent className="p-6 sm:p-8">
-                                <div className="h-1 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-full mb-6 absolute top-0 left-0 right-0"></div>
+                        <Card accentColor="emerald-500" className="hover:-translate-y-2 transition-all duration-300 h-full flex flex-col">
+                            <CardContent className="p-6 sm:p-8 flex flex-col flex-1">
                                 <h3 className="text-lg sm:text-xl font-semibold text-emerald-400 mb-4">
                                     Early-Stage Startups
                                 </h3>
-                                <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+                                <p className="text-sm sm:text-base text-slate-300 leading-relaxed flex-1">
                                     I'm eager to connect with potential cofounders to build something from the ground up, or to join an existing team.
                                 </p>
                             </CardContent>
                         </Card>
 
-                        <Card accentColor="emerald-500" className="hover:-translate-y-2 transition-all duration-300">
-                            <CardContent className="p-6 sm:p-8">
-                                <div className="h-1 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-full mb-6 absolute top-0 left-0 right-0"></div>
+                        <Card accentColor="emerald-500" className="hover:-translate-y-2 transition-all duration-300 h-full flex flex-col">
+                            <CardContent className="p-6 sm:p-8 flex flex-col flex-1">
                                 <h3 className="text-lg sm:text-xl font-semibold text-emerald-400 mb-4">
-                                    Building Your Solutions
+                                    AI-Powered Solutions
                                 </h3>
-                                <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+                                <p className="text-sm sm:text-base text-slate-300 leading-relaxed flex-1">
                                     I enjoy building AI-powered tools, automations, pipelines, and more, to solve complex problems.
                                 </p>
                             </CardContent>
                         </Card>
 
-                        <Card accentColor="emerald-500" className="hover:-translate-y-2 transition-all duration-300">
-                            <CardContent className="p-6 sm:p-8">
-                                <div className="h-1 bg-gradient-to-r from-emerald-500 to-blue-500 rounded-full mb-6 absolute top-0 left-0 right-0"></div>
+                        <Card accentColor="emerald-500" className="hover:-translate-y-2 transition-all duration-300 h-full flex flex-col">
+                            <CardContent className="p-6 sm:p-8 flex flex-col flex-1">
                                 <h3 className="text-lg sm:text-xl font-semibold text-emerald-400 mb-4">
                                     Technical Leadership
                                 </h3>
-                                <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-                                    I excel atleading technical initiatives, mentoring teams, and driving architectural decisions.
+                                <p className="text-sm sm:text-base text-slate-300 leading-relaxed flex-1">
+                                    I excel at leading technical initiatives, mentoring teams, and driving architectural decisions.
                                 </p>
                             </CardContent>
                         </Card>

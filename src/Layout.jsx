@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Footer } from "./Components/Shared/Footer";
 import { getCalApi } from "@calcom/embed-react";
+import { Calendar } from "lucide-react";
 
 function Sidebar({ isOpen, setIsOpen }) {
   const location = useLocation();
@@ -27,7 +28,6 @@ function Sidebar({ isOpen, setIsOpen }) {
     { label: "Home", to: "/" },
     { label: "Resume", to: "/resume" },
     { label: "Projects", to: "/projects" },
-    { label: "Book a Call", to: "/booking", isBooking: true, onClick: handleBookingClick },
   ];
 
   const externalLinks = [
@@ -35,6 +35,7 @@ function Sidebar({ isOpen, setIsOpen }) {
   ];
 
   const socialLinks = [
+    { label: "Book a Call", isBooking: true, onClick: handleBookingClick },
     { label: "Email", url: "mailto:contact@evanjacobson.io" },
     { label: "LinkedIn", url: "https://www.linkedin.com/in/evanjacobson3/" },
     { label: "GitHub", url: "https://github.com/evanjacobson" },
@@ -83,36 +84,20 @@ function Sidebar({ isOpen, setIsOpen }) {
               Navigation
             </div>
             <div className="space-y-1.5">
-              {links.map((item) => {
-                if (item.isBooking) {
-                  return (
-                    <button
-                      key={item.label}
-                      data-cal-link="evanjacobson"
-                      data-cal-config='{"theme":"dark"}'
-                      className="flex w-full items-center gap-3 px-4 py-2.5 text-sm rounded-xl transition-all text-slate-300 hover:text-white hover:bg-slate-700/40"
-                      onClick={item.onClick}
-                    >
-                      <span className="font-medium">{item.label}</span>
-                    </button>
-                  );
-                }
-
-                return (
-                  <Link
-                    key={item.label}
-                    to={item.to}
-                    className={`flex w-full items-center gap-3 px-4 py-2.5 text-sm rounded-xl transition-all
-                      ${isActive(item.to)
-                        ? "bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/30"
-                        : "text-slate-300 hover:text-white hover:bg-slate-700/40"}
-                    `}
-                    onClick={handleLinkClick}
-                  >
-                    <span className="font-medium">{item.label}</span>
-                  </Link>
-                );
-              })}
+              {links.map((item) => (
+                <Link
+                  key={item.label}
+                  to={item.to}
+                  className={`flex w-full items-center gap-3 px-4 py-2.5 text-sm rounded-xl transition-all
+                    ${isActive(item.to)
+                      ? "bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/30"
+                      : "text-slate-300 hover:text-white hover:bg-slate-700/40"}
+                  `}
+                  onClick={handleLinkClick}
+                >
+                  <span className="font-medium">{item.label}</span>
+                </Link>
+              ))}
             </div>
           </div>
 
@@ -146,21 +131,37 @@ function Sidebar({ isOpen, setIsOpen }) {
               Connect
             </div>
             <div className="space-y-1.5">
-              {socialLinks.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex w-full items-center justify-between px-4 py-2.5 text-sm rounded-xl transition-all text-slate-300 hover:text-white hover:bg-slate-700/40"
-                  onClick={handleLinkClick}
-                >
-                  <span className="font-medium">{item.label}</span>
-                  <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </a>
-              ))}
+              {socialLinks.map((item) => {
+                if (item.isBooking) {
+                  return (
+                    <button
+                      key={item.label}
+                      data-cal-link="evanjacobson"
+                      data-cal-config='{"theme":"dark"}'
+                      className="flex w-full items-center px-4 py-2.5 text-sm rounded-xl transition-all text-slate-300 hover:text-white hover:bg-slate-700/40"
+                      onClick={item.onClick}
+                    >
+                      <span className="font-medium">{item.label}</span>
+                    </button>
+                  );
+                }
+
+                return (
+                  <a
+                    key={item.label}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex w-full items-center justify-between px-4 py-2.5 text-sm rounded-xl transition-all text-slate-300 hover:text-white hover:bg-slate-700/40"
+                    onClick={handleLinkClick}
+                  >
+                    <span className="font-medium">{item.label}</span>
+                    <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                );
+              })}
             </div>
           </div>
 
@@ -176,7 +177,7 @@ export default function Layout({ children }) {
 
   // Scroll to top when route changes
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top:-90, left: 0 });;
   }, [location.pathname]);
 
   // Define footer content based on route
@@ -250,16 +251,27 @@ export default function Layout({ children }) {
         {/* Main content */}
         <main className="flex-1 flex flex-col md:ml-0">
           <header className="sticky top-0 z-50 border-b border-slate-700 bg-slate-800/30 backdrop-blur-xl px-6 py-4 md:hidden">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => setSidebarOpen(true)}
+                  className="hover:bg-slate-700 p-2 rounded-lg transition-colors"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  </svg>
+                </button>
+                <h1 className="text-base font-semibold">Evan Jacobson</h1>
+              </div>
+
               <button
-                onClick={() => setSidebarOpen(true)}
-                className="hover:bg-slate-700 p-2 rounded-lg transition-colors"
+                data-cal-link="evanjacobson"
+                data-cal-config='{"theme":"dark"}'
+                className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors"
               >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
+                <Calendar className="w-4 h-4" />
+                Book Call
               </button>
-              <h1 className="text-base font-semibold">Evan Jacobson</h1>
             </div>
           </header>
           <div className="flex-1 overflow-auto">
