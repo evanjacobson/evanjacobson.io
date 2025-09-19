@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Footer } from "./Components/Shared/Footer";
 import { getCalApi } from "@calcom/embed-react";
-import { Calendar, Mail } from "lucide-react";
+import { Calendar, Mail, ExternalLink, Linkedin, Github } from "lucide-react";
 
 function Sidebar({ isOpen, setIsOpen }) {
   const location = useLocation();
@@ -35,15 +35,52 @@ function Sidebar({ isOpen, setIsOpen }) {
   ];
 
   const socialLinks = [
-    { label: "Book a Call", isBooking: true, onClick: handleBookingClick },
-    { label: "Email", url: "mailto:contact@evanjacobson.io" },
-    { label: "LinkedIn", url: "https://www.linkedin.com/in/evanjacobson3/" },
-    { label: "GitHub", url: "https://github.com/evanjacobson" },
+    { label: "Book a Call", icon: Calendar, onClick: handleBookingClick, isBooking: true },
+    { label: "Email", icon: Mail, url: "mailto:contact@evanjacobson.io" },
+    { label: "LinkedIn", icon: Linkedin, url: "https://www.linkedin.com/in/evanjacobson3/" },
+    { label: "GitHub", icon: Github, url: "https://github.com/evanjacobson" },
   ];
 
 
   const isActive = (to) => {
     return location.pathname === to || (to !== "/" && location.pathname.startsWith(to));
+  };
+
+  const renderSocialLink = (item) => {
+    const baseClasses = "flex w-full items-center px-4 py-2.5 text-sm rounded-xl transition-all text-slate-300 hover:text-white hover:bg-slate-700/40";
+    const IconComponent = item.icon;
+    
+    if (item.isBooking) {
+      return (
+        <button
+          key={item.label}
+          data-cal-link="evanjacobson"
+          data-cal-config='{"theme":"dark"}'
+          className={baseClasses}
+          onClick={item.onClick}
+        >
+          <IconComponent className="w-4 h-4 mr-3 text-slate-400" />
+          <span className="font-medium">{item.label}</span>
+        </button>
+      );
+    }
+
+    return (
+      <a
+        key={item.label}
+        href={item.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={`${baseClasses} justify-between`}
+        onClick={handleLinkClick}
+      >
+        <div className="flex items-center">
+          <IconComponent className="w-4 h-4 mr-3 text-slate-400" />
+          <span className="font-medium">{item.label}</span>
+        </div>
+        <ExternalLink className="w-4 h-4 text-slate-500" />
+      </a>
+    );
   };
 
   const handleLinkClick = () => {
@@ -131,37 +168,7 @@ function Sidebar({ isOpen, setIsOpen }) {
               Connect
             </div>
             <div className="space-y-1.5">
-              {socialLinks.map((item) => {
-                if (item.isBooking) {
-                  return (
-                    <button
-                      key={item.label}
-                      data-cal-link="evanjacobson"
-                      data-cal-config='{"theme":"dark"}'
-                      className="flex w-full items-center px-4 py-2.5 text-sm rounded-xl transition-all text-slate-300 hover:text-white hover:bg-slate-700/40"
-                      onClick={item.onClick}
-                    >
-                      <span className="font-medium">{item.label}</span>
-                    </button>
-                  );
-                }
-
-                return (
-                  <a
-                    key={item.label}
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex w-full items-center justify-between px-4 py-2.5 text-sm rounded-xl transition-all text-slate-300 hover:text-white hover:bg-slate-700/40"
-                    onClick={handleLinkClick}
-                  >
-                    <span className="font-medium">{item.label}</span>
-                    <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </a>
-                );
-              })}
+              {socialLinks.map((item) => renderSocialLink(item))}
             </div>
           </div>
 
