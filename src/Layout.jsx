@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Footer } from "./Components/Shared/Footer";
 import { getCalApi } from "@calcom/embed-react";
-import { Calendar, Mail, ExternalLink, Linkedin, Github } from "lucide-react";
+import { Calendar, Mail, ExternalLink, Linkedin, Github, Rocket } from "lucide-react";
 
 function Sidebar({ isOpen, setIsOpen }) {
   const location = useLocation();
@@ -31,7 +31,8 @@ function Sidebar({ isOpen, setIsOpen }) {
   ];
 
   const externalLinks = [
-    { label: "Trade Intel", url: "https://app.evanjacobson.io" },
+    { label: "OneDeal", icon: Rocket, url: "https://onedeal.biz" },
+    { label: "Trade Intel", icon: Rocket, url: "https://app.evanjacobson.io" },
   ];
 
   const socialLinks = [
@@ -141,24 +142,10 @@ function Sidebar({ isOpen, setIsOpen }) {
           {/* Links Section */}
           <div className="mb-6">
             <div className="px-2 py-1.5 text-[11px] uppercase tracking-wider text-slate-400 mb-2">
-              Launched Projects
+              Launched
             </div>
             <div className="space-y-1.5">
-              {externalLinks.map((item) => (
-                <a
-                  key={item.label}
-                  href={item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex w-full items-center justify-between px-4 py-2.5 text-sm rounded-xl transition-all text-slate-300 hover:text-white hover:bg-slate-700/40"
-                  onClick={handleLinkClick}
-                >
-                  <span className="font-medium">{item.label}</span>
-                  <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </a>
-              ))}
+              {externalLinks.map((item) => renderSocialLink(item))}
             </div>
           </div>
 
