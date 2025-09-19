@@ -69,6 +69,23 @@ export function ProjectComponent({
                             // Get button colors - use override or default
                             const buttonColors = button.colorOverride ? getProjectColors(button.colorOverride) : colors;
                             const ButtonIcon = button.icon;
+                            const isDisabled = button.disabled;
+                            
+                            const buttonClasses = isDisabled
+                                ? `inline-flex items-center gap-3 bg-slate-600 text-slate-400 px-6 py-3 rounded-2xl font-semibold text-sm cursor-not-allowed opacity-60`
+                                : `inline-flex items-center gap-3 bg-gradient-to-r ${buttonColors.gradient} text-white px-6 py-3 rounded-2xl font-semibold text-sm ${buttonColors.gradientHover} hover:shadow-lg ${buttonColors.shadowHover} transition-all duration-300 group/btn`;
+                            
+                            if (isDisabled) {
+                                return (
+                                    <span
+                                        key={index}
+                                        className={buttonClasses}
+                                    >
+                                        {ButtonIcon && <ButtonIcon className="w-4 h-4" />}
+                                        <span>{button.text}</span>
+                                    </span>
+                                );
+                            }
                             
                             return (
                                 <a
@@ -76,7 +93,7 @@ export function ProjectComponent({
                                     href={button.href}
                                     target={button.target || target}
                                     rel={button.rel || rel}
-                                    className={`inline-flex items-center gap-3 bg-gradient-to-r ${buttonColors.gradient} text-white px-6 py-3 rounded-2xl font-semibold text-sm ${buttonColors.gradientHover} hover:shadow-lg ${buttonColors.shadowHover} transition-all duration-300 group/btn`}
+                                    className={buttonClasses}
                                 >
                                     {ButtonIcon && <ButtonIcon className="w-4 h-4" />}
                                     <span>{button.text}</span>
