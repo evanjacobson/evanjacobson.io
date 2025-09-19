@@ -115,7 +115,7 @@ function Sidebar({ isOpen, setIsOpen }) {
         </div>
 
         {/* Navigation */}
-        <div className="px-4 py-3 overflow-y-auto h-screen">
+        <div className="px-4 py-3 overflow-y-auto h-screen custom-scrollbar">
           {/* Main Navigation */}
           <div className="mb-6">
             <div className="px-2 py-1.5 text-[11px] uppercase tracking-wider text-slate-400 mb-2">
