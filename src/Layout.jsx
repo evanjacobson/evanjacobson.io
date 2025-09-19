@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Footer } from "./Components/Shared/Footer";
 import { getCalApi } from "@calcom/embed-react";
-import { Calendar } from "lucide-react";
+import { Calendar, Mail } from "lucide-react";
 
 function Sidebar({ isOpen, setIsOpen }) {
   const location = useLocation();
@@ -264,14 +264,26 @@ export default function Layout({ children }) {
                 <h1 className="text-base font-semibold">Evan Jacobson</h1>
               </div>
 
-              <button
-                data-cal-link="evanjacobson"
-                data-cal-config='{"theme":"dark"}'
-                className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors"
-              >
-                <Calendar className="w-4 h-4" />
-                Book Call
-              </button>
+              <div className="flex items-center gap-4">
+                <a
+                  href="mailto:contact@evanjacobson.io"
+                  className="inline-flex items-center gap-2 bg-cyan-500 hover:bg-slate-600 text-white px-5 py-2 rounded-lg font-medium text-sm transition-colors ml-2"
+                  aria-label="Email Evan Jacobson"
+                >
+                  <Mail className="w-4 h-4" />
+                </a>
+                <button
+                  data-cal-link="evanjacobson"
+                  data-cal-config='{"theme":"dark"}'
+                  className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2 rounded-lg font-medium text-sm transition-colors"
+                >
+                  <Calendar className="w-4 h-4" />
+                  {/*Book Call*/}
+                </button>
+              </div>
+              
+
+              
             </div>
           </header>
           <div className="flex-1 overflow-auto">
