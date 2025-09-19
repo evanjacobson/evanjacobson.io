@@ -59,10 +59,10 @@ function Home() {
                                 <div className="w-6 h-6 sm:w-8 sm:h-8 md:w-12 md:h-12 bg-emerald-500 rounded-xl mb-2 sm:mb-3 md:mb-4 flex items-center justify-center">
                                     <Briefcase className="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white" />
                                 </div>
-                                <h3 className="text-sm sm:text-lg md:text-xl font-semibold text-emerald-400 mb-1 sm:mb-2">
+                                <h3 className="text-lg sm:text-xl font-semibold text-emerald-400 mb-4">
                                     Software Engineer
                                 </h3>
-                                <p className="text-xs sm:text-sm md:text-base text-slate-400">Alarm.com</p>
+                                <p className="text-sm sm:text-base text-slate-300 leading-relaxed">Alarm.com</p>
                             </CardContent>
                         </Card>
                         <Card accentColor="emerald-500" className="hover:-translate-y-2 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
@@ -71,10 +71,10 @@ function Home() {
                                 <div className="w-6 h-6 sm:w-8 sm:h-8 md:w-12 md:h-12 bg-emerald-500 rounded-xl mb-2 sm:mb-3 md:mb-4 flex items-center justify-center">
                                     <Briefcase className="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white" />
                                 </div>
-                                <h3 className="text-sm sm:text-lg md:text-xl font-semibold text-emerald-400 mb-1 sm:mb-2">
+                                <h3 className="text-lg sm:text-xl font-semibold text-emerald-400 mb-4">
                                     Founding Engineer
                                 </h3>
-                                <p className="text-xs sm:text-sm md:text-base text-slate-400">OneDeal</p>
+                                <p className="text-sm sm:text-base text-slate-300 leading-relaxed">OneDeal</p>
                             </CardContent>
                         </Card>
                         <Card accentColor="emerald-500" className="hover:-translate-y-2 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
@@ -83,10 +83,10 @@ function Home() {
                                 <div className="w-6 h-6 sm:w-8 sm:h-8 md:w-12 md:h-12 bg-emerald-500 rounded-xl mb-2 sm:mb-3 md:mb-4 flex items-center justify-center">
                                     <MapPin className="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white" />
                                 </div>
-                                <h3 className="text-sm sm:text-lg md:text-xl font-semibold text-emerald-400 mb-1 sm:mb-2">
+                                <h3 className="text-lg sm:text-xl font-semibold text-emerald-400 mb-4">
                                     Based in
                                 </h3>
-                                <p className="text-xs sm:text-sm md:text-base text-slate-400">Denver, Colorado</p>
+                                <p className="text-sm sm:text-base text-slate-300 leading-relaxed">Denver, Colorado</p>
                             </CardContent>
                         </Card>
                     </div>
