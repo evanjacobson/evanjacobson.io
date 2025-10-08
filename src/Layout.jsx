@@ -31,7 +31,7 @@ function Sidebar({ isOpen, setIsOpen }) {
   ];
 
   const externalLinks = [
-    { label: "OneDeal", icon: Rocket, url: "https://onedeal.biz" },
+    { label: "OneDeal", icon: Rocket, url: "https://onedealapp.com" },
     { label: "Trade Intel", icon: Rocket, url: "https://app.evanjacobson.io" },
   ];
 

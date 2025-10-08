@@ -16,8 +16,10 @@ function Projects() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <ProjectComponent
                             title="Trade Intel"
-                            status="Investment Research Synthesis Platform"
-                            description="A platform for visualizing market and sector analyses, and surfacing actionable trade recommendations. Content is automatically gathered, normalized, and broken down into semantic chunks for efficient exploration."
+                            status="Investment Recommendation and Research Synthesis Platform"
+                            description="I believe technology should solve real problems and make complex tasks simpler.
+                                Trade Intel represents this philosophy—taking the overwhelming task of digesting
+                                market research and making it efficient and actionable."
                             techStack={["React", ".NET Core", "AWS Lambda", "DynamoDB"]}
                             accentColor="red"
                             icon={Zap}

@@ -4,7 +4,7 @@ import { getCalApi } from "@calcom/embed-react";
 
 export function Footer({
     title = "Ready to Start a Conversation?",
-    text = "Whatever your reason for reaching out, I'd love to hear from you."
+    text = "I'm always looking to build more cool stuff. If you have any ideas and want to connect or introduce me to someone, or if you just want to say hi, please reach out!"
 }) {
     const [email, setEmail] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);

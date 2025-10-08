@@ -55,7 +55,7 @@ function Resume() {
                                 <ExperienceItem
                                     title="Founding Engineer"
                                     company="OneDeal"
-                                    dateRange="October 2024 - Present (Part-Time)"
+                                    dateRange="October 2024 - October 2025 (Part-Time)"
                                     description={[
                                         "Designed and implemented agentic 'scouts' which are able to source private, not-for-sale businesses fitting specific search parameters -- using TypeScript, Amazon Bedrock, Bright Data, and DynamoDB, and orchestrated with ECS",
                                         "Built a website used by private equity firms and other investors to research and acquire small/medium sized domestic businesses using React.js, TypeScript, and DynamoDB"
