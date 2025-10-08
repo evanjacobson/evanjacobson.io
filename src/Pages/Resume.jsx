@@ -38,7 +38,7 @@ function Resume() {
                         <CardContent>
                             <h2 className="text-2xl sm:text-3xl font-bold text-emerald-400 mb-6">Personal Statement</h2>
                             <p className="text-lg text-slate-300 leading-relaxed">
-                                I am a technically driven leader focused on leveraging AI to solve complex problems quickly. I combine deep technical expertise with clear communication skills to align teams, eliminate blockers, and deliver results under ambitious timelines. Over the past year, I have balanced my full-time role with serving as Founding Engineer at OneDeal, where I helped build out an agentic business search engine. I’m eager to partner with smart, risk-tolerant builders who value speed and innovation, and I am ready to contribute by turning bold ideas into scalable outcomes.
+                                I am a technically driven leader focused on leveraging AI to solve complex problems quickly. I combine deep technical expertise with clear communication skills to align teams, eliminate blockers, and deliver results under ambitious timelines. Over the past year, I balanced my full-time role with serving as Founding Engineer at OneDeal, where I helped build out an agentic business search engine. I’m eager to partner with smart, risk-tolerant builders who value speed and innovation, and I am ready to contribute by turning bold ideas into scalable outcomes.
                             </p>
                         </CardContent>
                     </Card>
