@@ -1,10 +1,25 @@
 import { Card, CardContent } from '@/Components/ui/Card';
 import { Briefcase, Mail, MapPin, ChevronDown, Rocket, Brain, Users } from 'lucide-react';
+import { useEffect } from 'react';
 
-function Home() {
+function Home({ autoOpenBooking = false }) {
     const scrollToSection = (sectionId) => {
         document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
     };
+
+    // Auto-open booking popup if autoOpenBooking is true
+    useEffect(() => {
+        if (autoOpenBooking) {
+            // Add a small delay to ensure Cal.com is fully loaded
+            setTimeout(() => {
+                // Find and click the Cal.com button to trigger the popup
+                const calButton = document.querySelector('[data-cal-link="evanjacobson"]');
+                if (calButton) {
+                    calButton.click();
+                }
+            }, 1000);
+        }
+    }, [autoOpenBooking]);
 
     return (
         <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-slate-200 min-h-[100dvh]">
@@ -14,13 +29,15 @@ function Home() {
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-blue-500/10 pointer-events-none"></div>
                 
                 <div className="max-w-2xl relative z-10">
-                    <img
-                        src="/images/Evan%20Jacobson.jpg"
-                        alt="Evan Jacobson"
-                        className="w-32 h-32 rounded-3xl border-3 border-emerald-500 object-cover mx-auto mb-8 shadow-2xl shadow-emerald-500/30"
-                    />
+                    <div className="w-48 h-48 mx-auto rounded-2xl flex items-center justify-center mb-8">
+                        <img
+                            src="/images/Evan Jacobson.jpg"
+                            alt="Evan Jacobson"
+                            className="w-full h-full object-cover rounded-2xl border-4 border-emerald-500 shadow-lg"
+                        />
+                    </div>
                     
-                    <h1 className="text-3xl sm:text-4xl lg:text-7xl font-extrabold mb-6 bg-gradient-to-r from-slate-50 to-emerald-400 bg-clip-text text-transparent leading-tight">
+                    <h1 className="text-3xl sm:text-4xl lg:text-6xl font-extrabold mb-4 bg-gradient-to-r from-slate-50 to-emerald-400 bg-clip-text text-transparent leading-tight">
                         Evan Jacobson
                     </h1>
 
