@@ -42,7 +42,7 @@ function Home({ autoOpenBooking = false }) {
                     </h1>
 
                     <p className="text-lg sm:text-xl lg:text-2xl text-slate-300 mb-8 font-light">
-                        I ship AI products quickly.
+                        I like building stuff that helps people increase their productivity.
                     </p>
                     
                     <button
