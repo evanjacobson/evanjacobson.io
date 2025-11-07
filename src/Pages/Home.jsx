@@ -40,10 +40,6 @@ function Home({ autoOpenBooking = false }) {
                     <h1 className="text-3xl sm:text-4xl lg:text-6xl font-extrabold mb-4 bg-gradient-to-r from-slate-50 to-emerald-400 bg-clip-text text-transparent leading-tight">
                         Evan Jacobson
                     </h1>
-
-                    <p className="text-lg sm:text-xl lg:text-2xl text-slate-300 mb-8 font-light">
-                        I like building stuff that helps people increase their productivity.
-                    </p>
                     
                     <button
                         onClick={() => scrollToSection('footer')}
@@ -84,7 +80,10 @@ function Home({ autoOpenBooking = false }) {
                         </Card>
                         <Card accentColor="emerald-500" className="hover:-translate-y-2 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
                             <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-blue-500/10 pointer-events-none"></div>
-                            <CardContent className="p-3 sm:p-6 md:p-8 flex flex-col flex-1 items-center text-center relative z-10">
+                            <CardContent
+                                className="p-3 sm:p-6 md:p-8 flex flex-col flex-1 items-center text-center relative z-10 cursor-pointer"
+                                onClick={() => window.open('https://onedealapp.com', '_blank')}
+                            >
                                 <div className="w-6 h-6 sm:w-8 sm:h-8 md:w-12 md:h-12 bg-emerald-500 rounded-xl mb-2 sm:mb-3 md:mb-4 flex items-center justify-center">
                                     <Briefcase className="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white" />
                                 </div>
@@ -92,6 +91,7 @@ function Home({ autoOpenBooking = false }) {
                                     Founding Engineer
                                 </h3>
                                 <p className="text-sm sm:text-base text-slate-300 leading-relaxed">OneDeal</p>
+                                <span className="text-xs sm:text-sm text-emerald-300 mt-1 block">Backed by Techstars</span>
                             </CardContent>
                         </Card>
                         <Card accentColor="emerald-500" className="hover:-translate-y-2 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
