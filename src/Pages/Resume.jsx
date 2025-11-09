@@ -2,208 +2,244 @@ import { PageHeader } from '@/Components/Shared/PageHeader';
 import { Card, CardHeader, CardContent } from '@/Components/ui/Card';
 import { Icon } from '@/Components/ui/Icon';
 import { ExperienceItem, ExperienceList } from '@/Components/ui/ExperienceItem';
-import { CertificationItem, CertificationList } from '@/Components/ui/CertificationItem';
 import { TechStackCategory, TechStackGrid } from '@/Components/ui/TechStackCategory';
-import { Briefcase, GraduationCap, Award, Code, Download } from 'lucide-react';
+import { Briefcase, GraduationCap, Code, Download, Users } from 'lucide-react';
 
 function Resume() {
-    return (
-        <div className="bg-slate-900 text-slate-200 min-h-screen">
-            <div className="container mx-auto px-4 py-8 w-full max-w-full overflow-hidden">
-                <PageHeader
-                    title="My Resume"
-                    description="Professional experience, education, and technical skills"
+  return (
+    <div className="bg-slate-900 text-slate-200 min-h-screen">
+      <div className="container mx-auto px-4 py-8 w-full max-w-full overflow-hidden">
+        <PageHeader
+          title="My Resume"
+          description="Professional experience, education, and technical skills"
+        />
+
+        {/* Download Link */}
+        <div className="mt-8 text-center">
+          <a
+            href="/files/Evan Jacobson Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold text-base transition-all duration-300 hover:-translate-y-1 shadow-lg hover:shadow-emerald-500/25 hover:shadow-xl"
+          >
+            <Download className="w-5 h-5" />
+            Download PDF Resume
+          </a>
+        </div>
+
+        {/* Main Content */}
+        <div className="space-y-8 lg:space-y-12 pb-20">
+          {/* Personal Statement */}
+          <Card accentColor="emerald-500" padding="p-10" className="mt-12">
+            <CardContent>
+              <h2 className="text-2xl sm:text-3xl font-bold text-emerald-400 mb-6">
+                Personal Statement
+              </h2>
+              <p className="text-lg text-slate-300 leading-relaxed">
+                I'm a problem-first, technically-driven engineer and leader obsessed with solving the right problems the right way, quickly. I combine deep technical expertise with clear, persuasive communication to align teams, eliminate blockers, and deliver results under ambitious timelines. Over the past year, I've balanced my full-time role at Alarm.com with serving as Founding Engineer at OneDeal, a Techstars-backed company, where we built an agentic business search engine for the SMB acquisition space. I'm eager to collaborate with smart, risk-tolerant builders who validate before building, and I'm ready to turn innovative ideas into scalable outcomes.
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* Experience Section */}
+          <Card accentColor="purple-500" padding="p-10">
+            <CardHeader
+              icon={<Icon icon={Briefcase} />}
+              title="Experience"
+              accentColor="purple-500"
+            />
+            <CardContent>
+              <ExperienceList>
+                <ExperienceItem
+                  title="Founding Engineer"
+                  company="OneDeal"
+                  dateRange="10/2024 – 10/2025"
+                  description={[
+                    "Designed and implemented agentic scouts that automatically source off-market private businesses matching investor-defined parameters, achieving ~80 sourced per hour vs. 4 per week manually, leveraging TypeScript, Amazon Bedrock, Bright Data, DynamoDB, and ECS.",
+                    "Built a production-grade web platform for private equity firms and SMB investors, using React.js, TypeScript, and DynamoDB, enabling scalable search and evaluation of acquisition targets."
+                  ]}
+                  skills={[
+                    "TypeScript",
+                    "React.js",
+                    "Amazon Bedrock",
+                    "Bright Data",
+                    "DynamoDB",
+                    "ECS",
+                    "AI Agents"
+                  ]}
+                  accentColor="purple-500"
                 />
 
-                {/* Download Link */}
-                <div className="mt-8 text-center">
-                    <a
-                        href="/files/Evan Jacobson Resume.pdf"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold text-base transition-all duration-300 hover:-translate-y-1 shadow-lg hover:shadow-emerald-500/25 hover:shadow-xl"
-                    >
-                        <Download className="w-5 h-5" />
-                        Download PDF Resume
-                    </a>
-                </div>
+                <ExperienceItem
+                  title="Software Engineer I → Software Engineer II"
+                  company="Alarm.com"
+                  dateRange="08/2021 – Present | Centennial, CO (Promoted April 2024)"
+                  description={[
+                    "Led the engineering effort for the Stripe Customer-Managed Subscriptions project, overseeing resource planning, specification refinement, design, implementation, and coordination across internal stakeholders and third-party vendors. Tech stack: C#/.NET Core, SQL, Ember.js, TypeScript.",
+                    "Ideated and built a self-validating, LLM-powered refactoring tool that modernizes legacy database-layer code and autonomously generates sanity tests to verify and iterate on its own output, increasing maintenance productivity by ~8x (based on tracked ticket throughput). Built with: C#, .NET 8, VSIX, GPT-4o integration.",
+                    "Ideated and shipped internal Developer Experience (DevEx) tooling projects including Google Chrome extensions, a two-factor-authentication microservice, and gamification features using C#/.NET, SQL, TypeScript/JavaScript, HTML, and CSS.",
+                    "Filed a provisional patent and submitted multiple additional inventions within the domains of IoT and smart-security solutions."
+                  ]}
+                  skills={[
+                    "C#/.NET",
+                    ".NET 8",
+                    "SQL",
+                    "Ember.js",
+                    "TypeScript",
+                    "LLM Integration",
+                    "Developer Experience"
+                  ]}
+                  accentColor="purple-500"
+                />
 
+                <ExperienceItem
+                  title="Software Engineer Intern"
+                  company="Alarm.com"
+                  dateRange="06/2020 – 08/2020 | Centennial, CO"
+                  description={[
+                    "Architected a dynamic and auto-translated email sent to hundreds of thousands of users per year."
+                  ]}
+                  skills={["C#/.NET", "Email Systems", "Localization"]}
+                  accentColor="purple-500"
+                />
 
+                <ExperienceItem
+                  title="Software Engineer Intern"
+                  company="Garmin"
+                  dateRange="05/2019 – 08/2019 | Olathe, KS"
+                  description={[
+                    "Created 80+ tests in C for the GI 275 Attitude Indicator following FAA standards."
+                  ]}
+                  skills={["C", "Embedded Testing", "FAA Standards"]}
+                  accentColor="purple-500"
+                  showBorder={false}
+                />
+              </ExperienceList>
+            </CardContent>
+          </Card>
 
-                {/* Main Content */}
-                <div className="space-y-8 lg:space-y-12 pb-20">
+          {/* Education Section */}
+          <Card accentColor="blue-500" padding="p-10">
+            <CardHeader
+              icon={<Icon icon={GraduationCap} />}
+              title="Education"
+              accentColor="blue-500"
+            />
+            <CardContent>
+              <ExperienceItem
+                title="B.S in Computer Science, Minor in Mathematics"
+                company="University of Miami"
+                dateRange="05/2021 | Coral Gables, FL | GPA 3.96"
+                description={[]}
+                skills={["Computer Science", "Mathematics"]}
+                accentColor="blue-500"
+                showBorder={false}
+              />
+            </CardContent>
+          </Card>
 
-                    {/* Personal Statement */}
-                    <Card accentColor="emerald-500" padding="p-10" className="mt-12">
-                        <CardContent>
-                            <h2 className="text-2xl sm:text-3xl font-bold text-emerald-400 mb-6">Personal Statement</h2>
-                            <p className="text-lg text-slate-300 leading-relaxed">
-                                I am a technically driven leader focused on leveraging AI to solve complex problems quickly. I combine deep technical expertise with clear communication skills to align teams, eliminate blockers, and deliver results under ambitious timelines. Over the past year, I balanced my full-time role with serving as Founding Engineer at OneDeal, where I helped build out an agentic business search engine. I’m eager to partner with smart, risk-tolerant builders who value speed and innovation, and I am ready to contribute by turning bold ideas into scalable outcomes.
-                            </p>
-                        </CardContent>
-                    </Card>
-                    
-                    {/* Experience Section */}
-                    <Card accentColor="purple-500" padding="p-10">
-                        <CardHeader
-                            icon={<Icon icon={Briefcase} />}
-                            title="Experience"
-                            accentColor="purple-500"
-                        />
-                        <CardContent>
-                            <ExperienceList>
-                                <ExperienceItem
-                                    title="Founding Engineer"
-                                    company="OneDeal"
-                                    dateRange="October 2024 - October 2025 (Part-Time)"
-                                    description={[
-                                        "Designed and implemented agentic 'scouts' which are able to source private, not-for-sale businesses fitting specific search parameters -- using TypeScript, Amazon Bedrock, Bright Data, and DynamoDB, and orchestrated with ECS",
-                                        "Built a website used by private equity firms and other investors to research and acquire small/medium sized domestic businesses using React.js, TypeScript, and DynamoDB"
-                                    ]}
-                                    skills={["Team Leadership", "Innovation", "AI Agent Development & Orchestration", "DevOps", "React.js", "TypeScript", "DynamoDB", "ECS", "Amazon Bedrock", "Bright Data"]}
-                                    accentColor="purple-500"
-                                />
-                                <ExperienceItem
-                                    title="Software Engineer II"
-                                    company="Alarm.com"
-                                    dateRange="April 2024 - Present"
-                                    description={[
-                                        "Leading the Stripe Customer-Managed Subscriptions project including resource planning, design, implementation, and stakeholder communication",
-                                        "Built a self-validating ChatGPT-powered tool that autonomously refactors legacy code and generates tests, boosting productivity by ~8x",
-                                        "Filed provisional patents in core business areas"
-                                    ]}
-                                    skills={["Team Leadership", "AI Integration", "Patent Filing", "Full-Stack Development"]}
-                                    accentColor="purple-500"
-                                />
-                                <ExperienceItem
-                                    title="Software Engineer"
-                                    company="Alarm.com"
-                                    dateRange="August 2021 - April 2024"
-                                    description={[
-                                        "Designed, developed, and tested full-stack customer-facing systems in an agile environment using C#/ASP.NET, JavaScript, and SQL",
-                                        "Shipped multiple side projects including internal tools, Chrome extensions, a Login-with-Two-Factor microservice, and gamification features"
-                                    ]}
-                                    skills={["C# / ASP.NET", "JavaScript", "SQL", "Microservices"]}
-                                    accentColor="purple-500"
-                                />
-                                <ExperienceItem
-                                    title="Software Engineer Intern"
-                                    company="Garmin"
-                                    dateRange="May 2019 - August 2019"
-                                    description={[
-                                        "Created 80+ tests in C for the GI 275 Attitude Indicator following FAA standards",
-                                        "Ensuring aviation software met critical safety and reliability requirements"
-                                    ]}
-                                    skills={["C Programming", "Aviation Software", "FAA Standards", "Testing"]}
-                                    accentColor="purple-500"
-                                    showBorder={false}
-                                />
-                            </ExperienceList>
-                        </CardContent>
-                    </Card>
+          {/* Languages, Frameworks, Tools Section */}
+          <Card accentColor="cyan-500" padding="p-10">
+            <CardHeader
+              icon={<Icon icon={Code} />}
+              title="Languages, Frameworks, Tools"
+              accentColor="cyan-500"
+            />
+            <CardContent>
+              <TechStackGrid>
+                <TechStackCategory
+                  title="JavaScript"
+                  skills={["JavaScript", "TypeScript", "Node.js", "React.js", "Ember.js"]}
+                  accentColor="cyan-500"
+                />
+                <TechStackCategory
+                  title="C#/.NET"
+                  skills={[".NET Framework", ".NET Core", "C# Lambda"]}
+                  accentColor="cyan-500"
+                />
+                <TechStackCategory
+                  title="HTML, CSS"
+                  skills={["SASS", "Tailwind", "Shadcn"]}
+                  accentColor="cyan-500"
+                />
+                <TechStackCategory
+                  title="Database"
+                  skills={["SQL Server", "PostgreSQL", "DynamoDB"]}
+                  accentColor="cyan-500"
+                />
+                <TechStackCategory
+                  title="API"
+                  skills={["Integration", "Design", "Scale"]}
+                  accentColor="cyan-500"
+                />
+                <TechStackCategory
+                  title="Cloud"
+                  skills={["Azure", "AWS", "Google Cloud", "Supabase"]}
+                  accentColor="cyan-500"
+                />
+                <TechStackCategory
+                  title="Atlassian Suite"
+                  skills={["Jira", "Confluence", "Bitbucket", "Bamboo"]}
+                  accentColor="cyan-500"
+                />
+                <TechStackCategory
+                  title="Tools"
+                  skills={["Cursor", "Azure OpenAi", "Amazon Bedrock", "BrightData"]}
+                  accentColor="cyan-500"
+                />
+              </TechStackGrid>
+            </CardContent>
+          </Card>
 
-                    {/* Education Section */}
-                    <Card accentColor="blue-500" padding="p-10">
-                        <CardHeader
-                            icon={<Icon icon={GraduationCap} />}
-                            title="Education"
-                            accentColor="blue-500"
-                        />
-                        <CardContent>
-                            <ExperienceItem
-                                title="Bachelor of Science in Computer Science"
-                                company="University of Miami"
-                                dateRange="May 2021"
-                                description={[
-                                    "Minor in Mathematics, GPA 3.96",
-                                    "Strong foundation in algorithms, data structures, and mathematical problem-solving that continues to inform my approach to complex engineering challenges"
-                                ]}
-                                skills={["Computer Science", "Mathematics", "Academic Excellence"]}
-                                accentColor="blue-500"
-                                showBorder={false}
-                            />
-                        </CardContent>
-                    </Card>
-
-                    {/* Certifications Section */}
-                    <Card accentColor="green-500" padding="p-10">
-                        <CardHeader
-                            icon={<Icon icon={Award} />}
-                            title="Certifications"
-                            accentColor="green-500"
-                        />
-                        <CardContent>
-                            <CertificationList>
-                                <CertificationItem
-                                    title="AI Fluency: Framework & Foundations"
-                                    issuer="Anthropic"
-                                    dateEarned="September 2025"
-                                    expirationDate=""
-                                    credentialId="kjfvgw4qx8ax"
-                                    verificationUrl="http://verify.skilljar.com/c/kjfvgw4qx8ax"
-                                    skills={["AI", "Prompt Engineering", "Prompt Validation", "Decision-Discernment Loop", "Delegation", "Diligence"]}
-                                    accentColor="green-500"
-                                />
-                                <CertificationItem
-                                    title="Model Context Protocol: Advanced Topics"
-                                    issuer="Anthropic"
-                                    dateEarned="September 2025"
-                                    expirationDate=""
-                                    credentialId="z5mrnekmmig6"
-                                    verificationUrl="http://verify.skilljar.com/c/z5mrnekmmig6"
-                                    skills={["AI", "Model Context Protocol", "Sampling", "Security"]}
-                                    accentColor="green-500"
-                                />
-                                <CertificationItem
-                                    title="Microsoft Azure Fundamentals"
-                                    issuer="Microsoft"
-                                    dateEarned="October 2024"
-                                    credentialId="5B3042118C054743"
-                                    verificationUrl="https://learn.microsoft.com/api/credentials/share/en-us/EvanJacobson/5B3042118C054743"
-                                    skills={["Azure", "Cloud Services", "Azure Portal", "Resource Management"]}
-                                    accentColor="green-500"
-                                    showBorder={false}
-                                />
-                            </CertificationList>
-                        </CardContent>
-                    </Card>
-
-                    {/* Tech Stack Section */}
-                    <Card accentColor="cyan-500" padding="p-10">
-                        <CardHeader
-                            icon={<Icon icon={Code} />}
-                            title="Tech Stack"
-                            accentColor="cyan-500"
-                        />
-                        <CardContent>
-                            <TechStackGrid>
-                                <TechStackCategory
-                                    title="Frontend"
-                                    skills={["JavaScript", "TypeScript", "React", "HTML/CSS", "Tailwind"]}
-                                    accentColor="cyan-500"
-                                />
-                                <TechStackCategory
-                                    title="Backend"
-                                    skills={["C# / ASP.NET", "Node.js", "Express", "API Design"]}
-                                    accentColor="cyan-500"
-                                />
-                                <TechStackCategory
-                                    title="Database & Cloud"
-                                    skills={["SQL", "NoSQL", "Azure", "AWS", "Google Cloud"]}
-                                    accentColor="cyan-500"
-                                />
-                                <TechStackCategory
-                                    title="Tools & Skills"
-                                    skills={["AI Integration", "Jira", "Leadership", "Mentorship"]}
-                                    accentColor="cyan-500"
-                                />
-                            </TechStackGrid>
-                        </CardContent>
-                    </Card>
-                </div>
-            </div>
+          {/* Soft Skills Section */}
+          <Card accentColor="orange-500" padding="p-10">
+            <CardHeader
+              icon={<Icon icon={Users} />}
+              title="Soft Skills"
+              accentColor="orange-500"
+            />
+            <CardContent>
+              <TechStackGrid>
+                <TechStackCategory
+                  title="People Skills"
+                  skills={[
+                    "Emotional Intelligence",
+                    "Cross-Team Collaboration",
+                    "Written and Verbal Communication",
+                    "Knowledge Sharing",
+                    "Mentorship",
+                    "Leadership"
+                  ]}
+                  accentColor="orange-500"
+                />
+                <TechStackCategory
+                  title="Intrapersonal Skills"
+                  skills={[
+                    "Organization",
+                    "Accountability",
+                    "Integrity",
+                    "Growth-oriented Mindset"
+                  ]}
+                  accentColor="orange-500"
+                />
+                <TechStackCategory
+                  title="Product Skills"
+                  skills={[
+                    "AI Integrations",
+                    "Ideation",
+                    "Time Estimation",
+                    "Customer Discovery",
+                    "Customer Validation"
+                  ]}
+                  accentColor="orange-500"
+                />
+              </TechStackGrid>
+            </CardContent>
+          </Card>
         </div>
-    );
+      </div>
+    </div>
+  );
 }
 
 export default Resume;
