@@ -31,7 +31,7 @@ function Sidebar({ isOpen, setIsOpen }) {
   ];
 
   const externalLinks = [
-    { label: "OneDeal", icon: Rocket, url: "https://onedealapp.com" },
+    { label: "OrAI", icon: Rocket, url: "https://www.oraieducator.com/" },
     { label: "Trade Intel", icon: Rocket, url: "https://app.evanjacobson.io" },
   ];
 
@@ -109,7 +109,7 @@ function Sidebar({ isOpen, setIsOpen }) {
           <div className="flex flex-col">
             <h2 className="font-semibold text-lg tracking-tight text-slate-200">Evan Jacobson</h2>
             <p className="text-slate-400">
-              Software Engineer & Creator
+              AI Engineer & Cofounder
             </p>
           </div>
         </div>

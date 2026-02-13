@@ -3,8 +3,8 @@ import { Mail, Linkedin, Calendar } from 'lucide-react';
 import { getCalApi } from "@calcom/embed-react";
 
 export function Footer({
-    title = "Ready to Start a Conversation?",
-    text = "I'm looking to build more cool stuff! If you would like to discuss an idea or make a connection, please reach out!"
+    title = "Let's Build Something Together",
+    text = "I'm looking for teams that ship fast, talk to users, and treat engineers as owners. If that sounds like you, let's talk."
 }) {
     const [email, setEmail] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
