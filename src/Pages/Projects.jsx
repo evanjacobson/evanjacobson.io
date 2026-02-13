@@ -1,6 +1,6 @@
 import { PageHeader } from '@/Components/Shared/PageHeader';
 import { ProjectComponent } from '@/Components/Shared/ProjectComponent';
-import { Zap, Brain, Search, Github } from 'lucide-react';
+import { Zap, Brain, Search, Github, Code } from 'lucide-react';
 
 function Projects() {
     return (
@@ -63,7 +63,7 @@ function Projects() {
                         <ProjectComponent
                             title="Beads"
                             status="Open Source Agent Memory Framework"
-                            description="Core contributor to Beads, a structured memory and context management framework for AI coding agents. Applies engineering task decomposition (epics, stories, tasks, dependencies) to agent memory — solving the cross-session persistence gap in agentic development. Integrated Dolt (Git-for-data SQL database) CLI tooling and shipped critical bug fixes."
+                            description="Contributor to Beads, a structured memory and context management framework for AI coding agents. Applies engineering task decomposition (epics, stories, tasks, dependencies) to agent memory — solving the cross-session persistence gap in agentic development. Integrated Dolt (Git-for-data SQL database) CLI tooling and shipped bug fixes to unblock the Gastown agent framework."
                             techStack={["TypeScript", "Dolt", "Git"]}
                             accentColor="green"
                             icon={Github}
@@ -73,6 +73,27 @@ function Projects() {
                                     text: "GitHub",
                                     href: "https://github.com/cyanheads/beads",
                                     icon: Github
+                                }
+                            ]}
+                        />
+                        <ProjectComponent
+                            title="Kilo Code"
+                            status="Open Source AI Coding Agent"
+                            description="Contributor to Kilo Code, the most popular open-source AI coding agent. A VS Code extension and CLI with 500+ models, zero markup on inference, and cross-device sync. Used by 1.5M+ developers and processing 25T+ tokens."
+                            techStack={["TypeScript", "VS Code Extension", "CLI"]}
+                            accentColor="orange"
+                            icon={Code}
+                            date="2026 – Present"
+                            buttons={[
+                                {
+                                    text: "Website",
+                                    href: "https://kilo.ai/"
+                                },
+                                {
+                                    text: "GitHub",
+                                    href: "https://github.com/Kilo-Org/kilocode",
+                                    icon: Github,
+                                    colorOverride: "slate"
                                 }
                             ]}
                         />

@@ -5,6 +5,7 @@ import Layout from './Layout.jsx'
 import Home from './Pages/Home.jsx'
 import Resume from './Pages/Resume.jsx'
 import Projects from './Pages/Projects.jsx'
+import Toolbox from './Pages/Toolbox.jsx'
 import './index.css'
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route path="/book-a-call" element={<Home autoOpenBooking={true} />} />
           <Route path="/resume" element={<Resume />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/toolbox" element={<Toolbox />} />
         </Routes>
       </Layout>
     </BrowserRouter>

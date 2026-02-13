@@ -28,6 +28,7 @@ function Sidebar({ isOpen, setIsOpen }) {
     { label: "Home", to: "/" },
     { label: "Resume", to: "/resume" },
     { label: "Projects", to: "/projects" },
+    { label: "Toolbox", to: "/toolbox" },
   ];
 
   const externalLinks = [
