@@ -1,228 +1,151 @@
-import { PageHeader } from '@/Components/Shared/PageHeader';
-import { Card, CardHeader, CardContent } from '@/Components/ui/Card';
-import { Icon } from '@/Components/ui/Icon';
-import { ExperienceItem, ExperienceList } from '@/Components/ui/ExperienceItem';
-import { TechStackCategory, TechStackGrid } from '@/Components/ui/TechStackCategory';
-import { Briefcase, GraduationCap, Code, Download } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Download } from 'lucide-react';
+
+const experience = [
+    {
+        title: 'Technical Cofounder',
+        company: 'OrAI',
+        dateRange: '08/2025 – Present',
+        slug: 'orai',
+        color: 'text-blue-400',
+        dot: 'bg-blue-500',
+        description: 'Co-founded a SaaS platform for early childhood educators. Own the full product and business — architecture, implementation, compliance, investor strategy. Built on Cloudflare Workers, Supabase, OpenAI API, and Stripe.',
+    },
+    {
+        title: 'Open Source Contributor',
+        company: 'Beads & Kilo Code',
+        dateRange: '01/2026 – Present',
+        slug: 'beads',
+        color: 'text-green-400',
+        dot: 'bg-green-500',
+        description: 'Contributor to Beads (agent memory framework) and Kilo Code (open source AI coding agent). Shipped Dolt CLI integration and bug fixes for cross-session agent persistence.',
+    },
+    {
+        title: 'Personal Project',
+        company: 'Trade Intel',
+        dateRange: '08/2025 – Present',
+        slug: 'trade-intel',
+        color: 'text-red-400',
+        dot: 'bg-red-500',
+        description: 'Multi-agent extraction pipeline converting financial newsletters into structured data. Built with .NET 8, AWS Lambda, PostgreSQL, Terraform, and n8n.',
+    },
+    {
+        title: 'Founding Engineer',
+        company: 'OneDeal',
+        dateRange: '10/2024 – 10/2025',
+        slug: 'onedeal',
+        color: 'text-purple-400',
+        dot: 'bg-purple-500',
+        badge: "Techstars '23",
+        description: 'Built agentic scouts that autonomously source off-market businesses — ~80 sourced/hour vs. 4/week manually. Months before MCP or AI web search existed.',
+    },
+    {
+        title: 'Software Engineer I → II',
+        company: 'Alarm.com',
+        dateRange: '08/2021 – Present',
+        color: 'text-emerald-400',
+        dot: 'bg-emerald-500',
+        description: 'Built an LLM-powered refactoring tool (8x productivity), Handoff Bot for PR documentation, led Stripe subscription engineering, and shipped internal DevEx tooling. C#/.NET, SQL, TypeScript.',
+    },
+];
+
+const skills = [
+    { category: 'Languages & Frameworks', items: ['TypeScript', 'Node.js', 'React', 'Tailwind CSS', 'C#/.NET', 'Python'] },
+    { category: 'AI & Agents', items: ['OpenAI API', 'Amazon Bedrock', 'Multi-Agent Pipelines', 'Prompt Engineering', 'n8n'] },
+    { category: 'Cloud & Infra', items: ['AWS (ECS, Lambda, DynamoDB)', 'Supabase', 'Cloudflare Workers', 'Azure', 'Terraform', 'Docker'] },
+    { category: 'Data', items: ['PostgreSQL', 'DynamoDB', 'SQL Server', 'Dolt'] },
+    { category: 'Product', items: ['Customer Discovery', 'User Research', 'Analytics (PostHog)', 'Go-to-Market', 'Compliance'] },
+    { category: 'Leadership', items: ['Cross-Team Coordination', 'Mentorship', 'Technical Writing', 'Open Source'] },
+];
 
 function Resume() {
-  return (
-    <div className="bg-slate-900 text-slate-200 min-h-screen">
-      <div className="container mx-auto px-4 py-8 w-full max-w-full overflow-hidden">
-        <PageHeader
-          title="My Resume"
-          description="Professional experience, education, and technical skills"
-        />
+    return (
+        <div className="max-w-2xl mx-auto px-6 py-12">
+            <div className="flex items-center justify-between mb-10">
+                <div>
+                    <h1 className="text-3xl font-bold text-slate-50 mb-1">Resume</h1>
+                    <p className="text-slate-400 text-sm">Professional experience and skills</p>
+                </div>
+                <a
+                    href="/files/Evan Jacobson Resume.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-slate-200 border border-slate-700 hover:border-slate-600 px-4 py-2 rounded-lg transition-colors"
+                >
+                    <Download className="w-4 h-4" />
+                    PDF
+                </a>
+            </div>
 
-        {/* Download Link */}
-        <div className="mt-8 text-center">
-          <a
-            href="/files/Evan Jacobson Resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold text-base transition-all duration-300 hover:-translate-y-1 shadow-lg hover:shadow-emerald-500/25 hover:shadow-xl"
-          >
-            <Download className="w-5 h-5" />
-            Download PDF Resume
-          </a>
+            {/* Experience Timeline */}
+            <section className="mb-16">
+                <h2 className="text-sm font-medium text-slate-400 uppercase tracking-wider mb-6">Experience</h2>
+                <div className="space-y-8">
+                    {experience.map((role, i) => (
+                        <div key={i} className="relative pl-6 border-l border-slate-800">
+                            <div className={`absolute left-0 top-1.5 w-2.5 h-2.5 rounded-full ${role.dot} -translate-x-[5.5px]`} />
+                            <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 mb-1.5">
+                                <div>
+                                    <h3 className={`font-semibold ${role.color}`}>{role.title}</h3>
+                                    <p className="text-slate-300 text-sm">
+                                        {role.company}
+                                        {role.badge && (
+                                            <span className="ml-2 text-xs text-purple-300 bg-purple-500/15 px-1.5 py-0.5 rounded-full">
+                                                {role.badge}
+                                            </span>
+                                        )}
+                                    </p>
+                                </div>
+                                <span className="text-xs text-slate-500 shrink-0">{role.dateRange}</span>
+                            </div>
+                            <p className="text-sm text-slate-400 leading-relaxed">{role.description}</p>
+                            {role.slug && (
+                                <Link
+                                    to={`/work/${role.slug}`}
+                                    className={`inline-block text-xs mt-2 ${role.color} hover:underline`}
+                                >
+                                    Read case study →
+                                </Link>
+                            )}
+                        </div>
+                    ))}
+                </div>
+            </section>
+
+            {/* Education */}
+            <section className="mb-16">
+                <h2 className="text-sm font-medium text-slate-400 uppercase tracking-wider mb-6">Education</h2>
+                <div className="pl-6 border-l border-slate-800 relative">
+                    <div className="absolute left-0 top-1.5 w-2.5 h-2.5 rounded-full bg-blue-500 -translate-x-[5.5px]" />
+                    <h3 className="font-semibold text-blue-400">B.S. in Computer Science, Minor in Mathematics</h3>
+                    <p className="text-sm text-slate-300">University of Miami</p>
+                    <p className="text-xs text-slate-500">May 2021 &middot; GPA 3.96</p>
+                </div>
+            </section>
+
+            {/* Skills */}
+            <section>
+                <h2 className="text-sm font-medium text-slate-400 uppercase tracking-wider mb-6">Skills</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    {skills.map((group) => (
+                        <div key={group.category}>
+                            <h3 className="text-sm font-medium text-slate-300 mb-2">{group.category}</h3>
+                            <div className="flex flex-wrap gap-1.5">
+                                {group.items.map((skill) => (
+                                    <span
+                                        key={skill}
+                                        className="text-xs text-slate-400 bg-slate-800/50 px-2 py-1 rounded"
+                                    >
+                                        {skill}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </section>
         </div>
-
-        {/* Main Content */}
-        <div className="space-y-8 lg:space-y-12 pb-20">
-          {/* Personal Statement */}
-          <Card accentColor="emerald-500" padding="p-10" className="mt-12">
-            <CardContent>
-              <h2 className="text-2xl sm:text-3xl font-bold text-emerald-400 mb-6">
-                Personal Statement
-              </h2>
-              <p className="text-lg text-slate-300 leading-relaxed">
-                I'm a product-minded engineer obsessed with making AI do real engineering work. For the past 15 months, I've built an agentic web search engine from scratch at OneDeal (before MCP or AI web search existed), co-founded OrAI where I own everything from code to compliance to investor strategy, contributed to open source AI tooling, and shipped multi-agent systems across every project. I believe humans shouldn't be writing code anymore — that this will be mainstream by end of year, the norm by end of next — and I'm already helping to build the tools that make it happen. I'm looking for a team that treats engineers as owners, not ticket-takers, and where shipping fast and talking to users is the culture, not the exception.
-              </p>
-            </CardContent>
-          </Card>
-
-          {/* Experience Section */}
-          <Card accentColor="purple-500" padding="p-10">
-            <CardHeader
-              icon={<Icon icon={Briefcase} />}
-              title="Experience"
-              accentColor="purple-500"
-            />
-            <CardContent>
-              <ExperienceList>
-                <ExperienceItem
-                  title="Technical Cofounder"
-                  company="OrAI"
-                  dateRange="08/2025 – Present"
-                  description={[
-                    "Co-founded a SaaS platform for early childhood educators and administrators. Own the full product and business: architecture, implementation, legal (ToS, privacy policy, pilot contracts), compliance alignment, mentor network development, and angel investor identification. Built with TypeScript, React, Cloudflare Workers, Supabase, OpenAI API, Vercel AI SDK, assistant-ui, Cloudflare AI Search, and Stripe.",
-                    "Platform automates the intermediate deliverables that drive quality outcomes — lesson planning, parent communications, document tracking & review, and compliant staff scheduling — increasing quality of care by giving educators their time back.",
-                    "Sole technical decision-maker: handle product roadmap, user research, analytics (PostHog), competitive analysis, and go-to-market strategy alongside all engineering work."
-                  ]}
-                  skills={[
-                    "TypeScript",
-                    "React",
-                    "Cloudflare Workers",
-                    "Cloudflare AI Search",
-                    "Supabase",
-                    "OpenAI API",
-                    "Vercel AI SDK",
-                    "assistant-ui",
-                    "Stripe",
-                    "Playwright"
-                  ]}
-                  accentColor="blue-500"
-                />
-
-                <ExperienceItem
-                  title="Open Source Contributor"
-                  company="Beads (Agent Memory Framework)"
-                  dateRange="01/2026 – Present"
-                  description={[
-                    "Contributor to Beads, a structured memory and context management framework for AI coding agents that applies engineering task decomposition (epics, stories, tasks, dependencies) to agent memory — solving the cross-session persistence gap in agentic development.",
-                    "Integrated Dolt (Git-for-data SQL database) CLI tooling and shipped bug fixes to unblock the Gastown agent framework after its storage layer migration."
-                  ]}
-                  skills={[
-                    "Open Source",
-                    "Dolt",
-                    "Agent Memory",
-                    "AI Tooling"
-                  ]}
-                  accentColor="green-500"
-                />
-
-                <ExperienceItem
-                  title="Personal Project"
-                  company="Trade Intel"
-                  dateRange="08/2025 – Present"
-                  description={[
-                    "Built an email extraction pipeline that converts long-form financial newsletters into structured data (securities, sentiment, recommendations). After hitting context window limits with a single-agent approach, organically discovered multi-agent decomposition as the solution — splitting work across specialized agents (split, verify, classify, extract, union) to eliminate needle-in-a-haystack failures. Built with C#/.NET 8, React, AWS Lambda, PostgreSQL, Terraform, and n8n orchestration."
-                  ]}
-                  skills={[
-                    "C#/.NET 8",
-                    "React",
-                    "AWS Lambda",
-                    "PostgreSQL",
-                    "Terraform",
-                    "CloudFront",
-                    "n8n",
-                    "GitHub Actions"
-                  ]}
-                  accentColor="red-500"
-                />
-
-                <ExperienceItem
-                  title="Founding Engineer"
-                  company="OneDeal (Techstars '23)"
-                  dateRange="10/2024 – 10/2025"
-                  description={[
-                    "Built agentic scouts from scratch that autonomously source off-market businesses matching investor criteria — ~80 sourced/hour vs. 4/week manually. Designed and shipped the full agentic pipeline months before MCP or AI web search existed. Tech: TypeScript, SERP API, OpenAI API, Bright Data, Playwright, DynamoDB, Docker, ECS.",
-                    "Shipped a production web platform for PE firms and SMB investors using React.js, TypeScript, and DynamoDB."
-                  ]}
-                  skills={[
-                    "TypeScript",
-                    "OpenAI API",
-                    "Bright Data",
-                    "Playwright",
-                    "DynamoDB",
-                    "Docker",
-                    "ECS"
-                  ]}
-                  accentColor="purple-500"
-                />
-
-                <ExperienceItem
-                  title="Software Engineer I → II"
-                  company="Alarm.com"
-                  dateRange="08/2021 – Present | Centennial, CO"
-                  description={[
-                    "Built an LLM-powered, self-validating refactoring tool (Sept 2023) that modernizes legacy database code and autonomously generates sanity tests to verify its own output — increasing maintenance productivity ~8x. One of the earliest AI adopters at the company. Built with C#, .NET 8, VSIX, GPT-4o.",
-                    "Built Handoff Bot, a GitHub App (later ported to a Claude skill) that reviews PR changes and generates structured documentation for Quality Engineers: high-level summary, testing guidance, and risk assessment — streamlining the formal ticket handoff process.",
-                    "Led engineering for Stripe Customer-Managed Subscriptions: resource planning, spec refinement, design, implementation, and cross-team coordination. C#/.NET Core, SQL, Ember.js, TypeScript.",
-                    "Shipped internal DevEx tooling (Chrome extensions, 2FA microservice, gamification). Filed a provisional patent in IoT/smart-security."
-                  ]}
-                  skills={[
-                    "C#/.NET",
-                    ".NET 8",
-                    "SQL",
-                    "Ember.js",
-                    "TypeScript",
-                    "GPT-4o",
-                    "GitHub Apps"
-                  ]}
-                  accentColor="emerald-500"
-                  showBorder={false}
-                />
-              </ExperienceList>
-            </CardContent>
-          </Card>
-
-          {/* Education Section */}
-          <Card accentColor="blue-500" padding="p-10">
-            <CardHeader
-              icon={<Icon icon={GraduationCap} />}
-              title="Education"
-              accentColor="blue-500"
-            />
-            <CardContent>
-              <ExperienceItem
-                title="B.S in Computer Science, Minor in Mathematics"
-                company="University of Miami"
-                dateRange="05/2021 | Coral Gables, FL | GPA 3.96"
-                description={[]}
-                skills={["Computer Science", "Mathematics"]}
-                accentColor="blue-500"
-                showBorder={false}
-              />
-            </CardContent>
-          </Card>
-
-          {/* Skills Section */}
-          <Card accentColor="cyan-500" padding="p-10">
-            <CardHeader
-              icon={<Icon icon={Code} />}
-              title="Skills"
-              accentColor="cyan-500"
-            />
-            <CardContent>
-              <TechStackGrid>
-                <TechStackCategory
-                  title="Languages & Frameworks"
-                  skills={["TypeScript", "Node.js", "React", "Tailwind CSS", "shadcn/ui", "C#/.NET", "Python"]}
-                  accentColor="cyan-500"
-                />
-                <TechStackCategory
-                  title="AI & Agents"
-                  skills={["OpenAI API", "Amazon Bedrock", "Cursor", "Multi-Agent Pipelines", "Prompt Engineering", "n8n"]}
-                  accentColor="cyan-500"
-                />
-                <TechStackCategory
-                  title="Cloud & Infra"
-                  skills={["AWS (ECS, Lambda, DynamoDB)", "Supabase", "Cloudflare Workers", "Azure", "Terraform", "Docker"]}
-                  accentColor="cyan-500"
-                />
-                <TechStackCategory
-                  title="Data"
-                  skills={["PostgreSQL", "DynamoDB", "SQL Server", "Dolt"]}
-                  accentColor="cyan-500"
-                />
-                <TechStackCategory
-                  title="Product"
-                  skills={["Customer Discovery", "User Research", "Analytics (PostHog)", "Go-to-Market", "Compliance"]}
-                  accentColor="cyan-500"
-                />
-                <TechStackCategory
-                  title="Leadership"
-                  skills={["Cross-Team Coordination", "Mentorship", "Technical Writing", "Open Source Contribution"]}
-                  accentColor="cyan-500"
-                />
-              </TechStackGrid>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default Resume;

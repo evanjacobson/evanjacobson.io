@@ -1,188 +1,66 @@
-import { Card, CardContent } from '@/Components/ui/Card';
-import { Briefcase, Mail, ChevronDown, Bot, Flame, Zap, Code, GitBranch } from 'lucide-react';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 
 function Home({ autoOpenBooking = false }) {
-    const scrollToSection = (sectionId) => {
-        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-    };
-
-    // Auto-open booking popup if autoOpenBooking is true
     useEffect(() => {
         if (autoOpenBooking) {
-            // Add a small delay to ensure Cal.com is fully loaded
             setTimeout(() => {
-                // Find and click the Cal.com button to trigger the popup
                 const calButton = document.querySelector('[data-cal-link="evanjacobson"]');
-                if (calButton) {
-                    calButton.click();
-                }
+                if (calButton) calButton.click();
             }, 1000);
         }
     }, [autoOpenBooking]);
 
     return (
-        <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-slate-200 min-h-[100dvh]">
-            {/* HERO: Clean, focused, impactful */}
-            <section className="min-h-[calc(100dvh-73px)] md:min-h-[100dvh] flex items-center justify-center text-center px-4 relative overflow-hidden">
-                {/* Background gradient effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-blue-500/10 pointer-events-none"></div>
+        <div className="min-h-[100dvh] flex items-center justify-center px-6">
+            <div className="max-w-2xl w-full py-16">
+                <h1 className="text-4xl sm:text-5xl font-bold text-slate-50 mb-4 tracking-tight">
+                    Evan Jacobson
+                </h1>
+                <p className="text-lg text-slate-400 mb-10">
+                    I build tools that automate the tedious so people can focus on what humans do best: think.
+                </p>
 
-                <div className="max-w-3xl relative z-10">
-                    <div className="w-48 h-48 mx-auto rounded-2xl flex items-center justify-center mb-8">
-                        <img
-                            src="/images/Evan Jacobson.jpg"
-                            alt="Evan Jacobson"
-                            className="w-full h-full object-cover rounded-2xl border-4 border-emerald-500 shadow-lg"
-                        />
-                    </div>
-
-                    <h1 className="text-3xl sm:text-4xl lg:text-6xl font-extrabold mb-4 bg-gradient-to-r from-slate-50 to-emerald-400 bg-clip-text text-transparent leading-tight">
-                        Evan Jacobson
-                    </h1>
-
-                    <p className="text-lg sm:text-xl lg:text-2xl font-semibold text-emerald-400 mb-4">
-                        AI Engineer. Cofounder. Builder.
+                <div className="space-y-4 text-slate-300 leading-relaxed mb-12">
+                    <p>
+                        Right now I'm co-founding{' '}
+                        <Link to="/work/orai" className="text-blue-400 hover:text-blue-300 transition-colors">OrAI</Link>,
+                        where we're giving early childhood educators their time back — automating lesson plans,
+                        parent communications, document tracking, and compliant scheduling so they can spend
+                        less time on paperwork and more time with kids.
                     </p>
-
-                    <p className="text-sm sm:text-base lg:text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto mb-8">
-                        I build tools that automate the tedious so people can focus on what humans do best: think.
-                        From multi-agent pipelines to AI-native products, I ship software that lets people stop doing busywork and start owning outcomes.
+                    <p>
+                        Before that I built{' '}
+                        <Link to="/work/onedeal" className="text-purple-400 hover:text-purple-300 transition-colors">agentic web search</Link>{' '}
+                        before anyone had a name for it, shipped{' '}
+                        <Link to="/work/trade-intel" className="text-red-400 hover:text-red-300 transition-colors">multi-agent extraction pipelines</Link>,
+                        and spent four years at Alarm.com where I built an LLM-powered refactoring tool that
+                        increased maintenance productivity 8x.
                     </p>
+                    <p>
+                        I believe engineers should be owners, not ticket-takers. I care about shipping fast,
+                        talking to users, and building things that make people's days meaningfully better.
+                    </p>
+                </div>
 
-                    <button
-                        onClick={() => scrollToSection('footer')}
-                        className="inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-6 sm:px-10 py-3 sm:py-4 rounded-2xl font-semibold text-base sm:text-lg transition-all duration-300 hover:-translate-y-1 shadow-lg hover:shadow-emerald-500/25 hover:shadow-xl"
+                <nav className="flex flex-col sm:flex-row gap-4">
+                    <Link
+                        to="/work"
+                        className="group inline-flex items-center gap-2 text-slate-300 hover:text-slate-50 transition-colors"
                     >
-                        <Mail className="w-5 h-5" />
-                        Let's Connect
-                    </button>
-                </div>
-
-                {/* Scroll indicator */}
-                <button
-                    onClick={() => scrollToSection('about')}
-                    className="absolute bottom-8 -translate-x-1/2 text-slate-400 animate-bounce hover:text-emerald-400 transition-colors"
-                >
-                    <ChevronDown className="w-10 h-10" />
-                </button>
-            </section>
-
-            {/* ABOUT: Current status and credentials */}
-            <section id="about" className="py-8 sm:py-12 md:py-20 px-4">
-                <div className="max-w-6xl mx-auto">
-                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold text-slate-50 mb-4 sm:mb-6 md:mb-8 lg:mb-12 text-center">
-                        Currently...
-                    </h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 md:gap-8 mb-4 sm:mb-6 md:mb-8 lg:mb-12">
-                        <Card accentColor="emerald-500" className="hover:-translate-y-2 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-blue-500/10 pointer-events-none"></div>
-                            <CardContent
-                                className="p-3 sm:p-6 md:p-8 flex flex-col flex-1 items-center text-center relative z-10 cursor-pointer"
-                                onClick={() => window.open('https://www.oraieducator.com/', '_blank')}
-                            >
-                                <div className="w-6 h-6 sm:w-8 sm:h-8 md:w-12 md:h-12 bg-emerald-500 rounded-xl mb-2 sm:mb-3 md:mb-4 flex items-center justify-center">
-                                    <Code className="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white" />
-                                </div>
-                                <h3 className="text-lg sm:text-xl font-semibold text-emerald-400 mb-4">
-                                    Technical Cofounder
-                                </h3>
-                                <p className="text-sm sm:text-base text-slate-300 leading-relaxed">OrAI</p>
-                                <span className="text-xs sm:text-sm text-emerald-300 mt-1 block">AI tools for early childhood educators</span>
-                            </CardContent>
-                        </Card>
-                        <Card accentColor="emerald-500" className="hover:-translate-y-2 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-blue-500/10 pointer-events-none"></div>
-                            <CardContent className="p-3 sm:p-6 md:p-8 flex flex-col flex-1 items-center text-center relative z-10">
-                                <div className="w-6 h-6 sm:w-8 sm:h-8 md:w-12 md:h-12 bg-emerald-500 rounded-xl mb-2 sm:mb-3 md:mb-4 flex items-center justify-center">
-                                    <Briefcase className="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white" />
-                                </div>
-                                <h3 className="text-lg sm:text-xl font-semibold text-emerald-400 mb-4">
-                                    Software Engineer II
-                                </h3>
-                                <p className="text-sm sm:text-base text-slate-300 leading-relaxed">Alarm.com</p>
-                            </CardContent>
-                        </Card>
-                        <Card accentColor="emerald-500" className="hover:-translate-y-2 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-blue-500/10 pointer-events-none"></div>
-                            <CardContent className="p-3 sm:p-6 md:p-8 flex flex-col flex-1 items-center text-center relative z-10">
-                                <div className="w-6 h-6 sm:w-8 sm:h-8 md:w-12 md:h-12 bg-emerald-500 rounded-xl mb-2 sm:mb-3 md:mb-4 flex items-center justify-center">
-                                    <GitBranch className="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white" />
-                                </div>
-                                <h3 className="text-lg sm:text-xl font-semibold text-emerald-400 mb-4">
-                                    Open Source Contributor
-                                </h3>
-                                <p className="text-sm sm:text-base text-slate-300 leading-relaxed">Beads</p>
-                                <span className="text-xs sm:text-sm text-emerald-300 mt-1 block">Agent memory framework</span>
-                            </CardContent>
-                        </Card>
-                    </div>
-                    <div className="flex justify-center sm:hidden">
-                        <button
-                            onClick={() => scrollToSection('opportunities')}
-                            className="mt-8 text-slate-400 animate-bounce hover:text-emerald-400 transition-colors"
-                        >
-                            <ChevronDown className="w-10 h-10" />
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            {/* OPPORTUNITIES */}
-            <section id="opportunities" className="py-20 px-4">
-                <div className="max-w-6xl mx-auto">
-                    <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-slate-50 mb-8 sm:mb-12 text-center">
-                        Where I'll Thrive
-                    </h2>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                        <Card accentColor="purple-600" className="hover:-translate-y-2 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-blue-500/10 pointer-events-none"></div>
-                            <CardContent className="p-6 sm:p-8 flex flex-col flex-1 relative z-10 items-center text-center">
-                                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-purple-500 rounded-xl mb-4 flex items-center justify-center">
-                                    <Bot className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
-                                </div>
-                                <h3 className="text-lg sm:text-xl font-semibold text-purple-400 mb-4">
-                                    Agentic AI Systems
-                                </h3>
-                                <p className="text-sm sm:text-base text-slate-300 leading-relaxed flex-1">
-                                    Multi-agent pipelines, agentic search, AI tooling — I've been building these before the frameworks existed. This is what I'm obsessed with.
-                                </p>
-                            </CardContent>
-                        </Card>
-
-                        <Card accentColor="purple-600" className="hover:-translate-y-2 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-blue-500/10 pointer-events-none"></div>
-                            <CardContent className="p-6 sm:p-8 flex flex-col flex-1 relative z-10 items-center text-center">
-                                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-purple-500 rounded-xl mb-4 flex items-center justify-center">
-                                    <Flame className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
-                                </div>
-                                <h3 className="text-lg sm:text-xl font-semibold text-purple-400 mb-4">
-                                    Founder-Mode Teams
-                                </h3>
-                                <p className="text-sm sm:text-base text-slate-300 leading-relaxed flex-1">
-                                    Engineers as owners, not ticket-takers. I thrive where people own problems end-to-end — from code to compliance to investor strategy.
-                                </p>
-                            </CardContent>
-                        </Card>
-
-                        <Card accentColor="purple-600" className="hover:-translate-y-2 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-blue-500/10 pointer-events-none"></div>
-                            <CardContent className="p-6 sm:p-8 flex flex-col flex-1 relative z-10 items-center text-center">
-                                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-purple-500 rounded-xl mb-4 flex items-center justify-center">
-                                    <Zap className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
-                                </div>
-                                <h3 className="text-lg sm:text-xl font-semibold text-purple-400 mb-4">
-                                    Ship Fast, Talk to Users
-                                </h3>
-                                <p className="text-sm sm:text-base text-slate-300 leading-relaxed flex-1">
-                                    Shipping fast and talking to users should be the culture, not the exception. I want to build where velocity and user feedback are the default.
-                                </p>
-                            </CardContent>
-                        </Card>
-                    </div>
-                </div>
-            </section>
+                        See my work
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                    <Link
+                        to="/toolbox"
+                        className="group inline-flex items-center gap-2 text-slate-300 hover:text-slate-50 transition-colors"
+                    >
+                        Browse my toolbox
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                </nav>
+            </div>
         </div>
     );
 }

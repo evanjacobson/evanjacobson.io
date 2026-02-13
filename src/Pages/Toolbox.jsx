@@ -1,4 +1,3 @@
-import { PageHeader } from '@/Components/Shared/PageHeader';
 import {
     Bot, Cloud, Zap, ExternalLink, Terminal, GitBranch,
     BarChart3, TestTube, CreditCard, Container, Database,
@@ -250,22 +249,14 @@ const devtools = [
 
 function Toolbox() {
     return (
-        <div className="bg-slate-900 text-slate-200 min-h-screen">
-            <div className="container mx-auto px-4 py-8">
-                <PageHeader
-                    title="Toolbox"
-                    description="The tools, platforms, and questionable number of AI agents I use to ship software"
-                />
+        <div className="max-w-4xl mx-auto px-6 py-12">
+                <h1 className="text-3xl font-bold text-slate-50 mb-2">Toolbox</h1>
+                <p className="text-slate-400 mb-10">
+                    The tools, platforms, and questionable number of AI agents I use to ship software.
+                    Everything here earned its spot by making me faster, not by being trendy.
+                </p>
 
-                <div className="mt-8 mb-12 max-w-3xl mx-auto">
-                    <p className="text-slate-400 text-center text-sm sm:text-base leading-relaxed">
-                        I believe the best tools are the ones you don't fight with. Everything here has earned its spot
-                        by making me faster, not by being trendy. Some of these tools I use daily. Some I contributed to.
-                        One I'm semi-breaking up with. Here's the honest rundown.
-                    </p>
-                </div>
-
-                <div className="space-y-16 pb-20">
+                <div className="space-y-16">
                     {/* Guest Pass CTA */}
                     <GuestPassCard />
 
@@ -329,7 +320,6 @@ function Toolbox() {
                         </div>
                     </section>
                 </div>
-            </div>
         </div>
     );
 }
