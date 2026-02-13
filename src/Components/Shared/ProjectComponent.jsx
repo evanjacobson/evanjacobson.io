@@ -6,6 +6,7 @@ import { getProjectColors } from '@/utils/colorUtils';
 export function ProjectComponent({
     title,
     status,
+    subtitle,
     statusColor = "red-400",
     description,
     techStack = [],
@@ -39,6 +40,11 @@ export function ProjectComponent({
                         <div>
                             <h3 className="text-xl font-bold text-slate-50 group-hover:text-white transition-colors">{title}</h3>
                             <p className={`${colors.status} text-sm font-medium`}>{status}</p>
+                            {subtitle && (
+                                <span className={`inline-block mt-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-gradient-to-r ${colors.gradient} text-white`}>
+                                    {subtitle}
+                                </span>
+                            )}
                         </div>
                     </div>
                     {date && (

@@ -16,9 +16,9 @@ function Projects() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <ProjectComponent
                             title="OrAI"
-                            status="Early Childhood Education SaaS"
-                            description="Co-founded an early childhood education SaaS company as sole technical decision-maker. Own the full product and business: architecture, implementation, compliance alignment, and mentor network development. Expanding from an AI-powered assistant into document management, policy collision resolution across state childcare regulations, and automated compliance scheduling."
-                            techStack={["TypeScript", "React", "Tailwind CSS", "Supabase", "OpenAI API"]}
+                            status="AI Tools for Early Childhood Educators & Administrators"
+                            description="Co-founded a SaaS platform that gives early childhood educators and administrators their time back. OrAI automates the tedious deliverables that drive quality outcomes — lesson planning, parent communications, document tracking & review, and compliant staff scheduling — so educators can spend less time on paperwork and more time with kids."
+                            techStack={["TypeScript", "React", "Cloudflare Workers", "Cloudflare AI Search", "Cloudflare AI Gateway", "Supabase", "OpenAI API", "Vercel AI SDK", "assistant-ui", "Stripe", "Playwright"]}
                             accentColor="blue"
                             icon={Brain}
                             date="August 2025 – Present"
@@ -33,7 +33,7 @@ function Projects() {
                             title="Trade Intel"
                             status="Multi-Agent Financial Intelligence Pipeline"
                             description="An email extraction pipeline that converts long-form financial newsletters into structured data — securities, sentiment, and recommendations. After hitting context window limits with a single-agent approach, organically discovered multi-agent decomposition as the solution, splitting work across specialized agents (split, verify, classify, extract, union) to eliminate needle-in-a-haystack failures."
-                            techStack={["C# Lambda", "React", "AWS", "DynamoDB", "n8n"]}
+                            techStack={["C#/.NET 8", "React", "AWS Lambda", "PostgreSQL", "Terraform", "CloudFront", "n8n", "GitHub Actions"]}
                             accentColor="red"
                             icon={Zap}
                             date="August 2025 – Present"
@@ -47,7 +47,8 @@ function Projects() {
                         <ProjectComponent
                             title="OneDeal"
                             status="Agentic Business Sourcing Platform"
-                            description="Built agentic scouts from scratch at a Techstars '23 startup that autonomously source off-market businesses matching investor criteria — ~80 sourced/hour vs. 4/week manually. Designed and shipped the full agentic pipeline months before MCP or AI web search existed. Shipped a production web platform for PE firms and SMB investors."
+                            subtitle="Techstars '23"
+                            description="Built agentic scouts from scratch that autonomously source off-market businesses matching investor criteria — ~80 sourced/hour vs. 4/week manually. Designed and shipped the full agentic pipeline months before MCP or AI web search existed. Shipped a production web platform for PE firms and SMB investors."
                             techStack={["TypeScript", "OpenAI API", "Bright Data", "Playwright", "DynamoDB", "Docker", "ECS"]}
                             accentColor="purple"
                             icon={Search}

@@ -6,3 +6,5 @@ evanjacobson.io.code-workspace
 public/files/*.md
 **/*.json.toon
 .DS_Store
+.cursor/
+

@@ -46,8 +46,8 @@ function Home({ autoOpenBooking = false }) {
                     </p>
 
                     <p className="text-sm sm:text-base lg:text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto mb-8">
-                        Building the tools that make human-written code obsolete. I ship multi-agent systems,
-                        co-founded an AI-native startup, and believe engineers should be owners, not ticket-takers.
+                        I build tools that automate the tedious so people can focus on what humans do best: think.
+                        From multi-agent pipelines to AI-native products, I ship software that lets people stop doing busywork and start owning outcomes.
                     </p>
 
                     <button
@@ -88,7 +88,7 @@ function Home({ autoOpenBooking = false }) {
                                     Technical Cofounder
                                 </h3>
                                 <p className="text-sm sm:text-base text-slate-300 leading-relaxed">OrAI</p>
-                                <span className="text-xs sm:text-sm text-emerald-300 mt-1 block">AI-native early childhood education</span>
+                                <span className="text-xs sm:text-sm text-emerald-300 mt-1 block">AI tools for early childhood educators</span>
                             </CardContent>
                         </Card>
                         <Card accentColor="emerald-500" className="hover:-translate-y-2 transition-all duration-300 h-full flex flex-col relative overflow-hidden">

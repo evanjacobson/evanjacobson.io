@@ -55,18 +55,21 @@ function Resume() {
                   company="OrAI"
                   dateRange="08/2025 – Present"
                   description={[
-                    "Co-founded an early childhood education SaaS company. Own the full product and business: architecture, implementation, legal (ToS, privacy policy, pilot contracts), compliance alignment, mentor network development, and angel investor identification. Built with TypeScript, React, Tailwind CSS, shadcn/ui, Supabase, and OpenAI API.",
-                    "Expanding platform from AI-powered assistant into document management, policy collision resolution across state childcare regulations, and automated compliance scheduling.",
+                    "Co-founded a SaaS platform for early childhood educators and administrators. Own the full product and business: architecture, implementation, legal (ToS, privacy policy, pilot contracts), compliance alignment, mentor network development, and angel investor identification. Built with TypeScript, React, Cloudflare Workers, Supabase, OpenAI API, Vercel AI SDK, assistant-ui, Cloudflare AI Search, and Stripe.",
+                    "Platform automates the intermediate deliverables that drive quality outcomes — lesson planning, parent communications, document tracking & review, and compliant staff scheduling — increasing quality of care by giving educators their time back.",
                     "Sole technical decision-maker: handle product roadmap, user research, analytics (PostHog), competitive analysis, and go-to-market strategy alongside all engineering work."
                   ]}
                   skills={[
                     "TypeScript",
                     "React",
-                    "Tailwind CSS",
-                    "shadcn/ui",
+                    "Cloudflare Workers",
+                    "Cloudflare AI Search",
                     "Supabase",
                     "OpenAI API",
-                    "PostHog"
+                    "Vercel AI SDK",
+                    "assistant-ui",
+                    "Stripe",
+                    "Playwright"
                   ]}
                   accentColor="purple-500"
                 />
@@ -93,15 +96,17 @@ function Resume() {
                   company="Trade Intel"
                   dateRange="08/2025 – Present"
                   description={[
-                    "Built an email extraction pipeline that converts long-form financial newsletters into structured data (securities, sentiment, recommendations). After hitting context window limits with a single-agent approach, organically discovered multi-agent decomposition as the solution — splitting work across specialized agents (split, verify, classify, extract, union) to eliminate needle-in-a-haystack failures. Built with C# Lambda, React, AWS, DynamoDB, and n8n orchestration."
+                    "Built an email extraction pipeline that converts long-form financial newsletters into structured data (securities, sentiment, recommendations). After hitting context window limits with a single-agent approach, organically discovered multi-agent decomposition as the solution — splitting work across specialized agents (split, verify, classify, extract, union) to eliminate needle-in-a-haystack failures. Built with C#/.NET 8, React, AWS Lambda, PostgreSQL, Terraform, and n8n orchestration."
                   ]}
                   skills={[
-                    "C# Lambda",
+                    "C#/.NET 8",
                     "React",
-                    "AWS",
-                    "DynamoDB",
+                    "AWS Lambda",
+                    "PostgreSQL",
+                    "Terraform",
+                    "CloudFront",
                     "n8n",
-                    "Multi-Agent Pipelines"
+                    "GitHub Actions"
                   ]}
                   accentColor="purple-500"
                 />
