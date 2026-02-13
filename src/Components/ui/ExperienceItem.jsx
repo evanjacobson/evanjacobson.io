@@ -15,7 +15,7 @@ export function ExperienceItem({
     <div className={`${showBorder ? 'border-b border-slate-700 pb-6' : ''} ${className}`}>
       <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start mb-3">
         <div>
-          <h3 className="text-xl font-semibold text-slate-50">{title}</h3>
+          <h3 className={`text-xl font-semibold text-${accentColor}`}>{title}</h3>
           <p className={`text-lg text-${accentColor} font-medium`}>{company}</p>
         </div>
         <p className="text-sm text-slate-400 lg:text-right">{dateRange}</p>
