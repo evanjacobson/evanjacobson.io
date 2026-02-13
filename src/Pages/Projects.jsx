@@ -1,6 +1,6 @@
 import { PageHeader } from '@/Components/Shared/PageHeader';
 import { ProjectComponent } from '@/Components/Shared/ProjectComponent';
-import { Zap, Brain, Github, LucideGamepad2 } from 'lucide-react';
+import { Zap, Brain, Search, Github } from 'lucide-react';
 
 function Projects() {
     return (
@@ -8,71 +8,70 @@ function Projects() {
             <div className="container mx-auto px-4 py-8">
                 <PageHeader
                     title="Projects"
-                    description="Software projects and applications I've built"
+                    description="AI-powered products, multi-agent systems, and open source tools I've built and co-founded"
                 />
 
                 <div className="mt-12 pb-20">
                     {/* Projects Grid */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                         <ProjectComponent
-                            title="Trade Intel"
-                            status="Investment Recommendation and Research Synthesis Platform"
-                            description="I believe technology should solve real problems and make complex tasks simpler.
-                                Trade Intel represents this philosophy—taking the overwhelming task of digesting
-                                market research and making it efficient and actionable."
-                            techStack={["React", ".NET Core", "AWS Lambda", "DynamoDB"]}
-                            accentColor="red"
-                            icon={Zap}
-                            date="September 2025"
-                            buttons={[
-                                { 
-                                    text: "Launch Trade-Intel", 
-                                    href: "https://app.evanjacobson.io/"
-                                },
-                                { 
-                                    text: "GitHub (Coming Soon)", 
-                                    href: "#",
-                                    icon: Github,
-                                    colorOverride: "slate",
-                                    disabled: true
-                                }
-                            ]}
-                        />
-                        <ProjectComponent
-                            title="Custom Chatbot with Ultra-Low-Cost RAG"
-                            status="Built to power an Early Childhood Education Startup"
-                            description="A (nearly) plug-and-play chatbot with ultra-low-cost RAG document retrieval and search, built to power an early childhood education startup. Features include sturdy guardrails, a drop-in UI, and a secure API."
-                            techStack={["Azure OpenAI", "Azure Cognitive Search", "Azure Functions", "JavaScript", "Squarespace"]}
+                            title="OrAI"
+                            status="Early Childhood Education SaaS"
+                            description="Co-founded an early childhood education SaaS company as sole technical decision-maker. Own the full product and business: architecture, implementation, compliance alignment, and mentor network development. Expanding from an AI-powered assistant into document management, policy collision resolution across state childcare regulations, and automated compliance scheduling."
+                            techStack={["TypeScript", "React", "Tailwind CSS", "Supabase", "OpenAI API"]}
                             accentColor="blue"
                             icon={Brain}
-                            date="August 2025"
+                            date="August 2025 – Present"
                             buttons={[
-                                { 
-                                    text: "Visit OrAi", 
+                                {
+                                    text: "Visit OrAI",
                                     href: "https://www.oraieducator.com/"
-                                },
-                                { 
-                                    text: "GitHub", 
-                                    href: "https://github.com/evanjacobson/ChatbotWithRAG",
-                                    icon: Github,
-                                    colorOverride: "slate"
                                 }
                             ]}
                         />
                         <ProjectComponent
-                            title="Mounts"
-                            status="a Minecraft Server Plugin"
-                            description="A Minecraft Server Plugin that allows players to buy and own horses, and prevent them from being stolen or harmed by other players."
-                            techStack={["Java", "Spigot/Paper"]}
-                            accentColor="green"
-                            icon={LucideGamepad2}
-                            date="September 2024"
+                            title="Trade Intel"
+                            status="Multi-Agent Financial Intelligence Pipeline"
+                            description="An email extraction pipeline that converts long-form financial newsletters into structured data — securities, sentiment, and recommendations. After hitting context window limits with a single-agent approach, organically discovered multi-agent decomposition as the solution, splitting work across specialized agents (split, verify, classify, extract, union) to eliminate needle-in-a-haystack failures."
+                            techStack={["C# Lambda", "React", "AWS", "DynamoDB", "n8n"]}
+                            accentColor="red"
+                            icon={Zap}
+                            date="August 2025 – Present"
                             buttons={[
-                                { 
-                                    text: "GitHub", 
-                                    href: "https://github.com/evanjacobson/Mounts-Minecraft-Server-Plugin",
-                                    icon: Github,
-                                    colorOverride: "slate"
+                                {
+                                    text: "Launch Trade Intel",
+                                    href: "https://app.evanjacobson.io/"
+                                }
+                            ]}
+                        />
+                        <ProjectComponent
+                            title="OneDeal"
+                            status="Agentic Business Sourcing Platform"
+                            description="Built agentic scouts from scratch at a Techstars '23 startup that autonomously source off-market businesses matching investor criteria — ~80 sourced/hour vs. 4/week manually. Designed and shipped the full agentic pipeline months before MCP or AI web search existed. Shipped a production web platform for PE firms and SMB investors."
+                            techStack={["TypeScript", "OpenAI API", "Bright Data", "Playwright", "DynamoDB", "Docker", "ECS"]}
+                            accentColor="purple"
+                            icon={Search}
+                            date="October 2024 – October 2025"
+                            buttons={[
+                                {
+                                    text: "Visit OneDeal",
+                                    href: "https://onedealapp.com"
+                                }
+                            ]}
+                        />
+                        <ProjectComponent
+                            title="Beads"
+                            status="Open Source Agent Memory Framework"
+                            description="Core contributor to Beads, a structured memory and context management framework for AI coding agents. Applies engineering task decomposition (epics, stories, tasks, dependencies) to agent memory — solving the cross-session persistence gap in agentic development. Integrated Dolt (Git-for-data SQL database) CLI tooling and shipped critical bug fixes."
+                            techStack={["TypeScript", "Dolt", "Git"]}
+                            accentColor="green"
+                            icon={Github}
+                            date="January 2026 – Present"
+                            buttons={[
+                                {
+                                    text: "GitHub",
+                                    href: "https://github.com/cyanheads/beads",
+                                    icon: Github
                                 }
                             ]}
                         />
