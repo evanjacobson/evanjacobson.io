@@ -71,7 +71,7 @@ function Resume() {
                     "Stripe",
                     "Playwright"
                   ]}
-                  accentColor="purple-500"
+                  accentColor="blue-500"
                 />
 
                 <ExperienceItem
@@ -79,8 +79,8 @@ function Resume() {
                   company="Beads (Agent Memory Framework)"
                   dateRange="01/2026 – Present"
                   description={[
-                    "Core contributor to Beads, a structured memory and context management framework for AI coding agents that applies engineering task decomposition (epics, stories, tasks, dependencies) to agent memory — solving the cross-session persistence gap in agentic development.",
-                    "Integrated Dolt (Git-for-data SQL database) CLI tooling and shipped critical bug fixes to unblock the Gastown agent framework after its storage layer migration."
+                    "Contributor to Beads, a structured memory and context management framework for AI coding agents that applies engineering task decomposition (epics, stories, tasks, dependencies) to agent memory — solving the cross-session persistence gap in agentic development.",
+                    "Integrated Dolt (Git-for-data SQL database) CLI tooling and shipped bug fixes to unblock the Gastown agent framework after its storage layer migration."
                   ]}
                   skills={[
                     "Open Source",
@@ -88,7 +88,7 @@ function Resume() {
                     "Agent Memory",
                     "AI Tooling"
                   ]}
-                  accentColor="purple-500"
+                  accentColor="green-500"
                 />
 
                 <ExperienceItem
@@ -108,7 +108,7 @@ function Resume() {
                     "n8n",
                     "GitHub Actions"
                   ]}
-                  accentColor="purple-500"
+                  accentColor="red-500"
                 />
 
                 <ExperienceItem
@@ -150,7 +150,7 @@ function Resume() {
                     "GPT-4o",
                     "GitHub Apps"
                   ]}
-                  accentColor="purple-500"
+                  accentColor="emerald-500"
                   showBorder={false}
                 />
               </ExperienceList>
