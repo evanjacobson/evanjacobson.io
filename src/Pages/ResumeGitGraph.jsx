@@ -9,23 +9,25 @@ const PROTO = {
     yearDividers: 'divider',   // 'default' | 'divider' | 'axis'
     groupByBranch: true,
     mobileTags: true,
+    labelGroupStyle: 'groupDot', // 'pill' | 'dot' | 'accent' | 'groupDot'
 };
 
 const COMMIT_ROW_HEIGHT = 56;
 const MERGE_ROW_HEIGHT = PROTO.compactMerges ? 36 : COMMIT_ROW_HEIGHT;
 const LANE_GAP = 28;
-const GRAPH_LEFT = 20;
+const GRAPH_LEFT = 48;
 
 // ── Branch config ─────────────────────────────────────────────
 // Order determines lane position (main is always first).
 // parent – branch this one forks from (defaults to 'main')
 const BRANCHES = [
     { id: 'main', color: '#94a3b8', label: 'main' },
-    { id: 'alarm', color: '#10b981', label: 'Alarm.com' },
-    { id: 'alarm-email',    color: '#6ee7b7', label: 'Alarm.com', parent: 'alarm' },
-    { id: 'alarm-stripe',   color: '#34d399', label: 'Alarm.com', parent: 'alarm' },
-    { id: 'alarm-refactor', color: '#a7f3d0', label: 'Alarm.com', parent: 'alarm' },
-    { id: 'alarm-handoff',  color: '#2dd4bf', label: 'Alarm.com', parent: 'alarm' },
+    { id: 'alarm-intern',   color: '#faa340', label: 'Alarm.com' },  // light orange
+    { id: 'alarm',          color: '#bf4600', label: 'Alarm.com' },
+    { id: 'alarm-sql-ci',   color: '#fe8c2f', label: 'Alarm.com', parent: 'alarm' }, // strong orange
+    { id: 'alarm-refactor', color: '#ffb877', label: 'Alarm.com', parent: 'alarm-sql-ci' }, // pale orange
+    { id: 'alarm-stripe',   color: '#ff5b1e', label: 'Alarm.com', parent: 'alarm' },  // vivid orange-red
+    { id: 'alarm-handoff',  color: '#ff9100', label: 'Alarm.com', parent: 'alarm' },  // bold amber-orange
     { id: 'onedeal', color: '#a855f7', label: 'OneDeal' },
     { id: 'orai', color: '#3b82f6', label: 'OrAI' },
     { id: 'trade', color: '#ef4444', label: 'Trade Intel' },
@@ -55,11 +57,11 @@ const ENTRIES = [
     { branch: 'garmin', label: 'Garmin', subtitle: 'SWE Intern · Avionics · 80+ tests for GI 275 (FAA)', slug: 'garmin', start: '2019-05', end: '2019-08' },
 
     // ── Alarm.com ─────────────────────────────────────────────
-    { branch: 'alarm', label: 'SWE Intern', subtitle: 'Alarm.com', start: '2020-06', dateLabel: 'Summer 2020', end: '2021-08' },
-    { branch: 'alarm-email', label: 'Internationalized Email System', subtitle: 'Dynamic auto-translated · 100K+ users/yr', start: '2020-07', end: '2020-08', endLabel: 'Shipped' },
+    { branch: 'alarm-intern', label: 'SWE Intern', subtitle: 'Internationalized Email System · 100K+ users/yr', start: '2020-06', end: '2020-08', dateLabel: 'Summer 2020' },
     { branch: 'alarm', label: 'Software Engineer', start: '2021-08', end: '2024-04' },
     { branch: 'alarm-stripe', label: 'Stripe Customer-Managed Subscriptions', subtitle: 'Led engineering · cross-team coordination', start: '2025-03', end: '2025-10', endLabel: 'Shipped' },
     { branch: 'alarm', label: 'DevEx Tooling Ships', subtitle: 'Chrome extensions, 2FA microservice, gamification', start: '2022-06' },
+    { branch: 'alarm-sql-ci', label: 'SQL CI Initiative', subtitle: 'Automated SQL validation pipeline', start: '2022-01', end: '2023-10' },
     { branch: 'alarm-refactor', label: 'SQL Refactoring Bot', subtitle: 'LLM-powered · self-validating · 8x maintenance productivity', start: '2023-09', end: '2023-12', endLabel: 'Shipped' },
     { branch: 'alarm', label: 'Provisional Patent Filed', subtitle: 'IoT / smart-security', start: '2023-06' },
     { branch: 'alarm', label: 'Software Engineer II', start: '2024-04', end: null },
@@ -153,6 +155,14 @@ function buildGraph(entries, branchConfigs) {
         branchMap[b.id] = { lane: assignedLane, color: b.color, label: b.label, parent: parentId };
     }
 
+    // Detect bump branches early (single entry, same start/end month)
+    const bumpBranches = new Set();
+    for (const [branchId, be] of Object.entries(byBranch)) {
+        if (be.length === 1 && be[0].start === be[0].end) {
+            bumpBranches.add(branchId);
+        }
+    }
+
     const rows = [];
     rows.push({ branch: 'main', label: 'Present', type: 'commit', _sort: Infinity });
 
@@ -170,7 +180,7 @@ function buildGraph(entries, branchConfigs) {
         });
 
         const last = branchEntries[branchEntries.length - 1];
-        if (last.end) {
+        if (last.end && !bumpBranches.has(branchId)) {
             rows.push({
                 branch: branchId,
                 label: last.endLabel || `${last.label} complete`,
@@ -184,7 +194,8 @@ function buildGraph(entries, branchConfigs) {
     if (PROTO.groupByBranch) {
         rows.sort((a, b) => {
             if (b._sort !== a._sort) return b._sort - a._sort;
-            return (a.branch > b.branch ? 1 : -1);
+            if (a.branch !== b.branch) return a.branch < b.branch ? -1 : 1;
+            return 0;
         });
     } else {
         rows.sort((a, b) => b._sort - a._sort);
@@ -226,6 +237,16 @@ function buildGraph(entries, branchConfigs) {
             row._isWorktree = Object.entries(spans).some(([id, [s, e]]) =>
                 id !== 'main' && id !== row.branch && s <= i && e >= i
             );
+        }
+    });
+
+    // Mark bump branches + their fork rows
+    for (const branchId of bumpBranches) {
+        if (branchMap[branchId]) branchMap[branchId]._isBump = true;
+    }
+    rows.forEach((row) => {
+        if (row.type === 'fork' && branchMap[row.branch]?._isBump) {
+            row._isBump = true;
         }
     });
 
@@ -322,7 +343,7 @@ export default function ResumeGitGraph() {
         hoveredBranch ? (isBranchHit(branchId) ? 1 : 0.12) : 1;
 
     return (
-        <div ref={containerRef} className="max-w-3xl mx-auto px-4">
+        <div ref={containerRef} className="max-w-4xl mx-auto px-4">
 
             {/* ── Desktop ──────────────────────────────────── */}
             <div className="hidden sm:block relative" style={{ height: TOTAL_HEIGHT }}>
@@ -391,11 +412,12 @@ export default function ResumeGitGraph() {
                                     transition: 'opacity 0.3s ease-out',
                                 }}
                             >
-                                <line x1={0} y1={y} x2={SVG_WIDTH + 600} y2={y}
+                                <line x1={-40} y1={y} x2={SVG_WIDTH + 800} y2={y}
                                     stroke="#334155" strokeWidth={1} strokeDasharray="4 4" />
-                                <text x={4} y={y - 4}
+                                <text x={GRAPH_LEFT - 10} y={y - 4}
                                     fill="#475569" fontSize={9}
                                     fontFamily="ui-monospace, monospace"
+                                    textAnchor="end"
                                 >
                                     {year}
                                 </text>
@@ -406,12 +428,14 @@ export default function ResumeGitGraph() {
                     {/* Vertical branch lines */}
                     {Object.entries(branchSpans).map(([branchId, [startRow, endRow]]) => {
                         const b = branchMap[branchId];
+                        if (b._isBump) return null; // bump branches render as arc, no vertical line
                         const x = laneX(b.lane);
+                        const y2 = rowY(endRow) + (branchId === 'main' ? 22 : 0);
                         return (
                             <line
                                 key={branchId}
                                 x1={x} y1={rowY(startRow)}
-                                x2={x} y2={rowY(endRow)}
+                                x2={x} y2={y2}
                                 stroke={b.color}
                                 strokeWidth={2.5}
                                 strokeDasharray={b._isEnded ? '6 4' : 'none'}
@@ -436,9 +460,23 @@ export default function ResumeGitGraph() {
                         const isWt = row._isWorktree;
                         const op = mounted ? lineOp(row.branch) : 0;
 
+                        // Bump: same-month branch — pointy arc, no end row
+                        if (row._isBump && row.type === 'fork') {
+                            const halfH = 22;
+                            const bumpW = 19;
+                            return (
+                                <path
+                                    key={`bump-${i}`}
+                                    d={`M ${parentX} ${y - halfH} Q ${parentX + bumpW} ${y}, ${parentX} ${y + halfH}`}
+                                    fill="none" stroke={b.color} strokeWidth={2.5}
+                                    strokeDasharray="6 4"
+                                    style={{ opacity: op, transition: 'opacity 0.3s ease-out' }}
+                                />
+                            );
+                        }
+
                         if (row.type === 'fork') {
                             if (isWt) {
-                                // Worktree: horizontal dashed line
                                 const midX = (parentX + branchX) / 2;
                                 return (
                                     <g key={`wt-fork-${i}`} style={{ opacity: op, transition: 'opacity 0.3s ease-out' }}>
@@ -457,7 +495,6 @@ export default function ResumeGitGraph() {
                                     </g>
                                 );
                             }
-                            // Regular: bezier curve
                             return (
                                 <path
                                     key={`fork-${i}`}
@@ -500,6 +537,17 @@ export default function ResumeGitGraph() {
                         const isPresent = i === 0;
                         const op = mounted ? dotOp(row.branch) : 0;
 
+                        // Bump fork: dot at the apex of the quadratic arc
+                        if (row._isBump && row.type === 'fork') {
+                            const parentX = laneX(branchMap[b.parent].lane);
+                            const bumpW = 19;
+                            return (
+                                <g key={`dot-${i}`} style={{ opacity: op, transition: 'opacity 0.3s ease-out' }}>
+                                    <circle cx={parentX + bumpW / 2} cy={y} r={4} fill={b.color} stroke={b.color} strokeWidth={2} />
+                                </g>
+                            );
+                        }
+
                         return (
                             <g key={`dot-${i}`} style={{ opacity: op, transition: 'opacity 0.3s ease-out' }}>
                                 {/* Glow for active branches */}
@@ -538,28 +586,62 @@ export default function ResumeGitGraph() {
                 </svg>
 
                 {/* Row labels */}
-                {rows.map((row, i) => {
+                {(() => {
+                    const seenLabels = new Set();
+                    // Precompute group colors: first branch with each label determines group color
+                    const groupColors = {};
+                    for (const b of BRANCHES) {
+                        if (!groupColors[b.label] && branchMap[b.id]) {
+                            groupColors[b.label] = b.color;
+                        }
+                    }
+                    return rows.map((row, i) => {
                     const b = branchMap[row.branch];
                     const y = rowY(i);
                     const rh = rowHeight(i);
                     const isMerge = row.type === 'merge';
                     const isHit = isBranchHit(row.branch);
                     const showTag = !PROTO.collapseTags || i === 0 || rows[i - 1].branch !== row.branch;
+                    const isFirstOfGroup = !seenLabels.has(b.label);
+                    if (!isMerge) seenLabels.add(b.label);
+                    const gColor = groupColors[b.label] || b.color;
+                    const branchColor = b.color;
+                    const isGroupDot = PROTO.labelGroupStyle === 'groupDot';
 
                     const rowOpacity = mounted
                         ? hoveredBranch ? (isHit ? 1 : 0.1) : (isMerge ? 0.45 : 1)
                         : 0;
 
+                    // Label group style logic
+                    const showFullPill = PROTO.labelGroupStyle === 'pill'
+                        ? showTag
+                        : isGroupDot
+                            ? showTag
+                            : (PROTO.labelGroupStyle === 'dot' || PROTO.labelGroupStyle === 'accent')
+                                ? isFirstOfGroup && showTag
+                                : showTag;
+                    const showDot = PROTO.labelGroupStyle === 'dot' && !isFirstOfGroup && !isMerge;
+                    const showAccent = PROTO.labelGroupStyle === 'accent' && !isFirstOfGroup;
+
                     const labelContent = (
-                        <div className="flex items-center gap-2.5" style={{ height: rh }}>
+                        <div className={`flex items-center gap-2.5 ${showAccent ? 'border-l-2 pl-2' : ''}`} style={{ height: rh, ...(showAccent ? { borderColor: b.color } : {}) }}>
                             {/* Branch tag */}
-                            {showTag && (
-                                <div
-                                    className={`shrink-0 px-2 py-0.5 rounded font-mono font-medium text-slate-950 ${isMerge ? 'text-[8px]' : 'text-[10px]'}`}
-                                    style={{ backgroundColor: b.color, opacity: isMerge ? 0.6 : 1 }}
-                                >
-                                    {b.label}
+                            {showFullPill && (
+                                <div className="shrink-0 flex items-center gap-0">
+                                    {/* Group-colored pill + branch-colored dot */}
+                                    {isGroupDot && !isMerge && (
+                                        <div className="shrink-0 w-2 h-2 rounded-full mr-1.5" style={{ backgroundColor: branchColor }} />
+                                    )}
+                                    <div
+                                        className={`shrink-0 px-2 py-0.5 rounded font-mono font-medium text-slate-950 ${isMerge ? 'text-[8px]' : 'text-[10px]'}`}
+                                        style={{ backgroundColor: isGroupDot ? gColor : branchColor, opacity: isMerge ? 0.6 : 1 }}
+                                    >
+                                        {b.label}
+                                    </div>
                                 </div>
+                            )}
+                            {showDot && (
+                                <div className="shrink-0 w-2.5 h-2.5 rounded-full" style={{ backgroundColor: b.color }} />
                             )}
                             {/* Label text + date */}
                             <div className="min-w-0 flex-1 flex items-baseline justify-between gap-2">
@@ -610,7 +692,8 @@ export default function ResumeGitGraph() {
                             </div>
                         </div>
                     );
-                })}
+                });
+                })()}
             </div>
 
             {/* ── Mobile ───────────────────────────────────── */}
