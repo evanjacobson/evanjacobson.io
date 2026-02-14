@@ -9,7 +9,7 @@ const PROTO = {
     yearDividers: 'divider',   // 'default' | 'divider' | 'axis'
     groupByBranch: true,
     mobileTags: true,
-    labelGroupStyle: 'groupDot', // 'pill' | 'dot' | 'accent' | 'groupDot'
+    labelGroupStyle: 'pill', // 'pill' | 'dot' | 'accent' | 'groupDot'
 };
 
 const COMMIT_ROW_HEIGHT = 56;
@@ -22,7 +22,6 @@ const GRAPH_LEFT = 48;
 // parent – branch this one forks from (defaults to 'main')
 const BRANCHES = [
     { id: 'main', color: '#94a3b8', label: 'main' },
-    { id: 'alarm-intern',   color: '#faa340', label: 'Alarm.com' },  // light orange
     { id: 'alarm',          color: '#bf4600', label: 'Alarm.com' },
     { id: 'alarm-sql-ci',   color: '#fe8c2f', label: 'Alarm.com', parent: 'alarm' }, // strong orange
     { id: 'alarm-refactor', color: '#ffb877', label: 'Alarm.com', parent: 'alarm-sql-ci' }, // pale orange
@@ -37,6 +36,7 @@ const BRANCHES = [
     { id: 'spark',      color: '#14b8a6', label: 'Incubator' },        // teal-500
     { id: 'university', color: '#2563eb', label: 'University' },               // blue-600
     { id: 'garmin',     color: '#a21caf', label: 'Garmin', parent: 'university' },      // purple-800
+    { id: 'alarm-intern',   color: '#bf4600', label: 'Alarm.com', parent: 'university' },
     { id: 'projects',   color: '#e11d48', label: 'No AI Involved' },// rose-600
 ];
 
@@ -52,22 +52,22 @@ const BRANCHES = [
 //   dateLabel – override the auto-formatted date (optional)
 const ENTRIES = [
     // ── Early career ──────────────────────────────────────────
-    { branch: 'minecraft', label: 'Spacesuits Plugin', subtitle: 'First Project — Minecraft Server Plugin', slug: 'minecraft', start: '2013-04', end: '2013-04', endLabel: 'Shipped' },
-    { branch: 'mounts', label: 'Mounts Plugin', subtitle: 'Custom Horse Mounts · Spigot/Paper', slug: 'mounts', start: '2024-09', end: '2024-09', endLabel: 'Shipped' },
-    { branch: 'spark', label: 'Spark Technology Solutions', subtitle: 'HS Incubator · Websites + St. Louis Zoo App', slug: 'spark', start: '2015-01', end: '2017-05' },
+    { branch: 'minecraft', label: 'Spacesuits Plugin', subtitle: 'First Project — Minecraft Server Plugin', slug: 'minecraft', start: '2013-04-01', end: '2013-04-02', endLabel: 'Shipped' },
+    { branch: 'mounts', label: 'Mounts Plugin', subtitle: 'Custom Horse Mounts · Spigot/Paper', slug: 'mounts', start: '2024-09-01', end: '2024-09-02', endLabel: 'Shipped' },
+    { branch: 'spark', label: 'Spark Technology Solutions', subtitle: 'High School TechIncubator · Websites + St. Louis Zoo App', slug: 'spark', start: '2015-01', end: '2017-05' },
     { branch: 'university', label: 'University of Miami', subtitle: 'B.S. Computer Science, Minor in Mathematics · GPA 3.96', slug: 'university', start: '2017-08', end: '2021-05', endLabel: 'Graduated' },
     { branch: 'garmin', label: 'Garmin', subtitle: 'SWE Intern · Avionics · 80+ tests for GI 275 (FAA)', slug: 'garmin', start: '2019-05', end: '2019-08' },
 
     // ── Alarm.com ─────────────────────────────────────────────
     { branch: 'alarm-intern', label: 'SWE Intern', subtitle: 'Internationalized Email System · 100K+ users/yr', start: '2020-06', end: '2020-08', dateLabel: 'Summer 2020' },
-    { branch: 'alarm', label: 'Software Engineer', start: '2021-08', end: '2024-04' },
+    { branch: 'alarm', label: 'Hired as Full-Time Software Engineer', start: '2021-08', end: '2024-04' },
     { branch: 'alarm-stripe', label: 'Stripe Customer-Managed Subscriptions', subtitle: 'Led engineering · cross-team coordination', start: '2025-03', end: '2025-10', endLabel: 'Shipped' },
     { branch: 'alarm', label: 'DevEx Tooling Ships', subtitle: 'Chrome extensions, 2FA microservice, gamification', start: '2022-06' },
     { branch: 'alarm-sql-ci', label: 'SQL CI Initiative', subtitle: 'Automated SQL validation pipeline', start: '2022-01', end: '2023-10' },
-    { branch: 'alarm-refactor', label: 'SQL Refactoring Bot', subtitle: 'LLM-powered · self-validating · 8x maintenance productivity', start: '2023-09', end: '2023-12', endLabel: 'Shipped' },
+    { branch: 'alarm-refactor', label: 'SQL Refactoring Bot', subtitle: 'LLM-powered · self-validating · 8x maintenance productivity', start: '2023-09-01', end: '2023-09-30', endLabel: 'Shipped' },
     { branch: 'alarm', label: 'Provisional Patent Filed', subtitle: 'IoT / smart-security', start: '2023-06' },
-    { branch: 'alarm', label: 'Software Engineer II', start: '2024-04', end: null },
-    { branch: 'alarm-handoff', label: 'Handoff Bot', subtitle: 'GitHub App → Claude skill · PR review docs for QEs', start: '2025-12', end: '2025-12', endLabel: 'Shipped' },
+    { branch: 'alarm', label: 'Promoted to Software Engineer II', start: '2024-04', end: null },
+    { branch: 'alarm-handoff', label: 'Handoff Bot', subtitle: 'GitHub App → Claude skill · PR review docs for QEs', start: '2025-12-15', end: '2025-12-19', endLabel: 'Shipped' },
 
     // ── Post-Alarm ventures ───────────────────────────────────
     { branch: 'onedeal', label: 'OneDeal', subtitle: 'Founding Engineer', slug: 'onedeal', start: '2024-10', end: '2025-10' },
@@ -79,8 +79,8 @@ const ENTRIES = [
 // ── Graph builder ─────────────────────────────────────────────
 
 function parseDate(str) {
-    const [y, m] = str.split('-').map(Number);
-    return new Date(y, (m || 1) - 1);
+    const [y, m, d] = str.split('-').map(Number);
+    return new Date(y, (m || 1) - 1, d || 1);
 }
 
 function formatDate(str) {
@@ -130,38 +130,71 @@ function buildGraph(entries, branchConfigs) {
         }
     }
 
-    // Greedy lane assignment: reuse lanes when branches don't overlap in time
-    // Constraint: child branches must be in a lane > parent's lane
-    const laneOccupants = []; // laneOccupants[n] = array of time ranges in lane n
+    // ── Sweep-line lane assignment ──────────────────────────────
+    // Walk forward in time: when a branch starts, grab the closest
+    // free lane to its parent; when it ends, release the lane.
     const branchMap = {};
-
-    const overlaps = (a, b) => a[0] < b[1] && b[0] < a[1];
-
+    const branchLookup = {};
     for (const b of branchConfigs) {
-        if (!usedIds.has(b.id)) continue;
-        const parentId = b.parent || 'main';
-        const minLane = b.id === 'main' ? 0 : (branchMap[parentId]?.lane ?? 0) + 1;
-        const range = timeRanges[b.id];
+        if (usedIds.has(b.id)) branchLookup[b.id] = b;
+    }
 
-        let assignedLane = minLane;
-        while (true) {
-            if (!laneOccupants[assignedLane]) break; // empty lane
-            const conflict = laneOccupants[assignedLane].some(r => overlaps(r, range));
-            if (!conflict) break;
-            assignedLane++;
+    // Compute branch depth (distance from main) for tiebreaking
+    const branchDepth = { main: 0 };
+    for (let d = true; d;) {
+        d = false;
+        for (const b of branchConfigs) {
+            if (branchDepth[b.id] !== undefined || !usedIds.has(b.id)) continue;
+            const pid = b.parent || 'main';
+            if (branchDepth[pid] !== undefined) { branchDepth[b.id] = branchDepth[pid] + 1; d = true; }
         }
+    }
 
-        if (!laneOccupants[assignedLane]) laneOccupants[assignedLane] = [];
-        laneOccupants[assignedLane].push(range);
+    // Build start/end events
+    const events = [];
+    for (const id of Object.keys(branchLookup)) {
+        if (id === 'main') continue;
+        const r = timeRanges[id];
+        if (!r) continue;
+        events.push({ time: r[0], type: 'start', id, depth: branchDepth[id] ?? 99 });
+        if (r[1] !== Infinity) {
+            events.push({ time: r[1], type: 'end', id, depth: branchDepth[id] ?? 99 });
+        }
+    }
+    // Chronological; ends before starts at same time; shallower depth first among starts
+    events.sort((a, b) =>
+        a.time - b.time
+        || (a.type === 'end' ? 0 : 1) - (b.type === 'end' ? 0 : 1)
+        || a.depth - b.depth
+    );
 
-        branchMap[b.id] = { lane: assignedLane, color: b.color, label: b.label, parent: parentId };
+    // Main always lane 0
+    branchMap['main'] = { lane: 0, color: branchLookup.main.color, label: branchLookup.main.label, parent: 'main' };
+    const occupiedLanes = new Set([0]);
+
+    for (const ev of events) {
+        const bc = branchLookup[ev.id];
+        const parentId = bc.parent || 'main';
+
+        if (ev.type === 'start') {
+            const parentLane = branchMap[parentId]?.lane ?? 0;
+            let lane = parentLane + 1;
+            while (occupiedLanes.has(lane)) lane++;
+            occupiedLanes.add(lane);
+            branchMap[ev.id] = { lane, color: bc.color, label: bc.label, parent: parentId };
+        } else {
+            const lane = branchMap[ev.id]?.lane;
+            if (lane !== undefined) occupiedLanes.delete(lane);
+        }
     }
 
     // Detect bump branches early (single entry, same start/end month)
     const bumpBranches = new Set();
     for (const [branchId, be] of Object.entries(byBranch)) {
-        if (be.length === 1 && be[0].start === be[0].end) {
-            bumpBranches.add(branchId);
+        if (be.length === 1 && be[0].end) {
+            const startMonth = be[0].start.slice(0, 7);
+            const endMonth = be[0].end.slice(0, 7);
+            if (startMonth === endMonth) bumpBranches.add(branchId);
         }
     }
 
@@ -176,13 +209,14 @@ function buildGraph(entries, branchConfigs) {
                 subtitle: entry.subtitle,
                 slug: entry.slug,
                 date: entry.dateLabel || formatDate(entry.start),
+                endDate: entry.end && entry.end !== entry.start ? formatDate(entry.end) : null,
                 type: i === 0 ? 'fork' : 'commit',
                 _sort: parseDate(entry.start).getTime(),
             });
         });
 
         const last = branchEntries[branchEntries.length - 1];
-        if (last.end && !bumpBranches.has(branchId)) {
+        if (last.end) {
             rows.push({
                 branch: branchId,
                 label: last.endLabel || `${last.label} complete`,
@@ -193,14 +227,16 @@ function buildGraph(entries, branchConfigs) {
         }
     }
 
+    // Sort descending (newest at top). Same branch + date: merge above fork.
+    const typeOrder = { merge: 0, commit: 1, fork: 2 };
     if (PROTO.groupByBranch) {
         rows.sort((a, b) => {
             if (b._sort !== a._sort) return b._sort - a._sort;
             if (a.branch !== b.branch) return a.branch < b.branch ? -1 : 1;
-            return 0;
+            return (typeOrder[a.type] ?? 1) - (typeOrder[b.type] ?? 1);
         });
     } else {
-        rows.sort((a, b) => b._sort - a._sort);
+        rows.sort((a, b) => b._sort - a._sort || (typeOrder[a.type] ?? 1) - (typeOrder[b.type] ?? 1));
     }
 
     // Compute branch spans
@@ -242,13 +278,18 @@ function buildGraph(entries, branchConfigs) {
         }
     });
 
-    // Mark bump branches + their fork rows
+    // Mark bump branches + tag fork rows with their merge row index
     for (const branchId of bumpBranches) {
         if (branchMap[branchId]) branchMap[branchId]._isBump = true;
     }
-    rows.forEach((row) => {
+    rows.forEach((row, i) => {
         if (row.type === 'fork' && branchMap[row.branch]?._isBump) {
             row._isBump = true;
+            const mergeIdx = rows.findIndex((r, j) => j > i && r.branch === row.branch && r.type === 'merge');
+            if (mergeIdx >= 0) {
+                row._bumpMergeIdx = mergeIdx;
+                rows[mergeIdx]._isBump = true;
+            }
         }
     });
 
@@ -309,8 +350,9 @@ function rowHeight(i) {
 }
 
 const TOTAL_HEIGHT = cumulativeY + 20;
-const SVG_WIDTH = GRAPH_LEFT + Object.keys(branchMap).length * LANE_GAP + 10;
-const LABEL_LEFT = SVG_WIDTH + 16;
+const maxLane = Math.max(...Object.values(branchMap).map(b => b.lane));
+const SVG_WIDTH = GRAPH_LEFT + (maxLane + 1) * LANE_GAP + 10;
+const LABEL_LEFT = SVG_WIDTH + 8;
 
 // ── Component ─────────────────────────────────────────────────
 
@@ -430,9 +472,9 @@ export default function ResumeGitGraph() {
                     {/* Vertical branch lines */}
                     {Object.entries(branchSpans).map(([branchId, [startRow, endRow]]) => {
                         const b = branchMap[branchId];
-                        if (b._isBump) return null; // bump branches render as arc, no vertical line
+                        if (!b) return null;
                         const x = laneX(b.lane);
-                        const y2 = rowY(endRow) + (branchId === 'main' ? 22 : 0);
+                        const y2 = rowY(endRow);
                         return (
                             <line
                                 key={branchId}
@@ -461,21 +503,6 @@ export default function ResumeGitGraph() {
                         const curve = 20;
                         const isWt = row._isWorktree;
                         const op = mounted ? lineOp(row.branch) : 0;
-
-                        // Bump: same-month branch — pointy arc, no end row
-                        if (row._isBump && row.type === 'fork') {
-                            const halfH = 22;
-                            const bumpW = 19;
-                            return (
-                                <path
-                                    key={`bump-${i}`}
-                                    d={`M ${parentX} ${y - halfH} Q ${parentX + bumpW} ${y}, ${parentX} ${y + halfH}`}
-                                    fill="none" stroke={b.color} strokeWidth={2.5}
-                                    strokeDasharray="6 4"
-                                    style={{ opacity: op, transition: 'opacity 0.3s ease-out' }}
-                                />
-                            );
-                        }
 
                         if (row.type === 'fork') {
                             if (isWt) {
@@ -538,17 +565,6 @@ export default function ResumeGitGraph() {
                         const y = rowY(i);
                         const isPresent = i === 0;
                         const op = mounted ? dotOp(row.branch) : 0;
-
-                        // Bump fork: dot at the apex of the quadratic arc
-                        if (row._isBump && row.type === 'fork') {
-                            const parentX = laneX(branchMap[b.parent].lane);
-                            const bumpW = 19;
-                            return (
-                                <g key={`dot-${i}`} style={{ opacity: op, transition: 'opacity 0.3s ease-out' }}>
-                                    <circle cx={parentX + bumpW / 2} cy={y} r={4} fill={b.color} stroke={b.color} strokeWidth={2} />
-                                </g>
-                            );
-                        }
 
                         return (
                             <g key={`dot-${i}`} style={{ opacity: op, transition: 'opacity 0.3s ease-out' }}>
@@ -648,11 +664,11 @@ export default function ResumeGitGraph() {
                             {/* Label text + date */}
                             <div className="min-w-0 flex-1 flex items-baseline justify-between gap-2">
                                 <div className="min-w-0">
-                                    <span className={`text-slate-200 font-medium truncate block ${isMerge ? 'text-xs text-slate-400' : 'text-sm'}`}>
+                                    <span className={`text-slate-200 font-medium ${isMerge ? 'text-xs text-slate-400' : 'text-sm'}`}>
                                         {row.label}
                                     </span>
                                     {row.subtitle && !isMerge && (
-                                        <div className="text-[11px] text-slate-500 truncate">{row.subtitle}</div>
+                                        <div className="text-[11px] text-slate-500">{row.subtitle}</div>
                                     )}
                                 </div>
                                 {row.date && <span className="text-[10px] text-slate-600 shrink-0">{row.date}</span>}
@@ -714,7 +730,7 @@ export default function ResumeGitGraph() {
                             )}
                             <div className="flex items-baseline justify-between gap-2">
                                 <span className="text-sm text-slate-200 font-medium">{row.label}</span>
-                                {row.date && <span className="text-[10px] text-slate-600 shrink-0">{row.date}</span>}
+                                {row.date && <span className="text-[10px] text-slate-600 shrink-0">{row.endDate ? `${row.date} – ${row.endDate}` : row.date}</span>}
                             </div>
                             {row.subtitle && (
                                 <div className="text-[11px] text-slate-500 mt-0.5">{row.subtitle}</div>
