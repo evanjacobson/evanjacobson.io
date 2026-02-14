@@ -87,20 +87,70 @@ function buildGraph(entries, branchConfigs) {
     const usedIds = new Set(['main']);
     for (const entry of entries) usedIds.add(entry.branch);
 
-    const branchMap = {};
-    let lane = 0;
-    for (const b of branchConfigs) {
-        if (usedIds.has(b.id)) {
-            branchMap[b.id] = { lane: lane++, color: b.color, label: b.label, parent: b.parent || 'main' };
-        }
-    }
-
+    // Group entries by branch and sort chronologically
     const byBranch = {};
     for (const entry of entries) {
         (byBranch[entry.branch] ??= []).push(entry);
     }
     for (const arr of Object.values(byBranch)) {
         arr.sort((a, b) => parseDate(a.start) - parseDate(b.start));
+    }
+
+    // Compute time ranges for each branch
+    const timeRanges = {};
+    for (const b of branchConfigs) {
+        if (!usedIds.has(b.id)) continue;
+        if (b.id === 'main') { timeRanges.main = [-Infinity, Infinity]; continue; }
+        const be = byBranch[b.id];
+        if (!be) continue;
+        const start = parseDate(be[0].start).getTime();
+        const last = be[be.length - 1];
+        const end = last.end ? parseDate(last.end).getTime() : Infinity;
+        timeRanges[b.id] = [start, end];
+    }
+
+    // Extend parent ranges to cover children
+    let rangeChanged = true;
+    while (rangeChanged) {
+        rangeChanged = false;
+        for (const b of branchConfigs) {
+            if (!usedIds.has(b.id) || b.id === 'main') continue;
+            const parentId = b.parent || 'main';
+            if (!timeRanges[b.id] || !timeRanges[parentId]) continue;
+            if (timeRanges[parentId][0] > timeRanges[b.id][0]) {
+                timeRanges[parentId][0] = timeRanges[b.id][0]; rangeChanged = true;
+            }
+            if (timeRanges[parentId][1] < timeRanges[b.id][1]) {
+                timeRanges[parentId][1] = timeRanges[b.id][1]; rangeChanged = true;
+            }
+        }
+    }
+
+    // Greedy lane assignment: reuse lanes when branches don't overlap in time
+    // Constraint: child branches must be in a lane > parent's lane
+    const laneOccupants = []; // laneOccupants[n] = array of time ranges in lane n
+    const branchMap = {};
+
+    const overlaps = (a, b) => a[0] < b[1] && b[0] < a[1];
+
+    for (const b of branchConfigs) {
+        if (!usedIds.has(b.id)) continue;
+        const parentId = b.parent || 'main';
+        const minLane = b.id === 'main' ? 0 : (branchMap[parentId]?.lane ?? 0) + 1;
+        const range = timeRanges[b.id];
+
+        let assignedLane = minLane;
+        while (true) {
+            if (!laneOccupants[assignedLane]) break; // empty lane
+            const conflict = laneOccupants[assignedLane].some(r => overlaps(r, range));
+            if (!conflict) break;
+            assignedLane++;
+        }
+
+        if (!laneOccupants[assignedLane]) laneOccupants[assignedLane] = [];
+        laneOccupants[assignedLane].push(range);
+
+        branchMap[b.id] = { lane: assignedLane, color: b.color, label: b.label, parent: parentId };
     }
 
     const rows = [];
@@ -277,8 +327,8 @@ export default function ResumeGitGraph() {
             {/* ── Desktop ──────────────────────────────────── */}
             <div className="hidden sm:block relative" style={{ height: TOTAL_HEIGHT }}>
 
-                {/* Row dividers */}
-                {rows.map((_, i) => i > 0 && (
+                {/* Row dividers (hidden when year dividers are active) */}
+                {PROTO.yearDividers !== 'divider' && rows.map((_, i) => i > 0 && (
                     <div
                         key={`div-${i}`}
                         className="absolute left-0 right-0 border-t border-slate-800/30"
