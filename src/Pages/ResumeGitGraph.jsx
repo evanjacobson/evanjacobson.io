@@ -4,10 +4,10 @@ import { ArrowRight } from 'lucide-react';
 
 // ── Prototype toggles (flip to compare) ──────────────────────
 const PROTO = {
-    collapseTags: true,
+    collapseTags: false,
     compactMerges: true,
     yearDividers: 'divider',   // 'default' | 'divider' | 'axis'
-    groupByBranch: false,
+    groupByBranch: true,
     mobileTags: true,
 };
 
@@ -22,19 +22,19 @@ const GRAPH_LEFT = 20;
 const BRANCHES = [
     { id: 'main', color: '#94a3b8', label: 'main' },
     { id: 'alarm', color: '#10b981', label: 'Alarm.com' },
-    { id: 'alarm-email',    color: '#6ee7b7', label: 'Intl. Email', parent: 'alarm' },
-    { id: 'alarm-stripe',   color: '#34d399', label: 'Stripe Subscriptions', parent: 'alarm' },
-    { id: 'alarm-refactor', color: '#a7f3d0', label: 'SQL Refactoring Bot', parent: 'alarm' },
-    { id: 'alarm-handoff',  color: '#2dd4bf', label: 'Handoff Bot', parent: 'alarm' },
+    { id: 'alarm-email',    color: '#6ee7b7', label: 'Alarm.com', parent: 'alarm' },
+    { id: 'alarm-stripe',   color: '#34d399', label: 'Alarm.com', parent: 'alarm' },
+    { id: 'alarm-refactor', color: '#a7f3d0', label: 'Alarm.com', parent: 'alarm' },
+    { id: 'alarm-handoff',  color: '#2dd4bf', label: 'Alarm.com', parent: 'alarm' },
     { id: 'onedeal', color: '#a855f7', label: 'OneDeal' },
     { id: 'orai', color: '#3b82f6', label: 'OrAI' },
     { id: 'trade', color: '#ef4444', label: 'Trade Intel' },
     { id: 'beads', color: '#22c55e', label: 'Open Source Contributions' },
     { id: 'minecraft',  color: '#f59e0b', label: 'Minecraft Server Plugin' },           // amber-500
-    { id: 'spark',      color: '#14b8a6', label: 'Spark Technology Solutions' },        // teal-500
-    { id: 'university', color: '#2563eb', label: 'University of Miami' },               // blue-600
+    { id: 'spark',      color: '#14b8a6', label: 'Incubator' },        // teal-500
+    { id: 'university', color: '#2563eb', label: 'University' },               // blue-600
     { id: 'garmin',     color: '#a21caf', label: 'Garmin', parent: 'university' },      // purple-800
-    { id: 'projects',   color: '#e11d48', label: 'Personal Projects (no AI involved)' },// rose-600
+    { id: 'projects',   color: '#e11d48', label: 'No AI Involved' },// rose-600
 ];
 
 // ── Entries ───────────────────────────────────────────────────
