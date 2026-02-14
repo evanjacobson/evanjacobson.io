@@ -632,6 +632,53 @@ export default function ResumeGitGraph({ activeProject = null, onSelectProject =
                         );
                     })}
 
+                    {/* Branch line hit areas for hover + click */}
+                    {Object.entries(branchSpans).map(([branchId, [startRow, endRow]]) => {
+                        const b = branchMap[branchId];
+                        if (!b) return null;
+                        const x = laneX(b.lane);
+                        const slugRow = rows.find(r => r.branch === branchId && r.slug);
+                        return (
+                            <line
+                                key={`hit-${branchId}`}
+                                x1={x} y1={getY(startRow)}
+                                x2={x} y2={getY(endRow)}
+                                stroke="transparent"
+                                strokeWidth={16}
+                                style={{ pointerEvents: 'all', cursor: slugRow ? 'pointer' : 'default' }}
+                                onMouseEnter={() => setHoveredBranch(branchId)}
+                                onMouseLeave={() => setHoveredBranch(null)}
+                                onClick={() => slugRow && onSelectProject?.(slugRow.slug)}
+                            />
+                        );
+                    })}
+
+                    {/* Fork/merge curve hit areas */}
+                    {rows.map((row, i) => {
+                        const b = branchMap[row.branch];
+                        if (!b || row.branch === 'main' || (row.type !== 'fork' && row.type !== 'merge')) return null;
+                        const parentX = laneX(branchMap[b.parent].lane);
+                        const branchX = laneX(b.lane);
+                        const y = getY(i);
+                        const curve = 20;
+                        const isWt = row._isWorktree;
+                        const slugRow = rows.find(r => r.branch === row.branch && r.slug);
+                        const d = row.type === 'fork'
+                            ? (isWt ? `M ${parentX} ${y} L ${branchX} ${y}` : `M ${parentX} ${y} C ${parentX} ${y + curve}, ${branchX} ${y - curve}, ${branchX} ${y}`)
+                            : (isWt ? `M ${branchX} ${y} L ${parentX} ${y}` : `M ${branchX} ${y} C ${branchX} ${y - curve}, ${parentX} ${y + curve}, ${parentX} ${y}`);
+                        return (
+                            <path
+                                key={`hit-${row.type}-${i}`}
+                                d={d}
+                                fill="none" stroke="transparent" strokeWidth={16}
+                                style={{ pointerEvents: 'all', cursor: slugRow ? 'pointer' : 'default' }}
+                                onMouseEnter={() => setHoveredBranch(row.branch)}
+                                onMouseLeave={() => setHoveredBranch(null)}
+                                onClick={() => slugRow && onSelectProject?.(slugRow.slug)}
+                            />
+                        );
+                    })}
+
                     {/* Clickable dot targets when labels are replaced by detail content */}
                     {detailContent && onSelectProject && rows.map((row, i) => {
                         if (!row.slug) return null;
