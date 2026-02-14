@@ -1,10 +1,19 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
-const ROW_HEIGHT = 56;
+// ── Prototype toggles (flip to compare) ──────────────────────
+const PROTO = {
+    collapseTags: false,
+    compactMerges: false,
+    yearDividers: 'default',   // 'default' | 'divider' | 'axis'
+    groupByBranch: false,
+    mobileTags: false,
+};
+
+const COMMIT_ROW_HEIGHT = 56;
+const MERGE_ROW_HEIGHT = PROTO.compactMerges ? 36 : COMMIT_ROW_HEIGHT;
 const LANE_GAP = 28;
 const GRAPH_LEFT = 20;
-const LABEL_LEFT = 220;
 
 // ── Branch config ─────────────────────────────────────────────
 // Order determines lane position (main is always first).
@@ -193,12 +202,26 @@ function laneX(lane) {
     return GRAPH_LEFT + lane * LANE_GAP;
 }
 
-function rowY(i) {
-    return i * ROW_HEIGHT + ROW_HEIGHT / 2;
+// Pre-compute cumulative Y positions for variable-height rows
+const rowYPositions = [];
+let cumulativeY = 0;
+for (let i = 0; i < rows.length; i++) {
+    const h = rows[i].type === 'merge' ? MERGE_ROW_HEIGHT : COMMIT_ROW_HEIGHT;
+    rowYPositions.push(cumulativeY + h / 2);
+    cumulativeY += h;
 }
 
-const TOTAL_HEIGHT = rows.length * ROW_HEIGHT + 20;
+function rowY(i) {
+    return rowYPositions[i];
+}
+
+function rowHeight(i) {
+    return rows[i].type === 'merge' ? MERGE_ROW_HEIGHT : COMMIT_ROW_HEIGHT;
+}
+
+const TOTAL_HEIGHT = cumulativeY + 20;
 const SVG_WIDTH = GRAPH_LEFT + Object.keys(branchMap).length * LANE_GAP + 10;
+const LABEL_LEFT = SVG_WIDTH + 16;
 
 // ── Component ─────────────────────────────────────────────────
 
@@ -243,7 +266,7 @@ export default function ResumeGitGraph() {
                     <div
                         key={`div-${i}`}
                         className="absolute left-0 right-0 border-t border-slate-800/30"
-                        style={{ top: rowY(i) - ROW_HEIGHT / 2 }}
+                        style={{ top: rowY(i) - rowHeight(i) / 2 }}
                     />
                 ))}
 
@@ -253,11 +276,13 @@ export default function ResumeGitGraph() {
                     width={SVG_WIDTH}
                     height={TOTAL_HEIGHT}
                     style={{ overflow: 'visible' }}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
                 >
                     {/* Year markers */}
                     {yearMarkers.map(({ row: ri, year }) => {
                         const x = laneX(0);
-                        const y = rowY(ri) - ROW_HEIGHT / 2 + 6;
+                        const y = rowY(ri) - rowHeight(ri) / 2 + 6;
                         return (
                             <text
                                 key={`yr-${year}`}
@@ -408,6 +433,7 @@ export default function ResumeGitGraph() {
                 {rows.map((row, i) => {
                     const b = branchMap[row.branch];
                     const y = rowY(i);
+                    const rh = rowHeight(i);
                     const isMerge = row.type === 'merge';
                     const isHit = isBranchHit(row.branch);
 
@@ -416,7 +442,7 @@ export default function ResumeGitGraph() {
                         : 0;
 
                     const labelContent = (
-                        <div className="flex items-center gap-2.5" style={{ height: ROW_HEIGHT }}>
+                        <div className="flex items-center gap-2.5" style={{ height: rh }}>
                             {/* Branch tag */}
                             <div
                                 className={`shrink-0 px-2 py-0.5 rounded font-mono font-medium text-slate-950 ${isMerge ? 'text-[8px]' : 'text-[10px]'}`}
@@ -444,10 +470,10 @@ export default function ResumeGitGraph() {
                             key={i}
                             className="absolute"
                             style={{
-                                top: y - ROW_HEIGHT / 2,
+                                top: y - rh / 2,
                                 left: 0,
                                 right: 0,
-                                height: ROW_HEIGHT,
+                                height: rh,
                                 opacity: rowOpacity,
                                 transform: mounted ? 'translateY(0)' : 'translateY(6px)',
                                 transition: `opacity 0.35s ease-out ${mounted ? '0ms' : `${i * 35}ms`}, transform 0.35s ease-out ${mounted ? '0ms' : `${i * 35}ms`}`,
