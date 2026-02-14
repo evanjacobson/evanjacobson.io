@@ -196,6 +196,14 @@ function buildGraph(entries, branchConfigs) {
 
 const { rows, branchMap, branchSpans, yearMarkers } = buildGraph(ENTRIES, BRANCHES);
 
+// Identify the latest (topmost) row for each active branch for pulse animation
+const activeBranchLatest = new Set();
+for (const [branchId, b] of Object.entries(branchMap)) {
+    if (b._isEnded || branchId === 'main') continue;
+    const topRow = rows.findIndex(r => r.branch === branchId);
+    if (topRow >= 0) activeBranchLatest.add(topRow);
+}
+
 // ── Layout ────────────────────────────────────────────────────
 
 function laneX(lane) {
@@ -416,6 +424,13 @@ export default function ResumeGitGraph() {
                                     <circle cx={x} cy={y} r={6} fill={b.color} opacity={0.3}>
                                         <animate attributeName="r" from="6" to="16" dur="2s" repeatCount="indefinite" />
                                         <animate attributeName="opacity" from="0.3" to="0" dur="2s" repeatCount="indefinite" />
+                                    </circle>
+                                )}
+                                {/* Breathing pulse for active branch latest commit */}
+                                {!isPresent && activeBranchLatest.has(i) && (
+                                    <circle cx={x} cy={y} r={5} fill={b.color} opacity={0.2}>
+                                        <animate attributeName="r" from="5" to="12" dur="3s" repeatCount="indefinite" />
+                                        <animate attributeName="opacity" from="0.2" to="0" dur="3s" repeatCount="indefinite" />
                                     </circle>
                                 )}
                                 {row.type === 'merge' && (
