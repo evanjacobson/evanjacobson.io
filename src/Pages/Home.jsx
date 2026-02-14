@@ -5,7 +5,7 @@ import ResumeGitGraph from './ResumeGitGraph';
 import ProjectContent from '@/Components/ProjectContent';
 import projects from '@/data/work';
 
-const HOME_LAYOUT = 'graphHome'; // 'graphHome' | 'graphDrawer'
+const HOME_LAYOUT = 'graphDrawer'; // 'graphHome' | 'graphDrawer'
 const DETAIL_MODE = 'spine'; // 'none' | 'spine' | 'alongside' | 'replace'
 
 const BIO_PARAGRAPHS = [
