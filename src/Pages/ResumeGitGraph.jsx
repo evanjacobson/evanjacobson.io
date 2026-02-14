@@ -4,11 +4,11 @@ import { ArrowRight } from 'lucide-react';
 
 // ── Prototype toggles (flip to compare) ──────────────────────
 const PROTO = {
-    collapseTags: false,
-    compactMerges: false,
-    yearDividers: 'default',   // 'default' | 'divider' | 'axis'
+    collapseTags: true,
+    compactMerges: true,
+    yearDividers: 'divider',   // 'default' | 'divider' | 'axis'
     groupByBranch: false,
-    mobileTags: false,
+    mobileTags: true,
 };
 
 const COMMIT_ROW_HEIGHT = 56;
@@ -131,7 +131,14 @@ function buildGraph(entries, branchConfigs) {
         }
     }
 
-    rows.sort((a, b) => b._sort - a._sort);
+    if (PROTO.groupByBranch) {
+        rows.sort((a, b) => {
+            if (b._sort !== a._sort) return b._sort - a._sort;
+            return (a.branch > b.branch ? 1 : -1);
+        });
+    } else {
+        rows.sort((a, b) => b._sort - a._sort);
+    }
 
     // Compute branch spans
     const spans = {};
@@ -279,6 +286,22 @@ export default function ResumeGitGraph() {
                     />
                 ))}
 
+                {/* Year axis (left margin) */}
+                {PROTO.yearDividers === 'axis' && yearMarkers.map(({ row: ri, year }) => (
+                    <div
+                        key={`yraxis-${year}`}
+                        className="absolute font-mono text-[9px] text-slate-600"
+                        style={{
+                            top: rowY(ri) - rowHeight(ri) / 2 - 2,
+                            left: 0,
+                            opacity: mounted ? (hoveredBranch ? 0.3 : 0.7) : 0,
+                            transition: 'opacity 0.3s ease-out',
+                        }}
+                    >
+                        {year}
+                    </div>
+                ))}
+
                 {/* SVG graph */}
                 <svg
                     className="absolute top-0 left-0 pointer-events-none"
@@ -289,17 +312,14 @@ export default function ResumeGitGraph() {
                     strokeLinejoin="round"
                 >
                     {/* Year markers */}
-                    {yearMarkers.map(({ row: ri, year }) => {
+                    {PROTO.yearDividers === 'default' && yearMarkers.map(({ row: ri, year }) => {
                         const x = laneX(0);
                         const y = rowY(ri) - rowHeight(ri) / 2 + 6;
                         return (
                             <text
                                 key={`yr-${year}`}
-                                x={x}
-                                y={y}
-                                fill="#475569"
-                                fontSize={8}
-                                textAnchor="middle"
+                                x={x} y={y}
+                                fill="#475569" fontSize={8} textAnchor="middle"
                                 fontFamily="ui-monospace, monospace"
                                 style={{
                                     opacity: mounted ? (hoveredBranch ? 0.3 : 0.7) : 0,
@@ -308,6 +328,28 @@ export default function ResumeGitGraph() {
                             >
                                 {year}
                             </text>
+                        );
+                    })}
+
+                    {/* Year divider lines (full-width) */}
+                    {PROTO.yearDividers === 'divider' && yearMarkers.map(({ row: ri, year }) => {
+                        const y = rowY(ri) - rowHeight(ri) / 2;
+                        return (
+                            <g key={`yrdiv-${year}`}
+                                style={{
+                                    opacity: mounted ? (hoveredBranch ? 0.2 : 0.5) : 0,
+                                    transition: 'opacity 0.3s ease-out',
+                                }}
+                            >
+                                <line x1={0} y1={y} x2={SVG_WIDTH + 600} y2={y}
+                                    stroke="#334155" strokeWidth={1} strokeDasharray="4 4" />
+                                <text x={4} y={y - 4}
+                                    fill="#475569" fontSize={9}
+                                    fontFamily="ui-monospace, monospace"
+                                >
+                                    {year}
+                                </text>
+                            </g>
                         );
                     })}
 
@@ -452,6 +494,7 @@ export default function ResumeGitGraph() {
                     const rh = rowHeight(i);
                     const isMerge = row.type === 'merge';
                     const isHit = isBranchHit(row.branch);
+                    const showTag = !PROTO.collapseTags || i === 0 || rows[i - 1].branch !== row.branch;
 
                     const rowOpacity = mounted
                         ? hoveredBranch ? (isHit ? 1 : 0.1) : (isMerge ? 0.45 : 1)
@@ -460,12 +503,14 @@ export default function ResumeGitGraph() {
                     const labelContent = (
                         <div className="flex items-center gap-2.5" style={{ height: rh }}>
                             {/* Branch tag */}
-                            <div
-                                className={`shrink-0 px-2 py-0.5 rounded font-mono font-medium text-slate-950 ${isMerge ? 'text-[8px]' : 'text-[10px]'}`}
-                                style={{ backgroundColor: b.color, opacity: isMerge ? 0.6 : 1 }}
-                            >
-                                {b.label}
-                            </div>
+                            {showTag && (
+                                <div
+                                    className={`shrink-0 px-2 py-0.5 rounded font-mono font-medium text-slate-950 ${isMerge ? 'text-[8px]' : 'text-[10px]'}`}
+                                    style={{ backgroundColor: b.color, opacity: isMerge ? 0.6 : 1 }}
+                                >
+                                    {b.label}
+                                </div>
+                            )}
                             {/* Label text + date */}
                             <div className="min-w-0 flex-1 flex items-baseline justify-between gap-2">
                                 <div className="min-w-0">
@@ -524,6 +569,14 @@ export default function ResumeGitGraph() {
                     const b = branchMap[row.branch];
                     const inner = (
                         <div className="py-3 pl-4 pr-3">
+                            {PROTO.mobileTags && (
+                                <div
+                                    className="inline-block px-1.5 py-0.5 rounded font-mono text-[8px] font-medium text-slate-950 mb-1"
+                                    style={{ backgroundColor: b.color }}
+                                >
+                                    {b.label}
+                                </div>
+                            )}
                             <div className="flex items-baseline justify-between gap-2">
                                 <span className="text-sm text-slate-200 font-medium">{row.label}</span>
                                 {row.date && <span className="text-[10px] text-slate-600 shrink-0">{row.date}</span>}
