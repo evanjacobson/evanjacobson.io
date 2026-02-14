@@ -108,16 +108,21 @@ function Home({ autoOpenBooking = false }) {
     }, [autoOpenBooking]);
 
     const isCompressed = DETAIL_MODE === 'spine' && !!activeProject;
+    const isAlongside = DETAIL_MODE === 'alongside' && !!activeProject;
 
     return (
         <div className="py-12">
             {HOME_LAYOUT === 'graphHome' && <GraphHomeHeader />}
             {HOME_LAYOUT === 'graphDrawer' && <GraphDrawerHeader />}
 
-            <div className="max-w-6xl mx-auto px-4">
+            <div className={`${activeProject && DETAIL_MODE === 'alongside' ? 'max-w-7xl' : 'max-w-6xl'} mx-auto px-4`}>
                 <div className="flex gap-0 transition-all duration-500 ease-in-out">
                     {/* Graph column */}
-                    <div className={`transition-all duration-500 ease-in-out ${isCompressed ? 'w-[200px] shrink-0' : 'flex-1 max-w-4xl mx-auto'}`}>
+                    <div className={`transition-all duration-500 ease-in-out ${
+                        isCompressed ? 'w-[200px] shrink-0' :
+                        isAlongside ? 'shrink-0' :
+                        'flex-1 max-w-4xl mx-auto'
+                    }`}>
                         <ResumeGitGraph
                             activeProject={activeProject}
                             onSelectProject={DETAIL_MODE !== 'none' ? handleSelectProject : null}
@@ -142,6 +147,22 @@ function Home({ autoOpenBooking = false }) {
                                     <ProjectContent project={project} />
                                 </div>
                             )}
+                        </div>
+                    )}
+
+                    {/* Detail panel (alongside mode) */}
+                    {DETAIL_MODE === 'alongside' && activeProject && project && (
+                        <div className="flex-1 opacity-100 ml-6 min-w-[400px] max-w-xl transition-all duration-500 ease-in-out overflow-y-auto">
+                            <div className="sticky top-8">
+                                <button
+                                    onClick={handleCloseProject}
+                                    className="mb-4 flex items-center gap-1.5 text-sm text-slate-400 hover:text-slate-200 transition-colors"
+                                >
+                                    <X className="w-4 h-4" />
+                                    Close
+                                </button>
+                                <ProjectContent project={project} />
+                            </div>
                         </div>
                     )}
                 </div>
