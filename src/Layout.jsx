@@ -7,8 +7,8 @@ function Nav() {
     const location = useLocation();
 
     const isActive = (path) => {
-        if (path === '/work') {
-            return location.pathname === '/work' || location.pathname.startsWith('/work/');
+        if (path === '/log') {
+            return location.pathname === '/log' || location.pathname.startsWith('/work/');
         }
         return location.pathname === path;
     };
@@ -22,7 +22,7 @@ function Nav() {
                 Evan Jacobson
             </Link>
             <div className="flex gap-6">
-                <Link to="/work" className={linkClass('/work')}>Work</Link>
+                <Link to="/log" className={linkClass('/log')}>Log</Link>
                 <Link to="/toolbox" className={linkClass('/toolbox')}>Toolbox</Link>
             </div>
         </nav>

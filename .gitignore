@@ -7,4 +7,5 @@ public/files/*.md
 **/*.json.toon
 .DS_Store
 .cursor/
+.worktrees/
 

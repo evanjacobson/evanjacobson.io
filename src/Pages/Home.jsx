@@ -46,10 +46,10 @@ function Home({ autoOpenBooking = false }) {
 
                 <nav className="flex flex-col sm:flex-row gap-4">
                     <Link
-                        to="/work"
+                        to="/log"
                         className="group inline-flex items-center gap-2 text-slate-300 hover:text-slate-50 transition-colors"
                     >
-                        See my work
+                        See my log
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
                     <Link

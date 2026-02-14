@@ -9,14 +9,14 @@ const views = [
 ];
 
 function Resume() {
-    const [view, setView] = useState('tree');
+    const [view, setView] = useState('git');
 
     return (
         <div className="px-6 py-12">
             {/* Header */}
             <div className="max-w-4xl mx-auto flex items-center justify-between mb-8">
                 <div>
-                    <h1 className="text-3xl font-bold text-slate-50 mb-1">Resume</h1>
+                    <h1 className="text-3xl font-bold text-slate-50 mb-1">Log</h1>
                     <p className="text-slate-400 text-sm">Professional experience and skills</p>
                 </div>
                 <div className="flex items-center gap-4">
