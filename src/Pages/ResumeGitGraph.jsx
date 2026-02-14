@@ -450,17 +450,17 @@ export default function ResumeGitGraph() {
                             >
                                 {b.label}
                             </div>
-                            {/* Label text */}
-                            <div className="min-w-0">
-                                <div className="flex items-baseline gap-2">
-                                    <span className={`text-slate-200 font-medium truncate ${isMerge ? 'text-xs text-slate-400' : 'text-sm'}`}>
+                            {/* Label text + date */}
+                            <div className="min-w-0 flex-1 flex items-baseline justify-between gap-2">
+                                <div className="min-w-0">
+                                    <span className={`text-slate-200 font-medium truncate block ${isMerge ? 'text-xs text-slate-400' : 'text-sm'}`}>
                                         {row.label}
                                     </span>
-                                    {row.date && <span className="text-[10px] text-slate-600 shrink-0">{row.date}</span>}
+                                    {row.subtitle && !isMerge && (
+                                        <div className="text-[11px] text-slate-500 truncate">{row.subtitle}</div>
+                                    )}
                                 </div>
-                                {row.subtitle && !isMerge && (
-                                    <div className="text-[11px] text-slate-500 truncate">{row.subtitle}</div>
-                                )}
+                                {row.date && <span className="text-[10px] text-slate-600 shrink-0">{row.date}</span>}
                             </div>
                         </div>
                     );
