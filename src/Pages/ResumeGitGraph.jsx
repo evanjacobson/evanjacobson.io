@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 
 // ── Prototype toggles (flip to compare) ──────────────────────
 const PROTO = {
@@ -500,9 +501,13 @@ export default function ResumeGitGraph() {
                                 {row.slug ? (
                                     <Link
                                         to={`/work/${row.slug}`}
-                                        className="block px-2 rounded-lg hover:bg-slate-800/40 transition-colors"
+                                        className="group/link block px-2 rounded-lg hover:bg-slate-800/40 transition-colors relative"
                                     >
                                         {labelContent}
+                                        <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 transition-all duration-200 opacity-20 group-hover/link:opacity-70 translate-x-0 group-hover/link:translate-x-1">
+                                            <span className="text-[10px] text-slate-400 hidden group-hover/link:inline">View case study</span>
+                                            <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
+                                        </div>
                                     </Link>
                                 ) : (
                                     <div className="px-2">{labelContent}</div>
