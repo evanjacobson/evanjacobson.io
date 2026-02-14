@@ -33,6 +33,7 @@ const BRANCHES = [
     { id: 'trade', color: '#ef4444', label: 'Trade Intel' },
     { id: 'beads', color: '#22c55e', label: 'Open Source Contributions' },
     { id: 'minecraft',  color: '#f59e0b', label: 'Minecraft Server Plugin' },           // amber-500
+    { id: 'mounts',     color: '#d97706', label: 'Minecraft Server Plugin' },           // amber-600
     { id: 'spark',      color: '#14b8a6', label: 'Incubator' },        // teal-500
     { id: 'university', color: '#2563eb', label: 'University' },               // blue-600
     { id: 'garmin',     color: '#a21caf', label: 'Garmin', parent: 'university' },      // purple-800
@@ -51,7 +52,8 @@ const BRANCHES = [
 //   dateLabel – override the auto-formatted date (optional)
 const ENTRIES = [
     // ── Early career ──────────────────────────────────────────
-    { branch: 'minecraft', label: 'Minecraft Server Plugin', subtitle: 'First Project — Spacesuits Plugin', slug: 'minecraft', start: '2013-04', end: '2013-04', endLabel: 'Shipped' },
+    { branch: 'minecraft', label: 'Spacesuits Plugin', subtitle: 'First Project — Minecraft Server Plugin', slug: 'minecraft', start: '2013-04', end: '2013-04', endLabel: 'Shipped' },
+    { branch: 'mounts', label: 'Mounts Plugin', subtitle: 'Custom Horse Mounts · Spigot/Paper', slug: 'mounts', start: '2024-09', end: '2024-09', endLabel: 'Shipped' },
     { branch: 'spark', label: 'Spark Technology Solutions', subtitle: 'HS Incubator · Websites + St. Louis Zoo App', slug: 'spark', start: '2015-01', end: '2017-05' },
     { branch: 'university', label: 'University of Miami', subtitle: 'B.S. Computer Science, Minor in Mathematics · GPA 3.96', slug: 'university', start: '2017-08', end: '2021-05', endLabel: 'Graduated' },
     { branch: 'garmin', label: 'Garmin', subtitle: 'SWE Intern · Avionics · 80+ tests for GI 275 (FAA)', slug: 'garmin', start: '2019-05', end: '2019-08' },

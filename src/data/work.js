@@ -1,4 +1,4 @@
-import { Brain, Zap, Search, GitBranch, Code } from 'lucide-react';
+import { Brain, Zap, Search, GitBranch, Code, Gamepad2, Sword, GraduationCap } from 'lucide-react';
 
 const projects = [
     {
@@ -126,6 +126,76 @@ const projects = [
             { label: 'Website', url: 'https://kilo.ai/' },
             { label: 'GitHub', url: 'https://github.com/Kilo-Org/kilocode' },
         ],
+    },
+    {
+        slug: 'minecraft',
+        title: 'Spacesuits',
+        role: 'Personal Project',
+        subtitle: 'First project — Minecraft server plugin',
+        dateRange: 'April 2013',
+        icon: Gamepad2,
+        colors: {
+            accent: 'bg-amber-500',
+            text: 'text-amber-400',
+            border: 'border-l-amber-500',
+            bg: 'bg-amber-500/10',
+            badge: 'bg-amber-500/15 text-amber-300',
+        },
+        cardDescription: 'My first-ever programming project — a Bukkit plugin that added spacesuits and zero-gravity mechanics to Minecraft multiplayer servers.',
+        content: [
+            "Spacesuits was my first real project. I was thirteen and wanted to add space exploration to Minecraft — so I taught myself Java and the Bukkit plugin API to make it happen.",
+            "The plugin added craftable spacesuits with custom recipes, zero-gravity movement mechanics, and oxygen management. Players could equip suits and experience altered physics. It ran on multiplayer servers using the Bukkit/Spigot framework that was standard at the time.",
+            "Looking back, this is where everything started. The feedback loop of writing code, reloading the server, and immediately seeing the result in-game is what got me hooked on building software.",
+        ],
+        techStack: ['Java', 'Bukkit API'],
+        links: [],
+    },
+    {
+        slug: 'mounts',
+        title: 'Mounts',
+        role: 'Personal Project',
+        subtitle: 'Custom horse mounts — Minecraft server plugin',
+        dateRange: 'September 2024',
+        icon: Sword,
+        colors: {
+            accent: 'bg-amber-600',
+            text: 'text-amber-400',
+            border: 'border-l-amber-600',
+            bg: 'bg-amber-600/10',
+            badge: 'bg-amber-600/15 text-amber-300',
+        },
+        cardDescription: 'A Spigot/Paper plugin that lets players spawn and own custom horse mounts with configurable attributes and an ownership system.',
+        content: [
+            "Mounts is a Spigot/Paper server plugin that turns any item into a mount spawn egg. Right-click to summon a tamed, saddled horse with custom attributes — speed, jump height, whatever you want. Mounts can be owned by specific players or left unowned for public use.",
+            "The ownership system is the core mechanic. Owned mounts display the player's name in gold, unowned ones show in green. Players can only ride their own mounts (unless they have admin permissions), which makes mounts work as rare loot or event rewards without the usual duplication problems.",
+            "Admins configure mounts through two commands: /mount to create mount items with optional ownership, and /mountedit to tweak horse attributes on the fly. Attributes are stored as item metadata and listed in red below the item name, so players can see exactly what they're getting.",
+        ],
+        techStack: ['Java', 'Spigot/Paper API', 'Gradle'],
+        links: [
+            { label: 'GitHub', url: 'https://github.com/evanjacobson/Mounts-Minecraft-Server-Plugin' },
+        ],
+    },
+    {
+        slug: 'university',
+        title: 'University of Miami',
+        role: 'Student',
+        subtitle: 'B.S. Computer Science, Minor in Mathematics',
+        dateRange: 'August 2017 – May 2021',
+        icon: GraduationCap,
+        colors: {
+            accent: 'bg-blue-600',
+            text: 'text-blue-400',
+            border: 'border-l-blue-600',
+            bg: 'bg-blue-600/10',
+            badge: 'bg-blue-600/15 text-blue-300',
+        },
+        cardDescription: 'B.S. Computer Science with a Minor in Mathematics. GPA 3.96.',
+        content: [
+            "I studied Computer Science with a Minor in Mathematics at the University of Miami, graduating with a 3.96 GPA.",
+            "The CS program gave me a strong foundation in algorithms, data structures, systems programming, and software engineering. The math minor — linear algebra, discrete math, probability — turned out to be directly useful once I started working with machine learning and data pipelines.",
+        ],
+        techStack: [],
+        links: [],
     },
 ];
 
