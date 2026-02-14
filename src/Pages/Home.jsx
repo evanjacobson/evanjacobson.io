@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Download, ChevronDown } from 'lucide-react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { Download, ChevronDown, X } from 'lucide-react';
 import ResumeGitGraph from './ResumeGitGraph';
+import ProjectContent from '@/Components/ProjectContent';
+import projects from '@/data/work';
 
 const HOME_LAYOUT = 'graphHome'; // 'graphHome' | 'graphDrawer'
+const DETAIL_MODE = 'spine'; // 'none' | 'spine' | 'alongside' | 'replace'
 
 const BIO_PARAGRAPHS = [
     <>Right now I'm co-founding <Link to="/work/orai" className="text-blue-400 hover:text-blue-300 transition-colors">OrAI</Link>, where we're giving early childhood educators their time back — automating lesson plans, parent communications, document tracking, and compliant scheduling so they can spend less time on paperwork and more time with kids. I own everything from architecture to compliance to investor strategy, because I believe engineers should be owners, not ticket-takers.</>,
@@ -83,6 +86,18 @@ function GraphDrawerHeader() {
 }
 
 function Home({ autoOpenBooking = false }) {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const activeProject = DETAIL_MODE !== 'none' ? searchParams.get('project') : null;
+    const project = activeProject ? projects.find(p => p.slug === activeProject) : null;
+
+    const handleSelectProject = (slug) => {
+        setSearchParams({ project: slug });
+    };
+
+    const handleCloseProject = () => {
+        setSearchParams({});
+    };
+
     useEffect(() => {
         if (autoOpenBooking) {
             setTimeout(() => {
@@ -92,11 +107,45 @@ function Home({ autoOpenBooking = false }) {
         }
     }, [autoOpenBooking]);
 
+    const isCompressed = DETAIL_MODE === 'spine' && !!activeProject;
+
     return (
         <div className="py-12">
             {HOME_LAYOUT === 'graphHome' && <GraphHomeHeader />}
             {HOME_LAYOUT === 'graphDrawer' && <GraphDrawerHeader />}
-            <ResumeGitGraph />
+
+            <div className="max-w-6xl mx-auto px-4">
+                <div className="flex gap-0 transition-all duration-500 ease-in-out">
+                    {/* Graph column */}
+                    <div className={`transition-all duration-500 ease-in-out ${isCompressed ? 'w-[200px] shrink-0' : 'flex-1 max-w-4xl mx-auto'}`}>
+                        <ResumeGitGraph
+                            activeProject={activeProject}
+                            onSelectProject={DETAIL_MODE !== 'none' ? handleSelectProject : null}
+                            detailMode={DETAIL_MODE}
+                        />
+                    </div>
+
+                    {/* Detail panel (spine mode) */}
+                    {DETAIL_MODE === 'spine' && (
+                        <div
+                            className={`transition-all duration-500 ease-in-out overflow-hidden ${activeProject ? 'flex-1 opacity-100 ml-6' : 'w-0 opacity-0'}`}
+                        >
+                            {project && (
+                                <div className="sticky top-8">
+                                    <button
+                                        onClick={handleCloseProject}
+                                        className="mb-4 flex items-center gap-1.5 text-sm text-slate-400 hover:text-slate-200 transition-colors"
+                                    >
+                                        <X className="w-4 h-4" />
+                                        Close
+                                    </button>
+                                    <ProjectContent project={project} />
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </div>
+            </div>
         </div>
     );
 }
