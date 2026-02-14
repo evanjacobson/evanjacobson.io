@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Download, ChevronDown, X } from 'lucide-react';
+import { Download, X } from 'lucide-react';
 import ResumeGitGraph from './ResumeGitGraph';
 import ProjectContent from '@/Components/ProjectContent';
 import projects from '@/data/work';
 
-const HOME_LAYOUT = 'graphDrawer'; // 'graphHome' | 'graphDrawer'
+const HOME_LAYOUT = 'graphHome'; // 'graphHome' | 'graphDrawer'
+const DETAIL_MODE = 'drawer'; // 'replace' | 'drawer'
 
 const BIO_PARAGRAPHS = [
     <>Right now I'm co-founding <Link to="/work/orai" className="text-blue-400 hover:text-blue-300 transition-colors">OrAI</Link>, where we're giving early childhood educators their time back — automating lesson plans, parent communications, document tracking, and compliant scheduling so they can spend less time on paperwork and more time with kids. I own everything from architecture to compliance to investor strategy, because I believe engineers should be owners, not ticket-takers.</>,
@@ -39,11 +40,9 @@ function GraphHomeHeader() {
 }
 
 function GraphDrawerHeader() {
-    const [expanded, setExpanded] = useState(false);
-
     return (
         <div className="max-w-4xl mx-auto px-4 mb-8">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between">
                 <h1 className="text-3xl font-bold text-slate-50">Evan Jacobson</h1>
                 <a
                     href="/files/Evan Jacobson Resume.pdf"
@@ -55,31 +54,6 @@ function GraphDrawerHeader() {
                     PDF
                 </a>
             </div>
-
-            {/* Bio preview / drawer */}
-            <div className="relative">
-                <div
-                    className="overflow-hidden transition-[max-height] duration-500 ease-in-out"
-                    style={{ maxHeight: expanded ? '600px' : '3.2em' }}
-                >
-                    <div className="space-y-4 text-slate-300 leading-relaxed text-sm">
-                        {BIO_PARAGRAPHS.map((p, i) => <p key={i}>{p}</p>)}
-                    </div>
-                </div>
-
-                {/* Fade overlay when collapsed */}
-                {!expanded && (
-                    <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-slate-950 to-transparent pointer-events-none" />
-                )}
-
-                <button
-                    onClick={() => setExpanded(!expanded)}
-                    className="flex items-center gap-1 text-xs text-slate-500 hover:text-slate-300 transition-colors mt-1"
-                >
-                    {expanded ? 'Less' : 'More'}
-                    <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`} />
-                </button>
-            </div>
         </div>
     );
 }
@@ -89,8 +63,22 @@ function Home({ autoOpenBooking = false }) {
     const activeProject = searchParams.get('project');
     const project = activeProject ? projects.find(p => p.slug === activeProject) : null;
 
+    // In drawer mode, auto-expand the bio ("about") on first load when no project is selected
+    const [autoExpanded, setAutoExpanded] = useState(false);
+    useEffect(() => {
+        if (DETAIL_MODE === 'drawer' && !activeProject && !autoExpanded) {
+            setAutoExpanded(true);
+            setSearchParams({ project: 'about' });
+        }
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
     const handleSelectProject = (slug) => {
-        setSearchParams({ project: slug });
+        if (slug === activeProject) {
+            // Toggle off if clicking the same row
+            setSearchParams({});
+        } else {
+            setSearchParams({ project: slug });
+        }
     };
 
     const handleCloseProject = () => {
@@ -106,6 +94,30 @@ function Home({ autoOpenBooking = false }) {
         }
     }, [autoOpenBooking]);
 
+    const isReplace = DETAIL_MODE === 'replace';
+    const isDrawer = DETAIL_MODE === 'drawer';
+    const isAbout = activeProject === 'about';
+
+    // Shared detail panel content (used by both replace and drawer modes)
+    const detailInner = activeProject ? (
+        <>
+            <button
+                onClick={handleCloseProject}
+                className="mb-4 flex items-center gap-1.5 text-sm text-slate-400 hover:text-slate-200 transition-colors"
+            >
+                <X className="w-4 h-4" />
+                Close
+            </button>
+            {isAbout ? (
+                <div className="space-y-4 text-slate-300 leading-relaxed text-sm">
+                    {BIO_PARAGRAPHS.map((p, i) => <p key={i}>{p}</p>)}
+                </div>
+            ) : project ? (
+                <ProjectContent project={project} />
+            ) : null}
+        </>
+    ) : null;
+
     return (
         <div className="py-12">
             {HOME_LAYOUT === 'graphHome' && <GraphHomeHeader />}
@@ -114,16 +126,12 @@ function Home({ autoOpenBooking = false }) {
             <ResumeGitGraph
                 activeProject={activeProject}
                 onSelectProject={handleSelectProject}
-                detailContent={project ? (
-                    <div>
-                        <button
-                            onClick={handleCloseProject}
-                            className="mb-4 flex items-center gap-1.5 text-sm text-slate-400 hover:text-slate-200 transition-colors"
-                        >
-                            <X className="w-4 h-4" />
-                            Close
-                        </button>
-                        <ProjectContent project={project} />
+                detailContent={isReplace && detailInner ? (
+                    <div>{detailInner}</div>
+                ) : null}
+                drawerContent={isDrawer && detailInner ? (
+                    <div className="border border-slate-800 rounded-lg p-6 mt-2">
+                        {detailInner}
                     </div>
                 ) : null}
             />

@@ -199,7 +199,7 @@ function buildGraph(entries, branchConfigs) {
     }
 
     const rows = [];
-    rows.push({ branch: 'main', label: 'Present', type: 'commit', _sort: Infinity });
+    rows.push({ branch: 'main', label: 'Present', type: 'commit', slug: 'about', _sort: Infinity });
 
     for (const [branchId, branchEntries] of Object.entries(byBranch)) {
         branchEntries.forEach((entry, i) => {
@@ -356,21 +356,51 @@ const LABEL_LEFT = SVG_WIDTH + 8;
 
 // ── Component ─────────────────────────────────────────────────
 
-export default function ResumeGitGraph({ activeProject = null, onSelectProject = null, detailContent = null }) {
+export default function ResumeGitGraph({ activeProject = null, onSelectProject = null, detailContent = null, drawerContent = null }) {
     const [hoveredBranch, setHoveredBranch] = useState(null);
     const [mounted, setMounted] = useState(false);
     const containerRef = useRef(null);
+    const [drawerHeight, setDrawerHeight] = useState(0);
+    const drawerMeasureRef = useRef(null);
+
+    // Measure drawer height when content changes
+    useEffect(() => {
+        if (!drawerContent || !drawerMeasureRef.current) {
+            setDrawerHeight(0);
+            return;
+        }
+        const measure = () => setDrawerHeight(drawerMeasureRef.current?.scrollHeight || 0);
+        measure();
+        const observer = new ResizeObserver(measure);
+        observer.observe(drawerMeasureRef.current);
+        return () => observer.disconnect();
+    }, [drawerContent, activeProject]);
+
+    // Compute which row the drawer attaches to, and a Y-offset function
+    const activeRowIdx = drawerContent && activeProject
+        ? rows.findIndex(r => r.slug === activeProject)
+        : -1;
+    const totalHeight = TOTAL_HEIGHT + (activeRowIdx >= 0 ? drawerHeight : 0);
+    const getY = (i) => {
+        if (activeRowIdx < 0 || i <= activeRowIdx) return rowY(i);
+        return rowY(i) + drawerHeight;
+    };
 
     useEffect(() => {
         const t = setTimeout(() => setMounted(true), 50);
         return () => clearTimeout(t);
     }, []);
 
-    // Highlight hovered branch + its parent chain
+    // Highlight hovered or active branch + its parent chain
+    const activeBranch = activeProject
+        ? rows.find(r => r.slug === activeProject)?.branch ?? null
+        : null;
+    const highlightBranch = hoveredBranch || activeBranch;
+
     const isBranchHit = (branchId) => {
-        if (!hoveredBranch) return true;
-        if (branchId === hoveredBranch || branchId === 'main') return true;
-        let cur = hoveredBranch;
+        if (!highlightBranch) return true;
+        if (branchId === highlightBranch || branchId === 'main') return true;
+        let cur = highlightBranch;
         while (cur && cur !== 'main') {
             if (branchMap[cur]?.parent === branchId) return true;
             cur = branchMap[cur]?.parent;
@@ -380,24 +410,24 @@ export default function ResumeGitGraph({ activeProject = null, onSelectProject =
 
     const lineOp = (branchId) => {
         const base = branchMap[branchId]?._isEnded ? 0.35 : 0.6;
-        return hoveredBranch ? (isBranchHit(branchId) ? Math.min(base + 0.3, 0.9) : 0.08) : base;
+        return highlightBranch ? (isBranchHit(branchId) ? Math.min(base + 0.3, 0.9) : 0.08) : base;
     };
 
     const dotOp = (branchId) =>
-        hoveredBranch ? (isBranchHit(branchId) ? 1 : 0.12) : 1;
+        highlightBranch ? (isBranchHit(branchId) ? 1 : 0.12) : 1;
 
     return (
         <div ref={containerRef} className="max-w-4xl mx-auto px-4">
 
             {/* ── Desktop ──────────────────────────────────── */}
-            <div className="hidden sm:block relative" style={{ height: TOTAL_HEIGHT }}>
+            <div className="hidden sm:block relative" style={{ height: totalHeight }}>
 
                 {/* Row dividers (hidden when year dividers are active) */}
                 {PROTO.yearDividers !== 'divider' && rows.map((_, i) => i > 0 && (
                     <div
                         key={`div-${i}`}
                         className="absolute left-0 right-0 border-t border-slate-800/30"
-                        style={{ top: rowY(i) - rowHeight(i) / 2 }}
+                        style={{ top: getY(i) - rowHeight(i) / 2 }}
                     />
                 ))}
 
@@ -407,9 +437,9 @@ export default function ResumeGitGraph({ activeProject = null, onSelectProject =
                         key={`yraxis-${year}`}
                         className="absolute font-mono text-[9px] text-slate-600"
                         style={{
-                            top: rowY(ri) - rowHeight(ri) / 2 - 2,
+                            top: getY(ri) - rowHeight(ri) / 2 - 2,
                             left: 0,
-                            opacity: mounted ? (hoveredBranch ? 0.3 : 0.7) : 0,
+                            opacity: mounted ? (highlightBranch ? 0.3 : 0.7) : 0,
                             transition: 'opacity 0.3s ease-out',
                         }}
                     >
@@ -421,7 +451,7 @@ export default function ResumeGitGraph({ activeProject = null, onSelectProject =
                 <svg
                     className="absolute top-0 left-0 pointer-events-none"
                     width={SVG_WIDTH}
-                    height={TOTAL_HEIGHT}
+                    height={totalHeight}
                     style={{ overflow: 'visible' }}
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -429,7 +459,7 @@ export default function ResumeGitGraph({ activeProject = null, onSelectProject =
                     {/* Year markers */}
                     {PROTO.yearDividers === 'default' && yearMarkers.map(({ row: ri, year }) => {
                         const x = laneX(0);
-                        const y = rowY(ri) - rowHeight(ri) / 2 + 6;
+                        const y = getY(ri) - rowHeight(ri) / 2 + 6;
                         return (
                             <text
                                 key={`yr-${year}`}
@@ -437,7 +467,7 @@ export default function ResumeGitGraph({ activeProject = null, onSelectProject =
                                 fill="#475569" fontSize={8} textAnchor="middle"
                                 fontFamily="ui-monospace, monospace"
                                 style={{
-                                    opacity: mounted ? (hoveredBranch ? 0.3 : 0.7) : 0,
+                                    opacity: mounted ? (highlightBranch ? 0.3 : 0.7) : 0,
                                     transition: 'opacity 0.3s ease-out',
                                 }}
                             >
@@ -448,11 +478,11 @@ export default function ResumeGitGraph({ activeProject = null, onSelectProject =
 
                     {/* Year divider lines (full-width) */}
                     {PROTO.yearDividers === 'divider' && yearMarkers.map(({ row: ri, year }) => {
-                        const y = rowY(ri) - rowHeight(ri) / 2;
+                        const y = getY(ri) - rowHeight(ri) / 2;
                         return (
                             <g key={`yrdiv-${year}`}
                                 style={{
-                                    opacity: mounted ? (hoveredBranch ? 0.2 : 0.5) : 0,
+                                    opacity: mounted ? (highlightBranch ? 0.2 : 0.5) : 0,
                                     transition: 'opacity 0.3s ease-out',
                                 }}
                             >
@@ -474,11 +504,11 @@ export default function ResumeGitGraph({ activeProject = null, onSelectProject =
                         const b = branchMap[branchId];
                         if (!b) return null;
                         const x = laneX(b.lane);
-                        const y2 = rowY(endRow);
+                        const y2 = getY(endRow);
                         return (
                             <line
                                 key={branchId}
-                                x1={x} y1={rowY(startRow)}
+                                x1={x} y1={getY(startRow)}
                                 x2={x} y2={y2}
                                 stroke={b.color}
                                 strokeWidth={2.5}
@@ -499,7 +529,7 @@ export default function ResumeGitGraph({ activeProject = null, onSelectProject =
                         const parentId = b.parent;
                         const parentX = laneX(branchMap[parentId].lane);
                         const branchX = laneX(b.lane);
-                        const y = rowY(i);
+                        const y = getY(i);
                         const curve = 20;
                         const isWt = row._isWorktree;
                         const op = mounted ? lineOp(row.branch) : 0;
@@ -562,7 +592,7 @@ export default function ResumeGitGraph({ activeProject = null, onSelectProject =
                     {rows.map((row, i) => {
                         const b = branchMap[row.branch];
                         const x = laneX(b.lane);
-                        const y = rowY(i);
+                        const y = getY(i);
                         const isPresent = i === 0;
                         const op = mounted ? dotOp(row.branch) : 0;
 
@@ -601,20 +631,37 @@ export default function ResumeGitGraph({ activeProject = null, onSelectProject =
                             </g>
                         );
                     })}
+
+                    {/* Clickable dot targets when labels are replaced by detail content */}
+                    {detailContent && onSelectProject && rows.map((row, i) => {
+                        if (!row.slug) return null;
+                        const b = branchMap[row.branch];
+                        const x = laneX(b.lane);
+                        const y = getY(i);
+                        return (
+                            <circle
+                                key={`click-${i}`}
+                                cx={x} cy={y} r={14}
+                                fill="transparent"
+                                style={{ pointerEvents: 'all', cursor: 'pointer' }}
+                                onClick={() => onSelectProject(row.slug)}
+                            />
+                        );
+                    })}
                 </svg>
 
                 {/* Row labels */}
                 {detailContent ? (
                     <div
-                        className="absolute overflow-y-auto"
+                        className="absolute"
                         style={{
                             top: 0,
                             left: LABEL_LEFT,
                             right: 0,
-                            maxHeight: TOTAL_HEIGHT,
+                            height: totalHeight,
                         }}
                     >
-                        <div className="px-2 py-4">
+                        <div className="sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto px-2 py-4">
                             {detailContent}
                         </div>
                     </div>
@@ -629,7 +676,7 @@ export default function ResumeGitGraph({ activeProject = null, onSelectProject =
                     }
                     return rows.map((row, i) => {
                     const b = branchMap[row.branch];
-                    const y = rowY(i);
+                    const y = getY(i);
                     const rh = rowHeight(i);
                     const isMerge = row.type === 'merge';
                     const isHit = isBranchHit(row.branch);
@@ -641,7 +688,7 @@ export default function ResumeGitGraph({ activeProject = null, onSelectProject =
                     const isGroupDot = PROTO.labelGroupStyle === 'groupDot';
 
                     const rowOpacity = mounted
-                        ? hoveredBranch ? (isHit ? 1 : 0.1) : (isMerge ? 0.45 : 1)
+                        ? highlightBranch ? (isHit ? 1 : 0.1) : (isMerge ? 0.45 : 1)
                         : 0;
 
                     // Label group style logic
@@ -738,6 +785,21 @@ export default function ResumeGitGraph({ activeProject = null, onSelectProject =
                     );
                 });
                 })()}
+
+                {/* Inline drawer content below active row */}
+                {drawerContent && activeRowIdx >= 0 && (
+                    <div
+                        ref={drawerMeasureRef}
+                        className="absolute"
+                        style={{
+                            top: rowY(activeRowIdx) + rowHeight(activeRowIdx) / 2,
+                            left: LABEL_LEFT,
+                            right: 0,
+                        }}
+                    >
+                        {drawerContent}
+                    </div>
+                )}
             </div>
 
             {/* ── Mobile ───────────────────────────────────── */}
