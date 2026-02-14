@@ -28,19 +28,30 @@ function Home({ autoOpenBooking = false }) {
                         <Link to="/work/orai" className="text-blue-400 hover:text-blue-300 transition-colors">OrAI</Link>,
                         where we're giving early childhood educators their time back — automating lesson plans,
                         parent communications, document tracking, and compliant scheduling so they can spend
-                        less time on paperwork and more time with kids.
+                        less time on paperwork and more time with kids. I own everything from architecture to
+                        compliance to investor strategy, because I believe engineers should be owners, not ticket-takers.
                     </p>
                     <p>
-                        Before that I built{' '}
-                        <Link to="/work/onedeal" className="text-purple-400 hover:text-purple-300 transition-colors">agentic web search</Link>{' '}
-                        before anyone had a name for it, shipped{' '}
-                        <Link to="/work/trade-intel" className="text-red-400 hover:text-red-300 transition-colors">multi-agent extraction pipelines</Link>,
-                        and spent four years at Alarm.com where I built an LLM-powered refactoring tool that
-                        increased maintenance productivity 8x.
+                        Before that I was the founding engineer at{' '}
+                        <Link to="/work/onedeal" className="text-purple-400 hover:text-purple-300 transition-colors">OneDeal</Link>{' '}
+                        (Techstars '23), where I built agentic web search from scratch — months before MCP or
+                        AI web search existed. I'm obsessed with agentic AI systems: multi-agent pipelines,
+                        autonomous search, AI tooling. I've been building these before the frameworks existed,
+                        and I{' '}
+                        <Link to="/work/beads" className="text-green-400 hover:text-green-300 transition-colors">keep building them</Link>{' '}
+                        because it's what I care about most.
                     </p>
                     <p>
-                        I believe engineers should be owners, not ticket-takers. I care about shipping fast,
-                        talking to users, and building things that make people's days meaningfully better.
+                        By day I'm a Software Engineer II at Alarm.com, where I shipped one of the company's
+                        first LLM-powered internal tools and led engineering for Stripe-managed subscriptions.
+                        I also contribute to open source AI tooling like{' '}
+                        <Link to="/work/beads" className="text-green-400 hover:text-green-300 transition-colors">Beads</Link>{' '}
+                        and{' '}
+                        <Link to="/work/kilo-code" className="text-orange-400 hover:text-orange-300 transition-colors">Kilo Code</Link>.
+                    </p>
+                    <p>
+                        I'm looking for a team where shipping fast and talking to users is the culture, not
+                        the exception — where engineers own problems end-to-end and velocity is the default.
                     </p>
                 </div>
 
