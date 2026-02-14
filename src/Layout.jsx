@@ -17,14 +17,12 @@ function Nav() {
         `transition-colors ${isActive(path) ? 'text-slate-200' : 'text-slate-500 hover:text-slate-300'}`;
 
     return (
-        <nav className="max-w-4xl mx-auto px-6 pt-8 pb-4 flex items-center justify-between text-sm">
-            <Link to="/" className="text-slate-500 hover:text-slate-200 transition-colors font-medium">
+        <nav className="max-w-4xl mx-auto px-6 pt-8 pb-4 flex items-center gap-8 text-sm">
+            <Link to="/" className="text-slate-500 hover:text-slate-200 transition-colors font-medium mr-auto">
                 Evan Jacobson
             </Link>
-            <div className="flex gap-6">
-                <Link to="/log" className={linkClass('/log')}>Log</Link>
-                <Link to="/toolbox" className={linkClass('/toolbox')}>Toolbox</Link>
-            </div>
+            <Link to="/log" className={linkClass('/log')}>Log</Link>
+            <Link to="/toolbox" className={linkClass('/toolbox')}>Toolbox</Link>
         </nav>
     );
 }
