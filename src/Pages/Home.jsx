@@ -127,6 +127,18 @@ function Home({ autoOpenBooking = false }) {
                             activeProject={activeProject}
                             onSelectProject={DETAIL_MODE !== 'none' ? handleSelectProject : null}
                             detailMode={DETAIL_MODE}
+                            detailContent={DETAIL_MODE === 'replace' && project ? (
+                                <div>
+                                    <button
+                                        onClick={handleCloseProject}
+                                        className="mb-4 flex items-center gap-1.5 text-sm text-slate-400 hover:text-slate-200 transition-colors"
+                                    >
+                                        <X className="w-4 h-4" />
+                                        Close
+                                    </button>
+                                    <ProjectContent project={project} />
+                                </div>
+                            ) : null}
                         />
                     </div>
 

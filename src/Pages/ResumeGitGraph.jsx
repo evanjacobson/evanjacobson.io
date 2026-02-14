@@ -356,7 +356,7 @@ const LABEL_LEFT = SVG_WIDTH + 8;
 
 // ── Component ─────────────────────────────────────────────────
 
-export default function ResumeGitGraph({ activeProject = null, onSelectProject = null, detailMode = 'none' }) {
+export default function ResumeGitGraph({ activeProject = null, onSelectProject = null, detailMode = 'none', detailContent = null }) {
     const [hoveredBranch, setHoveredBranch] = useState(null);
     const [mounted, setMounted] = useState(false);
     const containerRef = useRef(null);
@@ -617,7 +617,21 @@ export default function ResumeGitGraph({ activeProject = null, onSelectProject =
                 </svg>
 
                 {/* Row labels */}
-                {!(detailMode === 'spine' && activeProject) && (() => {
+                {detailMode === 'spine' && activeProject ? null : detailMode === 'replace' && detailContent ? (
+                    <div
+                        className="absolute overflow-y-auto"
+                        style={{
+                            top: 0,
+                            left: LABEL_LEFT,
+                            right: 0,
+                            maxHeight: TOTAL_HEIGHT,
+                        }}
+                    >
+                        <div className="px-2 py-4">
+                            {detailContent}
+                        </div>
+                    </div>
+                ) : (() => {
                     const seenLabels = new Set();
                     // Precompute group colors: first branch with each label determines group color
                     const groupColors = {};
