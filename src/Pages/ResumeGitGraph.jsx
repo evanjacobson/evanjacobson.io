@@ -356,14 +356,10 @@ const LABEL_LEFT = SVG_WIDTH + 8;
 
 // ── Component ─────────────────────────────────────────────────
 
-export default function ResumeGitGraph({ activeProject = null, onSelectProject = null, detailMode = 'none', detailContent = null }) {
+export default function ResumeGitGraph({ activeProject = null, onSelectProject = null, detailContent = null }) {
     const [hoveredBranch, setHoveredBranch] = useState(null);
     const [mounted, setMounted] = useState(false);
     const containerRef = useRef(null);
-
-    const activeRowIndex = activeProject
-        ? rows.findIndex(r => r.slug === activeProject)
-        : -1;
 
     useEffect(() => {
         const t = setTimeout(() => setMounted(true), 50);
@@ -391,7 +387,7 @@ export default function ResumeGitGraph({ activeProject = null, onSelectProject =
         hoveredBranch ? (isBranchHit(branchId) ? 1 : 0.12) : 1;
 
     return (
-        <div ref={containerRef} className={detailMode === 'spine' && activeProject ? '' : 'max-w-4xl mx-auto px-4'}>
+        <div ref={containerRef} className="max-w-4xl mx-auto px-4">
 
             {/* ── Desktop ──────────────────────────────────── */}
             <div className="hidden sm:block relative" style={{ height: TOTAL_HEIGHT }}>
@@ -572,15 +568,6 @@ export default function ResumeGitGraph({ activeProject = null, onSelectProject =
 
                         return (
                             <g key={`dot-${i}`} style={{ opacity: op, transition: 'opacity 0.3s ease-out' }}>
-                                {/* Clickable target in spine compressed mode */}
-                                {detailMode === 'spine' && activeProject && row.slug && (
-                                    <circle
-                                        cx={x} cy={y} r={12}
-                                        fill="transparent"
-                                        style={{ cursor: 'pointer', pointerEvents: 'all' }}
-                                        onClick={() => onSelectProject(row.slug)}
-                                    />
-                                )}
                                 {/* Glow for active branches */}
                                 {!branchMap[row.branch]._isEnded && row.type === 'fork' && (
                                     <circle cx={x} cy={y} r={8} fill={b.color} opacity={0.1} />
@@ -617,7 +604,7 @@ export default function ResumeGitGraph({ activeProject = null, onSelectProject =
                 </svg>
 
                 {/* Row labels */}
-                {detailMode === 'spine' && activeProject ? null : detailMode === 'replace' && detailContent ? (
+                {detailContent ? (
                     <div
                         className="absolute overflow-y-auto"
                         style={{
