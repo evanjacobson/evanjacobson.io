@@ -790,7 +790,7 @@ export default function ResumeGitGraph({ activeProject = null, onSelectProject =
                             className="absolute"
                             style={{
                                 top: y - rh / 2,
-                                left: 0,
+                                left: LABEL_LEFT - 8,
                                 right: 0,
                                 height: rh,
                                 opacity: rowOpacity,
@@ -800,7 +800,7 @@ export default function ResumeGitGraph({ activeProject = null, onSelectProject =
                             onMouseEnter={() => setHoveredBranch(row.branch)}
                             onMouseLeave={() => setHoveredBranch(null)}
                         >
-                            <div style={{ marginLeft: LABEL_LEFT }}>
+                            <div style={{ marginLeft: 8 }}>
                                 {row.slug ? (
                                     onSelectProject ? (
                                         <button
