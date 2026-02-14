@@ -7,7 +7,7 @@ function WorkDetail() {
     const project = projects.find((p) => p.slug === slug);
 
     if (!project) {
-        return <Navigate to="/log" replace />;
+        return <Navigate to="/" replace />;
     }
 
     const IconComponent = project.icon;
@@ -15,11 +15,11 @@ function WorkDetail() {
     return (
         <div className="max-w-2xl mx-auto px-6 py-12">
             <Link
-                to="/log"
+                to="/"
                 className="inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-slate-200 transition-colors mb-10"
             >
                 <ArrowLeft className="w-4 h-4" />
-                Back to log
+                Back
             </Link>
 
             <div className="flex items-start gap-4 mb-2">

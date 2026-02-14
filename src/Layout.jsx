@@ -6,12 +6,7 @@ import { getCalApi } from "@calcom/embed-react";
 function Nav() {
     const location = useLocation();
 
-    const isActive = (path) => {
-        if (path === '/log') {
-            return location.pathname === '/log' || location.pathname.startsWith('/work/');
-        }
-        return location.pathname === path;
-    };
+    const isActive = (path) => location.pathname === path;
 
     const linkClass = (path) =>
         `transition-colors ${isActive(path) ? 'text-slate-200' : 'text-slate-500 hover:text-slate-300'}`;
@@ -21,7 +16,6 @@ function Nav() {
             <Link to="/" className="text-slate-500 hover:text-slate-200 transition-colors font-medium mr-auto">
                 Evan Jacobson
             </Link>
-            <Link to="/log" className={linkClass('/log')}>Log</Link>
             <Link to="/toolbox" className={linkClass('/toolbox')}>Toolbox</Link>
         </nav>
     );
@@ -29,7 +23,7 @@ function Nav() {
 
 export default function Layout({ children }) {
     const location = useLocation();
-    const isHome = location.pathname === '/' || location.pathname === '/book-a-call';
+    const isHome = location.pathname === '/book-a-call';
 
     useEffect(() => {
         (async function () {
@@ -49,7 +43,7 @@ export default function Layout({ children }) {
 
     return (
         <div className="min-h-screen bg-slate-950 text-slate-200 flex flex-col">
-            {!isHome && <Nav />}
+            <Nav />
             <main className="flex-1">
                 {children}
             </main>
