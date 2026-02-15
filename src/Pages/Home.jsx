@@ -9,9 +9,9 @@ const HOME_LAYOUT = 'graphHome'; // 'graphHome' | 'graphDrawer'
 const DETAIL_MODE = 'drawer'; // 'replace' | 'drawer'
 
 const BIO_PARAGRAPHS = [
-    <>Right now I'm co-founding <Link to="/work/orai" className="text-blue-400 hover:text-blue-300 transition-colors">OrAI</Link>, where we're giving early childhood educators their time back — automating lesson plans, parent communications, document tracking, and compliant scheduling so they can spend less time on paperwork and more time with kids. I own everything from architecture to compliance to investor strategy, because I believe engineers should be owners, not ticket-takers.</>,
-    <>Before that I was the founding engineer at <Link to="/work/onedeal" className="text-purple-400 hover:text-purple-300 transition-colors">OneDeal</Link> (Techstars '23), where I built agentic web search from scratch — months before MCP or AI web search existed. I'm obsessed with agentic AI systems: multi-agent pipelines, autonomous search, AI tooling. I've been building these before the frameworks existed, and I <Link to="/work/beads" className="text-green-400 hover:text-green-300 transition-colors">keep building them</Link> because it's what I care about most.</>,
-    <>By day I'm a Software Engineer II at Alarm.com, where I shipped one of the company's first LLM-powered internal tools and led engineering for Stripe-managed subscriptions. I also contribute to open source AI tooling like <Link to="/work/beads" className="text-green-400 hover:text-green-300 transition-colors">Beads</Link> and <Link to="/work/kilo-code" className="text-orange-400 hover:text-orange-300 transition-colors">Kilo Code</Link>.</>,
+    <>Right now I'm co-founding <Link to="/?project=orai" className="text-blue-400 hover:text-blue-300 transition-colors">OrAI</Link>, where we're giving early childhood educators their time back — automating lesson plans, parent communications, document tracking, and compliant scheduling so they can spend less time on paperwork and more time with kids. I own everything from architecture to compliance to investor strategy, because I believe engineers should be owners, not ticket-takers.</>,
+    <>Before that I was the founding engineer at <Link to="/?project=onedeal" className="text-purple-400 hover:text-purple-300 transition-colors">OneDeal</Link> (Techstars '23), where I built agentic web search from scratch — months before MCP or AI web search existed. I'm obsessed with agentic AI systems: multi-agent pipelines, autonomous search, AI tooling. I've been building these before the frameworks existed, and I <Link to="/?project=beads" className="text-green-400 hover:text-green-300 transition-colors">keep building them</Link> because it's what I care about most.</>,
+    <>By day I'm a Software Engineer II at Alarm.com, where I shipped one of the company's first LLM-powered internal tools and led engineering for Stripe-managed subscriptions. I also contribute to open source AI tooling like <Link to="/?project=beads" className="text-green-400 hover:text-green-300 transition-colors">Beads</Link> and <Link to="/?project=kilo-code" className="text-orange-400 hover:text-orange-300 transition-colors">Kilo Code</Link>.</>,
     <>I'm looking for a team where shipping fast and talking to users is the culture, not the exception — where engineers own problems end-to-end and velocity is the default.</>,
 ];
 
@@ -133,6 +133,15 @@ function Home({ autoOpenBooking = false }) {
                     <div className="border border-slate-800 rounded-lg p-6 mt-2">
                         {detailInner}
                     </div>
+                ) : null}
+                mobileDrawerContent={activeProject ? (
+                    isAbout ? (
+                        <div className="space-y-4 text-slate-300 leading-relaxed text-sm">
+                            {BIO_PARAGRAPHS.map((p, i) => <p key={i}>{p}</p>)}
+                        </div>
+                    ) : project ? (
+                        <ProjectContent project={project} compact />
+                    ) : null
                 ) : null}
             />
         </div>

@@ -31,6 +31,7 @@ const BRANCHES = [
     { id: 'orai', color: '#3b82f6', label: 'OrAI' },
     { id: 'trade', color: '#ef4444', label: 'Trade Intel' },
     { id: 'beads', color: '#22c55e', label: 'Open Source Contributions' },
+    { id: 'kilo-code', color: '#f97316', label: 'Open Source Contributions' },
     { id: 'minecraft',  color: '#f59e0b', label: 'Minecraft Server Plugin' },           // amber-500
     { id: 'mounts',     color: '#d97706', label: 'Minecraft Server Plugin' },           // amber-600
     { id: 'spark',      color: '#14b8a6', label: 'Incubator' },        // teal-500
@@ -73,7 +74,8 @@ const ENTRIES = [
     { branch: 'onedeal', label: 'OneDeal', subtitle: 'Founding Engineer', slug: 'onedeal', start: '2024-10', end: '2025-10' },
     { branch: 'orai', label: 'OrAI', subtitle: 'Technical Cofounder', slug: 'orai', start: '2025-08' },
     { branch: 'trade', label: 'Trade Intel', subtitle: 'Personal Project', slug: 'trade-intel', start: '2025-08' },
-    { branch: 'beads', label: 'Open Source Contributions', subtitle: 'Gastown, Beads, Kilo Code', slug: 'beads', start: '2026-01' },
+    { branch: 'beads', label: 'Beads & Gastown', subtitle: 'Contributor · Agent Memory Framework · Dolt Integration', slug: 'beads', start: '2026-01' },
+    { branch: 'kilo-code', label: 'Kilo Code', subtitle: 'Contributor · Open Source AI Coding Agent', slug: 'kilo-code', start: '2026-01' },
 ];
 
 // ── Graph builder ─────────────────────────────────────────────
@@ -199,7 +201,7 @@ function buildGraph(entries, branchConfigs) {
     }
 
     const rows = [];
-    rows.push({ branch: 'main', label: 'Present', type: 'commit', slug: 'about', _sort: Infinity });
+    rows.push({ branch: 'main', label: 'About Me', type: 'commit', slug: 'about', _sort: Infinity });
 
     for (const [branchId, branchEntries] of Object.entries(byBranch)) {
         branchEntries.forEach((entry, i) => {
@@ -356,12 +358,24 @@ const LABEL_LEFT = SVG_WIDTH + 8;
 
 // ── Component ─────────────────────────────────────────────────
 
-export default function ResumeGitGraph({ activeProject = null, onSelectProject = null, detailContent = null, drawerContent = null }) {
+export default function ResumeGitGraph({ activeProject = null, onSelectProject = null, detailContent = null, drawerContent = null, mobileDrawerContent = null }) {
     const [hoveredBranch, setHoveredBranch] = useState(null);
     const [mounted, setMounted] = useState(false);
     const containerRef = useRef(null);
     const [drawerHeight, setDrawerHeight] = useState(0);
     const drawerMeasureRef = useRef(null);
+    const mobileGraphRef = useRef(null);
+    const [mobileGraphH, setMobileGraphH] = useState(0);
+
+    // Measure mobile graph height for sticky row offset
+    useEffect(() => {
+        if (!mobileGraphRef.current) return;
+        const measure = () => setMobileGraphH(mobileGraphRef.current?.offsetHeight || 0);
+        measure();
+        const obs = new ResizeObserver(measure);
+        obs.observe(mobileGraphRef.current);
+        return () => obs.disconnect();
+    }, []);
 
     // Measure drawer height when content changes
     useEffect(() => {
@@ -850,42 +864,168 @@ export default function ResumeGitGraph({ activeProject = null, onSelectProject =
             </div>
 
             {/* ── Mobile ───────────────────────────────────── */}
-            <div className="sm:hidden space-y-0.5">
-                {rows.filter(r => r.type !== 'merge').map((row, i) => {
-                    const b = branchMap[row.branch];
-                    const inner = (
-                        <div className="py-3 pl-4 pr-3">
-                            {PROTO.mobileTags && (
-                                <div
-                                    className="inline-block px-1.5 py-0.5 rounded font-mono text-[8px] font-medium text-slate-950 mb-1"
-                                    style={{ backgroundColor: b.color }}
-                                >
-                                    {b.label}
-                                </div>
-                            )}
-                            <div className="flex items-baseline justify-between gap-2">
-                                <span className="text-sm text-slate-200 font-medium">{row.label}</span>
-                                {row.date && <span className="text-[10px] text-slate-600 shrink-0">{row.endDate ? `${row.date} – ${row.endDate}` : row.date}</span>}
-                            </div>
-                            {row.subtitle && (
-                                <div className="text-[11px] text-slate-500 mt-0.5">{row.subtitle}</div>
-                            )}
-                        </div>
-                    );
+            <div className="sm:hidden">
+                {/* Sticky horizontal mini-graph */}
+                {(() => {
+                    const MG_W = 400;
+                    const MG_LANE_GAP = 10;
+                    const MG_PAD_X = 8;
+                    const MG_PAD_Y = 8;
+                    const MG_H = MG_PAD_Y * 2 + (maxLane + 1) * MG_LANE_GAP;
+                    const colW = (MG_W - 2 * MG_PAD_X) / Math.max(rows.length - 1, 1);
+                    const mgX = (i) => MG_PAD_X + (rows.length - 1 - i) * colW;
+                    const mgY = (lane) => MG_PAD_Y + lane * MG_LANE_GAP;
+
                     return (
-                        <div
-                            key={i}
-                            className="border-l-[3px] rounded-r-lg hover:bg-slate-800/30 transition-colors"
-                            style={{ borderColor: b.color }}
-                        >
-                            {row.slug ? (
-                                <Link to={`/work/${row.slug}`}>{inner}</Link>
-                            ) : (
-                                inner
-                            )}
+                        <div ref={mobileGraphRef} className="sticky top-0 z-10 bg-slate-950/95 backdrop-blur-sm border-b border-slate-800/30 -mx-4 px-4 py-2">
+                            <svg
+                                viewBox={`0 0 ${MG_W} ${MG_H}`}
+                                className="w-full h-auto"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            >
+                                {/* Horizontal branch lines */}
+                                {Object.entries(branchSpans).map(([branchId, [startRow, endRow]]) => {
+                                    const b = branchMap[branchId];
+                                    if (!b) return null;
+                                    const y = mgY(b.lane);
+                                    return (
+                                        <line
+                                            key={branchId}
+                                            x1={mgX(endRow)} y1={y}
+                                            x2={mgX(startRow)} y2={y}
+                                            stroke={b.color}
+                                            strokeWidth={1.5}
+                                            strokeDasharray={b._isEnded ? '3 2' : 'none'}
+                                            style={{
+                                                opacity: mounted ? lineOp(branchId) : 0,
+                                                transition: 'opacity 0.3s ease-out',
+                                            }}
+                                        />
+                                    );
+                                })}
+
+                                {/* Fork/merge connections (simple vertical lines) */}
+                                {rows.map((row, i) => {
+                                    const b = branchMap[row.branch];
+                                    if (!b || row.branch === 'main') return null;
+                                    if (row.type !== 'fork' && row.type !== 'merge') return null;
+                                    const parentY = mgY(branchMap[b.parent].lane);
+                                    const branchY = mgY(b.lane);
+                                    const x = mgX(i);
+                                    return (
+                                        <line
+                                            key={`mg-conn-${i}`}
+                                            x1={x} y1={parentY} x2={x} y2={branchY}
+                                            stroke={b.color} strokeWidth={1}
+                                            style={{
+                                                opacity: mounted ? lineOp(row.branch) * 0.6 : 0,
+                                                transition: 'opacity 0.3s ease-out',
+                                            }}
+                                        />
+                                    );
+                                })}
+
+                                {/* Dots */}
+                                {rows.map((row, i) => {
+                                    const b = branchMap[row.branch];
+                                    const x = mgX(i);
+                                    const y = mgY(b.lane);
+                                    const isActive = row.slug === activeProject;
+                                    return (
+                                        <circle
+                                            key={`mg-dot-${i}`}
+                                            cx={x} cy={y}
+                                            r={isActive ? 3 : row.type === 'merge' ? 1 : 1.5}
+                                            fill={row.type === 'merge' ? '#0f172a' : b.color}
+                                            stroke={row.type === 'merge' ? b.color : 'none'}
+                                            strokeWidth={row.type === 'merge' ? 0.5 : 0}
+                                            style={{
+                                                opacity: mounted ? dotOp(row.branch) : 0,
+                                                transition: 'opacity 0.3s ease-out',
+                                            }}
+                                        />
+                                    );
+                                })}
+
+                                {/* Active branch line pulse */}
+                                {Object.entries(branchSpans).map(([branchId, [startRow, endRow]]) => {
+                                    const b = branchMap[branchId];
+                                    if (!b || b._isEnded || branchId === 'main') return null;
+                                    const y = mgY(b.lane);
+                                    return (
+                                        <line
+                                            key={`mg-pulse-${branchId}`}
+                                            x1={mgX(endRow)} y1={y} x2={mgX(startRow)} y2={y}
+                                            stroke={b.color} strokeWidth={3}
+                                        >
+                                            <animate attributeName="opacity" values="0.25;0.08;0.25" dur="3s" repeatCount="indefinite" />
+                                        </line>
+                                    );
+                                })}
+
+                                {/* Active dot glow */}
+                                {activeProject && rows.map((row, i) => {
+                                    if (row.slug !== activeProject) return null;
+                                    const b = branchMap[row.branch];
+                                    return (
+                                        <circle key={`mg-glow-${i}`} cx={mgX(i)} cy={mgY(b.lane)} r={3} fill={b.color} opacity={0.3}>
+                                            <animate attributeName="r" from="3" to="8" dur="2s" repeatCount="indefinite" />
+                                            <animate attributeName="opacity" from="0.3" to="0" dur="2s" repeatCount="indefinite" />
+                                        </circle>
+                                    );
+                                })}
+                            </svg>
                         </div>
                     );
-                })}
+                })()}
+
+                {/* Log entries */}
+                <div className="space-y-0.5 pt-2">
+                    {rows.filter(r => r.type !== 'merge').map((row, i) => {
+                        const b = branchMap[row.branch];
+                        const isActive = row.slug === activeProject;
+                        const inner = (
+                            <div className="py-3 pl-4 pr-3">
+                                {PROTO.mobileTags && (
+                                    <div
+                                        className="inline-block px-1.5 py-0.5 rounded font-mono text-[8px] font-medium text-slate-950 mb-1"
+                                        style={{ backgroundColor: b.color }}
+                                    >
+                                        {b.label}
+                                    </div>
+                                )}
+                                <div className="flex items-baseline justify-between gap-2">
+                                    <span className="text-sm text-slate-200 font-medium">{row.label}</span>
+                                    {row.date && <span className="text-[10px] text-slate-600 shrink-0">{row.endDate ? `${row.date} – ${row.endDate}` : row.date}</span>}
+                                </div>
+                                {row.subtitle && (
+                                    <div className="text-[11px] text-slate-500 mt-0.5">{row.subtitle}</div>
+                                )}
+                            </div>
+                        );
+                        return (
+                            <div
+                                key={i}
+                                className={`border-l-[3px] rounded-r-lg transition-colors ${row.slug ? 'cursor-pointer' : ''}`}
+                                style={{ borderColor: b.color }}
+                            >
+                                <div
+                                    className={`rounded-r-lg transition-colors ${isActive ? 'bg-slate-800/40 sticky z-[5] bg-slate-950' : 'hover:bg-slate-800/30'}`}
+                                    style={isActive ? { top: mobileGraphH } : undefined}
+                                    onClick={() => row.slug && onSelectProject?.(row.slug)}
+                                >
+                                    {inner}
+                                </div>
+                                {isActive && mobileDrawerContent && (
+                                    <div className="mx-4 my-3 pt-3 pb-4 border-t border-slate-800/50">
+                                        {mobileDrawerContent}
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );

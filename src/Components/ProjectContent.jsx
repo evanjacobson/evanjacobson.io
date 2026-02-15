@@ -1,28 +1,36 @@
 import { ExternalLink } from 'lucide-react';
 
-export default function ProjectContent({ project }) {
+export default function ProjectContent({ project, compact = false }) {
     const IconComponent = project.icon;
 
     return (
         <>
-            <div className="flex items-start gap-4 mb-2">
-                <div className={`w-12 h-12 ${project.colors.accent} rounded-xl flex items-center justify-center shrink-0`}>
-                    <IconComponent className="w-6 h-6 text-white" />
+            {!compact && (
+                <div className="flex items-start gap-4 mb-2">
+                    <div className={`w-12 h-12 ${project.colors.accent} rounded-xl flex items-center justify-center shrink-0`}>
+                        <IconComponent className="w-6 h-6 text-white" />
+                    </div>
+                    <div>
+                        <h2 className="text-2xl font-bold text-slate-50">{project.title}</h2>
+                        <p className="text-slate-400 mt-1 text-sm">
+                            {project.role} &middot; {project.dateRange}
+                        </p>
+                        {project.badge && (
+                            <span className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full mt-2 ${project.colors.badge}`}>
+                                {project.badge}
+                            </span>
+                        )}
+                    </div>
                 </div>
-                <div>
-                    <h2 className="text-2xl font-bold text-slate-50">{project.title}</h2>
-                    <p className="text-slate-400 mt-1 text-sm">
-                        {project.role} &middot; {project.dateRange}
-                    </p>
-                    {project.badge && (
-                        <span className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full mt-2 ${project.colors.badge}`}>
-                            {project.badge}
-                        </span>
-                    )}
-                </div>
-            </div>
+            )}
 
-            <div className="mt-8 space-y-4 text-slate-300 leading-relaxed text-sm">
+            {compact && project.badge && (
+                <span className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full mb-3 ${project.colors.badge}`}>
+                    {project.badge}
+                </span>
+            )}
+
+            <div className={`${compact ? '' : 'mt-8 '}space-y-4 text-slate-300 leading-relaxed text-sm`}>
                 {project.content.map((paragraph, i) => (
                     <p key={i}>{paragraph}</p>
                 ))}
