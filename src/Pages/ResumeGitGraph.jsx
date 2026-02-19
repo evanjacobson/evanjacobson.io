@@ -75,7 +75,7 @@ const ENTRIES = [
     { branch: 'orai', label: 'OrAI', subtitle: 'Technical Cofounder', slug: 'orai', start: '2025-08' },
     { branch: 'trade', label: 'Trade Intel', subtitle: 'Personal Project', slug: 'trade-intel', start: '2025-08' },
     { branch: 'beads', label: 'Beads & Gastown', subtitle: 'Contributor · Agent Memory Framework · Dolt Integration', slug: 'beads', start: '2026-01' },
-    { branch: 'kilo-code', label: 'Kilo Code', subtitle: 'Contributor · Open Source AI Coding Agent', slug: 'kilo-code', start: '2026-01' },
+    { branch: 'kilo-code', label: 'Kilo Code', subtitle: 'Contributor · Open Source AI Coding Agent', slug: 'kilo-code', start: '2026-02' },
 ];
 
 // ── Graph builder ─────────────────────────────────────────────
