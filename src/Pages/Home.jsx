@@ -1,188 +1,156 @@
-import { Card, CardContent } from '@/Components/ui/Card';
-import { Briefcase, Mail, ChevronDown, Bot, Flame, Zap, Code, GitBranch } from 'lucide-react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { Download, X } from 'lucide-react';
+import ResumeGitGraph from './ResumeGitGraph';
+import ProjectContent from '@/Components/ProjectContent';
+import projects from '@/data/work';
+
+const HOME_LAYOUT = 'graphHome'; // 'graphHome' | 'graphDrawer'
+const DETAIL_MODE = 'drawer'; // 'replace' | 'drawer'
+
+const THESIS_PARAGRAPHS = [
+    <>Traditional collaboration is dead for engineers. AI coding agents are now powerful enough that multiple hands on a project has shifted from a necessity to a burden. But the common thread across all of my work has been confronting fundamental issues with agent reliability. How do you give agents what they need to make the right choices on open-ended problems? There's an entire layer that continues to cause friction in the pursuit of real speed.</>,
+    <>Current agentic systems fail to replicate the critical, foundational, and often asynchronous processes that teach engineers how to build things the right way. So the question is: how do you enforce quality controls at the planning and implementation levels? I don't have all the answers yet, but I can see the gaps. The agentic versions of those voices exist, but they aren't mature — they're mostly synchronously-applied band-aids focused on reviewing what's already been built. Critically, these review agents do not yet <em>teach</em> the coding agents to grow in the way human engineers do when exposed to the same processes. And they aren't optimizing for cost.</>,
+    <>Some of this work belongs to specialized agents, but much of it can be enforced entirely through structure, feedback loops, and ensuring every agent is the chief prosecutor against its own claims. I've been tinkering with this infrastructure as a result of the burdens I face in everything else I build, and it's become what I'm by far most passionate about. I'm ready to dedicate myself fully to this problem.</>,
+];
+
+const ABOUT_PARAGRAPHS = [
+    <>As technical cofounder of <Link to="/?project=orai" className="text-blue-400 hover:text-blue-300 transition-colors">OrAI</Link>, I own everything from investor strategy to architecture to compliance, with agent teams handling the design, implementation, review, and audit of code and architecture. It's a sharp contrast to my time as founding engineer at <Link to="/?project=onedeal" className="text-purple-400 hover:text-purple-300 transition-colors">OneDeal</Link> (Techstars '23), where I built agentic web search from scratch — months before MCP or AI web search existed — but the development itself was still largely manual.</>,
+    <>By day I'm a Software Engineer II at <Link to="/?project=alarm-swe2" className="text-orange-400 hover:text-orange-300 transition-colors">Alarm.com</Link>, where I shipped one of the company's first LLM-powered internal tools and led engineering for Stripe-managed subscriptions.</>,
+];
+
+function GraphHomeHeader() {
+    return (
+        <div className="max-w-4xl mx-auto px-4 mb-8">
+            <div className="flex items-center justify-between">
+                <div>
+                    <h1 className="text-3xl font-bold text-slate-50 mb-1">Evan Jacobson</h1>
+                </div>
+                <a
+                    href="/files/Evan Jacobson Resume.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-slate-200 border border-slate-700 hover:border-slate-600 px-4 py-2 rounded-lg transition-colors shrink-0"
+                >
+                    <Download className="w-4 h-4" />
+                    PDF
+                </a>
+            </div>
+        </div>
+    );
+}
+
+function GraphDrawerHeader() {
+    return (
+        <div className="max-w-4xl mx-auto px-4 mb-8">
+            <div className="flex items-center justify-between">
+                <h1 className="text-3xl font-bold text-slate-50">Evan Jacobson</h1>
+                <a
+                    href="/files/Evan Jacobson Resume.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-slate-200 border border-slate-700 hover:border-slate-600 px-4 py-2 rounded-lg transition-colors shrink-0"
+                >
+                    <Download className="w-4 h-4" />
+                    PDF
+                </a>
+            </div>
+        </div>
+    );
+}
 
 function Home({ autoOpenBooking = false }) {
-    const scrollToSection = (sectionId) => {
-        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    const [searchParams, setSearchParams] = useSearchParams();
+    const activeProject = searchParams.get('project');
+    const project = activeProject ? projects.find(p => p.slug === activeProject) : null;
+
+    // In drawer mode, auto-expand the bio ("about") on first load when no project is selected
+    const [autoExpanded, setAutoExpanded] = useState(false);
+    useEffect(() => {
+        if (DETAIL_MODE === 'drawer' && !activeProject && !autoExpanded) {
+            setAutoExpanded(true);
+            setSearchParams({ project: 'about' });
+        }
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+    const handleSelectProject = (slug) => {
+        if (slug === activeProject) {
+            // Toggle off if clicking the same row
+            setSearchParams({});
+        } else {
+            setSearchParams({ project: slug });
+        }
     };
 
-    // Auto-open booking popup if autoOpenBooking is true
+    const handleCloseProject = () => {
+        setSearchParams({});
+    };
+
     useEffect(() => {
         if (autoOpenBooking) {
-            // Add a small delay to ensure Cal.com is fully loaded
             setTimeout(() => {
-                // Find and click the Cal.com button to trigger the popup
                 const calButton = document.querySelector('[data-cal-link="evanjacobson"]');
-                if (calButton) {
-                    calButton.click();
-                }
+                if (calButton) calButton.click();
             }, 1000);
         }
     }, [autoOpenBooking]);
 
+    const isReplace = DETAIL_MODE === 'replace';
+    const isDrawer = DETAIL_MODE === 'drawer';
+    const isAbout = activeProject === 'about';
+
+    // Shared detail panel content (used by both replace and drawer modes)
+    const detailInner = activeProject ? (
+        <>
+            <button
+                onClick={handleCloseProject}
+                className="mb-4 flex items-center gap-1.5 text-sm text-slate-400 hover:text-slate-200 transition-colors"
+            >
+                <X className="w-4 h-4" />
+                Close
+            </button>
+            {isAbout ? (
+                <div className="space-y-4 text-slate-300 leading-relaxed text-sm">
+                    {ABOUT_PARAGRAPHS.map((p, i) => <p key={i}>{p}</p>)}
+                </div>
+            ) : project ? (
+                <ProjectContent project={project} />
+            ) : null}
+        </>
+    ) : null;
+
     return (
-        <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-slate-200 min-h-[100dvh]">
-            {/* HERO: Clean, focused, impactful */}
-            <section className="min-h-[calc(100dvh-73px)] md:min-h-[100dvh] flex items-center justify-center text-center px-4 relative overflow-hidden">
-                {/* Background gradient effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-blue-500/10 pointer-events-none"></div>
+        <div className="py-12">
+            {HOME_LAYOUT === 'graphHome' && <GraphHomeHeader />}
+            {HOME_LAYOUT === 'graphDrawer' && <GraphDrawerHeader />}
 
-                <div className="max-w-3xl relative z-10">
-                    <div className="w-48 h-48 mx-auto rounded-2xl flex items-center justify-center mb-8">
-                        <img
-                            src="/images/Evan Jacobson.jpg"
-                            alt="Evan Jacobson"
-                            className="w-full h-full object-cover rounded-2xl border-4 border-emerald-500 shadow-lg"
-                        />
-                    </div>
-
-                    <h1 className="text-3xl sm:text-4xl lg:text-6xl font-extrabold mb-4 bg-gradient-to-r from-slate-50 to-emerald-400 bg-clip-text text-transparent leading-tight">
-                        Evan Jacobson
-                    </h1>
-
-                    <p className="text-lg sm:text-xl lg:text-2xl font-semibold text-emerald-400 mb-4">
-                        AI Engineer. Cofounder. Builder.
-                    </p>
-
-                    <p className="text-sm sm:text-base lg:text-lg text-slate-300 leading-relaxed max-w-2xl mx-auto mb-8">
-                        I build tools that automate the tedious so people can focus on what humans do best: think.
-                        From multi-agent pipelines to AI-native products, I ship software that lets people stop doing busywork and start owning outcomes.
-                    </p>
-
-                    <button
-                        onClick={() => scrollToSection('footer')}
-                        className="inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-6 sm:px-10 py-3 sm:py-4 rounded-2xl font-semibold text-base sm:text-lg transition-all duration-300 hover:-translate-y-1 shadow-lg hover:shadow-emerald-500/25 hover:shadow-xl"
-                    >
-                        <Mail className="w-5 h-5" />
-                        Let's Connect
-                    </button>
+            <div className="max-w-4xl mx-auto px-4 mb-12">
+                <div className="space-y-4 text-slate-300 leading-relaxed text-sm">
+                    {THESIS_PARAGRAPHS.map((p, i) => <p key={i}>{p}</p>)}
                 </div>
+            </div>
 
-                {/* Scroll indicator */}
-                <button
-                    onClick={() => scrollToSection('about')}
-                    className="absolute bottom-8 -translate-x-1/2 text-slate-400 animate-bounce hover:text-emerald-400 transition-colors"
-                >
-                    <ChevronDown className="w-10 h-10" />
-                </button>
-            </section>
-
-            {/* ABOUT: Current status and credentials */}
-            <section id="about" className="py-8 sm:py-12 md:py-20 px-4">
-                <div className="max-w-6xl mx-auto">
-                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-5xl font-bold text-slate-50 mb-4 sm:mb-6 md:mb-8 lg:mb-12 text-center">
-                        Currently...
-                    </h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 md:gap-8 mb-4 sm:mb-6 md:mb-8 lg:mb-12">
-                        <Card accentColor="emerald-500" className="hover:-translate-y-2 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-blue-500/10 pointer-events-none"></div>
-                            <CardContent
-                                className="p-3 sm:p-6 md:p-8 flex flex-col flex-1 items-center text-center relative z-10 cursor-pointer"
-                                onClick={() => window.open('https://www.oraieducator.com/', '_blank')}
-                            >
-                                <div className="w-6 h-6 sm:w-8 sm:h-8 md:w-12 md:h-12 bg-emerald-500 rounded-xl mb-2 sm:mb-3 md:mb-4 flex items-center justify-center">
-                                    <Code className="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white" />
-                                </div>
-                                <h3 className="text-lg sm:text-xl font-semibold text-emerald-400 mb-4">
-                                    Technical Cofounder
-                                </h3>
-                                <p className="text-sm sm:text-base text-slate-300 leading-relaxed">OrAI</p>
-                                <span className="text-xs sm:text-sm text-emerald-300 mt-1 block">AI tools for early childhood educators</span>
-                            </CardContent>
-                        </Card>
-                        <Card accentColor="emerald-500" className="hover:-translate-y-2 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-blue-500/10 pointer-events-none"></div>
-                            <CardContent className="p-3 sm:p-6 md:p-8 flex flex-col flex-1 items-center text-center relative z-10">
-                                <div className="w-6 h-6 sm:w-8 sm:h-8 md:w-12 md:h-12 bg-emerald-500 rounded-xl mb-2 sm:mb-3 md:mb-4 flex items-center justify-center">
-                                    <Briefcase className="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white" />
-                                </div>
-                                <h3 className="text-lg sm:text-xl font-semibold text-emerald-400 mb-4">
-                                    Software Engineer II
-                                </h3>
-                                <p className="text-sm sm:text-base text-slate-300 leading-relaxed">Alarm.com</p>
-                            </CardContent>
-                        </Card>
-                        <Card accentColor="emerald-500" className="hover:-translate-y-2 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-blue-500/10 pointer-events-none"></div>
-                            <CardContent className="p-3 sm:p-6 md:p-8 flex flex-col flex-1 items-center text-center relative z-10">
-                                <div className="w-6 h-6 sm:w-8 sm:h-8 md:w-12 md:h-12 bg-emerald-500 rounded-xl mb-2 sm:mb-3 md:mb-4 flex items-center justify-center">
-                                    <GitBranch className="w-3 h-3 sm:w-4 sm:h-4 md:w-6 md:h-6 text-white" />
-                                </div>
-                                <h3 className="text-lg sm:text-xl font-semibold text-emerald-400 mb-4">
-                                    Open Source Contributor
-                                </h3>
-                                <p className="text-sm sm:text-base text-slate-300 leading-relaxed">Beads</p>
-                                <span className="text-xs sm:text-sm text-emerald-300 mt-1 block">Agent memory framework</span>
-                            </CardContent>
-                        </Card>
+            <ResumeGitGraph
+                activeProject={activeProject}
+                onSelectProject={handleSelectProject}
+                detailContent={isReplace && detailInner ? (
+                    <div>{detailInner}</div>
+                ) : null}
+                drawerContent={isDrawer && detailInner ? (
+                    <div className="border border-slate-800 rounded-lg p-6 mt-2">
+                        {detailInner}
                     </div>
-                    <div className="flex justify-center sm:hidden">
-                        <button
-                            onClick={() => scrollToSection('opportunities')}
-                            className="mt-8 text-slate-400 animate-bounce hover:text-emerald-400 transition-colors"
-                        >
-                            <ChevronDown className="w-10 h-10" />
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            {/* OPPORTUNITIES */}
-            <section id="opportunities" className="py-20 px-4">
-                <div className="max-w-6xl mx-auto">
-                    <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold text-slate-50 mb-8 sm:mb-12 text-center">
-                        Where I'll Thrive
-                    </h2>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                        <Card accentColor="purple-600" className="hover:-translate-y-2 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-blue-500/10 pointer-events-none"></div>
-                            <CardContent className="p-6 sm:p-8 flex flex-col flex-1 relative z-10 items-center text-center">
-                                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-purple-500 rounded-xl mb-4 flex items-center justify-center">
-                                    <Bot className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
-                                </div>
-                                <h3 className="text-lg sm:text-xl font-semibold text-purple-400 mb-4">
-                                    Agentic AI Systems
-                                </h3>
-                                <p className="text-sm sm:text-base text-slate-300 leading-relaxed flex-1">
-                                    Multi-agent pipelines, agentic search, AI tooling — I've been building these before the frameworks existed. This is what I'm obsessed with.
-                                </p>
-                            </CardContent>
-                        </Card>
-
-                        <Card accentColor="purple-600" className="hover:-translate-y-2 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-blue-500/10 pointer-events-none"></div>
-                            <CardContent className="p-6 sm:p-8 flex flex-col flex-1 relative z-10 items-center text-center">
-                                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-purple-500 rounded-xl mb-4 flex items-center justify-center">
-                                    <Flame className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
-                                </div>
-                                <h3 className="text-lg sm:text-xl font-semibold text-purple-400 mb-4">
-                                    Founder-Mode Teams
-                                </h3>
-                                <p className="text-sm sm:text-base text-slate-300 leading-relaxed flex-1">
-                                    Engineers as owners, not ticket-takers. I thrive where people own problems end-to-end — from code to compliance to investor strategy.
-                                </p>
-                            </CardContent>
-                        </Card>
-
-                        <Card accentColor="purple-600" className="hover:-translate-y-2 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-transparent to-blue-500/10 pointer-events-none"></div>
-                            <CardContent className="p-6 sm:p-8 flex flex-col flex-1 relative z-10 items-center text-center">
-                                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-purple-500 rounded-xl mb-4 flex items-center justify-center">
-                                    <Zap className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
-                                </div>
-                                <h3 className="text-lg sm:text-xl font-semibold text-purple-400 mb-4">
-                                    Ship Fast, Talk to Users
-                                </h3>
-                                <p className="text-sm sm:text-base text-slate-300 leading-relaxed flex-1">
-                                    Shipping fast and talking to users should be the culture, not the exception. I want to build where velocity and user feedback are the default.
-                                </p>
-                            </CardContent>
-                        </Card>
-                    </div>
-                </div>
-            </section>
+                ) : null}
+                mobileDrawerContent={activeProject ? (
+                    isAbout ? (
+                        <div className="space-y-4 text-slate-300 leading-relaxed text-sm">
+                            {ABOUT_PARAGRAPHS.map((p, i) => <p key={i}>{p}</p>)}
+                        </div>
+                    ) : project ? (
+                        <ProjectContent project={project} compact />
+                    ) : null
+                ) : null}
+            />
         </div>
     );
 }
