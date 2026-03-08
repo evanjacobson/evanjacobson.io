@@ -70,9 +70,9 @@ const timeline = [
         name: 'Alarm.com',
         title: 'Software Engineer II',
         start: { year: 2024, month: 4 },
-        end: null,
+        end: { year: 2026, month: 3 },
         color: 'emerald',
-        status: 'active',
+        status: 'completed',
         type: 'trunk',
         description: 'Led Stripe subscriptions engineering, built LLM-powered refactoring tool (8x productivity), filed provisional patent.',
     },
@@ -114,16 +114,28 @@ const timeline = [
     },
     {
         id: 'beads',
-        name: 'Beads & Kilo Code',
+        name: 'Beads & Gas Town',
         title: 'Open Source Contributor',
         start: { year: 2026, month: 1 },
         end: null,
         color: 'green',
         status: 'active',
         type: 'branch',
-        slug: 'beads',
-        description: 'Agent memory framework and AI coding agent contributions.',
+        slug: 'beads-and-gastown',
+        description: 'Agent memory framework and AI orchestration framework contributions.',
     },
+    {
+        id: 'kilo-code',
+        name: 'Kilo Code',
+        title: 'Software Engineer',
+        start: { year: 2026, month: 3 },
+        end: null,
+        color: 'yellow',
+        status: 'active',
+        type: 'branch',
+        slug: 'kilo-code',
+        description: 'Hired as a Software Engineer in R&D — we\'re building the most popular open-source AI coding agents.',
+    }
 ];
 
 export default timeline;

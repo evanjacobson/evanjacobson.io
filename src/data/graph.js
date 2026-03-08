@@ -48,7 +48,7 @@ export const ENTRIES = [
     { branch: 'alarm-sql-ci', label: 'SQL CI Initiative', subtitle: 'Automated SQL validation pipeline', start: '2022-01', end: '2023-10' },
     { branch: 'alarm-refactor', label: 'SQL Refactoring Bot', subtitle: 'LLM-powered · self-validating · 8x maintenance productivity', start: '2023-09-01', end: '2023-09-30', endLabel: 'Shipped' },
     { branch: 'alarm', label: 'Provisional Patent Filed', subtitle: 'IoT / smart-security', start: '2023-06' },
-    { branch: 'alarm', label: 'Promoted to Software Engineer II', start: '2024-04', end: null },
+    { branch: 'alarm', label: 'Promoted to Software Engineer II', start: '2024-04', end: '2026-03', endLabel: 'Ended employment with Alarm.com' },
     { branch: 'alarm-handoff', label: 'Handoff Bot', subtitle: 'GitHub App → Claude skill · PR review docs for QEs', start: '2025-12-15', end: '2025-12-19', endLabel: 'Shipped' },
 
     // ── Post-Alarm ventures ───────────────────────────────────
@@ -56,7 +56,7 @@ export const ENTRIES = [
     { branch: 'orai', label: 'OrAI', subtitle: 'Technical Cofounder', slug: 'orai', start: '2025-08' },
     { branch: 'trade', label: 'Trade Intel', subtitle: 'Personal Project', slug: 'trade-intel', start: '2025-08' },
     { branch: 'beads', label: 'Beads & Gastown', subtitle: 'Contributor · Agent Memory Framework · Dolt Integration', slug: 'beads', start: '2026-01' },
-    { branch: 'kilo-code', label: 'Kilo Code', subtitle: 'Contributor · Open Source AI Coding Agent', slug: 'kilo-code', start: '2026-02' },
+    { branch: 'kilo-code', label: 'Kilo Code', subtitle: 'Software Engineer · Open Source AI Coding Agent', slug: 'kilo-code', start: '2026-03' },
 ];
 
 // ── Graph builder ─────────────────────────────────────────────
