@@ -8,7 +8,7 @@ export default function ProjectContent({ project, compact = false }) {
             {!compact && (
                 <div className="flex items-start gap-4 mb-2">
                     <div className={`w-12 h-12 ${project.colors.accent} rounded-xl flex items-center justify-center shrink-0`}>
-                        <IconComponent className="w-6 h-6 text-white" />
+                        <IconComponent className={`w-6 h-6 ${project.colors.iconText || 'text-slate-950'}`} />
                     </div>
                     <div>
                         <h2 className="text-2xl font-bold text-slate-50">{project.title}</h2>

@@ -16,7 +16,7 @@ const THESIS_PARAGRAPHS = [
 
 const ABOUT_PARAGRAPHS = [
     <>As technical cofounder of <Link to="/?project=orai" className="text-blue-400 hover:text-blue-300 transition-colors">OrAI</Link>, I own everything from investor strategy to architecture to compliance, with agent teams handling the design, implementation, review, and audit of code and architecture. It's a sharp contrast to my time as founding engineer at <Link to="/?project=onedeal" className="text-purple-400 hover:text-purple-300 transition-colors">OneDeal</Link> (Techstars '23), where I built agentic web search from scratch — months before MCP or AI web search existed — but the development itself was still largely manual.</>,
-    <>By day I'm a Software Engineer II at <Link to="/?project=alarm-swe2" className="text-orange-400 hover:text-orange-300 transition-colors">Alarm.com</Link>, where I shipped one of the company's first LLM-powered internal tools and led engineering for Stripe-managed subscriptions.</>,
+    <>By day I'm a Software Engineer in R&D at <Link to="/?project=kilo-code" className="text-yellow-400 hover:text-yellow-300 transition-colors">Kilo Code</Link>, where we're building the most popular open-source AI coding agent & an all-in-one agentic development platform.</>,
 ];
 
 function GraphHomeHeader() {
