@@ -108,11 +108,11 @@ const projects = [
         dateRange: '2026 – Present',
         icon: Code,
         colors: {
-            accent: 'bg-orange-500',
-            text: 'text-orange-400',
-            border: 'border-l-orange-500',
-            bg: 'bg-orange-500/10',
-            badge: 'bg-orange-500/15 text-orange-300',
+            accent: 'bg-[oklch(0.95_0.15_108)]',
+            text: 'text-[oklch(0.95_0.15_108)]',
+            border: 'border-l-[oklch(0.95_0.15_108)]',
+            bg: 'bg-[oklch(0.95_0.15_108)]/10',
+            badge: 'bg-[oklch(0.95_0.15_108)]/15 text-[oklch(0.95_0.15_108)]',
         },
         cardDescription: 'The most popular open-source AI coding agent — a VS Code extension and CLI with 500+ models, zero markup, used by 1.5M+ developers.',
         content: [

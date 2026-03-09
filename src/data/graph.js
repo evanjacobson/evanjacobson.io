@@ -12,7 +12,7 @@ export const BRANCHES = [
     { id: 'orai', color: '#3b82f6', label: 'OrAI' },
     { id: 'trade', color: '#ef4444', label: 'Trade Intel' },
     { id: 'beads', color: '#22c55e', label: 'Open Source Contributions' },
-    { id: 'kilo-code', color: '#f97316', label: 'Kilo Code' },
+    { id: 'kilo-code', color: 'oklch(0.95 0.15 108)', label: 'Kilo Code' },
     { id: 'minecraft',  color: '#f59e0b', label: 'Minecraft Server Plugin' },           // amber-500
     { id: 'mounts',     color: '#d97706', label: 'Minecraft Server Plugin' },           // amber-600
     { id: 'spark',      color: '#14b8a6', label: 'Incubator' },        // teal-500
