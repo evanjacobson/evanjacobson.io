@@ -10,3 +10,5 @@ public/files/*.md
 .cursor/
 .worktrees/
 
+.playwright-mcp/
+docs/
