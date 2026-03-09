@@ -17,9 +17,8 @@ const projects = [
         },
         cardDescription: 'Co-founded a SaaS platform that gives early childhood educators their time back — automating lesson planning, communications, document tracking, and compliant staff scheduling.',
         content: [
-            "Educators spend too much time on paperwork. Lesson plans, parent communications, document tracking, compliance scheduling — the intermediate deliverables that drive quality outcomes are also the ones that eat up the day. OrAI automates all of it so educators can spend less time in front of a screen and more time with kids.",
-            "I co-founded OrAI and own the full product and business: architecture, implementation, legal (ToS, privacy policy, pilot contracts), compliance alignment, mentor network development, and angel investor identification. I'm the sole technical decision-maker — product roadmap, user research, analytics, competitive analysis, and go-to-market strategy all sit alongside the engineering work.",
-            "The platform runs entirely on Cloudflare's edge — Workers for compute, AI Search (AutoRAG) for document retrieval with tenant isolation, AI Gateway for routing and observability, and R2 for storage. The chat interface is built with assistant-ui and Vercel AI SDK, backed by Azure OpenAI models. Supabase handles auth, database (Postgres with RLS), and realtime subscriptions. Stripe powers the subscription system.",
+            "Educators spend too much time on lesson plans, parent communications, document tracking, and compliant scheduling. OrAI automates all of it so educators can spend less time in front of a screen and more time with kids.",
+            "OrAI aims to ",
         ],
         techStack: ['TypeScript', 'React', 'Cloudflare Workers', 'Cloudflare AI Search', 'Cloudflare AI Gateway', 'Supabase', 'OpenAI API', 'Vercel AI SDK', 'assistant-ui', 'Stripe', 'Playwright', 'PostHog'],
         links: [
@@ -42,11 +41,11 @@ const projects = [
         },
         cardDescription: 'An email extraction pipeline that converts long-form financial newsletters into structured investment data using multi-agent decomposition.',
         content: [
-            "Trade Intel converts long-form financial newsletters into structured data — securities, sentiment, and recommendations — so I can scan in seconds what used to take an hour of reading.",
-            "I started with a single-agent approach and hit context window limits almost immediately. The solution came organically: split the work across specialized agents (split, verify, classify, extract, union) so each one handles a focused task instead of trying to find needles in a haystack. This was my first real experience with multi-agent decomposition, and it changed how I think about every AI pipeline I've built since.",
-            "Emails get ingested via n8n (self-hosted on EC2) through the Gmail API, routed through the multi-agent extraction pipeline, and delivered as structured data to a .NET 8 API running on AWS Lambda. The React frontend sits behind CloudFront. PostgreSQL (via Prisma Data Platform) is the primary database. The entire AWS infrastructure — Lambda, API Gateway, S3, CloudFront, IAM — is managed with Terraform across three environments.",
+            "Trade Intel converts long-form financial newsletters into structured data — analysis and recommendations — so my trading group can get what they need at a glance.",
+            "I started with a single-agent approach and hit context window limits almost immediately. The solution came organically: segment the work across specialized agents (split, verify, classify, extract, union) so each one handles a focused task instead of trying to find needles in a haystack. This was my first real experience with multi-agent decomposition, and it changed how I think about every AI pipeline I've built since.",
+            "Emails get ingested via n8n through the Gmail API, routed through the multi-agent extraction pipeline, and delivered as structured data to a .NET API running on AWS Lambda. The React frontend sits behind CloudFront. PostgreSQL (via Prisma Data Platform) is the primary database. The entire AWS infrastructure — Lambda, API Gateway, S3, CloudFront, IAM — is managed with Terraform across three environments.",
         ],
-        techStack: ['C#/.NET 8', 'React', 'AWS Lambda', 'PostgreSQL', 'Terraform', 'CloudFront', 'n8n', 'GitHub Actions'],
+        techStack: ['C#/.NET', 'React', 'AWS Lambda', 'PostgreSQL', 'Terraform', 'CloudFront', 'n8n', 'GitHub Actions'],
         links: [
             { label: 'Launch Trade Intel', url: 'https://app.evanjacobson.io/' },
         ],
@@ -68,9 +67,9 @@ const projects = [
         },
         cardDescription: 'Built agentic scouts that autonomously source off-market businesses — ~80 sourced/hour vs. 4/week manually. Months before MCP or AI web search existed.',
         content: [
-            "Private equity firms and SMB investors spend weeks manually sourcing acquisition targets. OneDeal's agentic scouts did it autonomously — matching investor-defined criteria against off-market businesses at ~80 sourced per hour vs. 4 per week manually.",
-            "I designed and shipped the full agentic pipeline from scratch: SERP API for search, OpenAI for analysis, Bright Data and Playwright for web scraping, DynamoDB for storage, and Docker/ECS for deployment. This was months before MCP or AI web search existed — we were building agentic web search before anyone had a name for it.",
-            "I also shipped the production web platform that PE firms and SMB investors used to search, evaluate, and manage acquisition targets, built with React, TypeScript, and DynamoDB.",
+            "PE and SMB investors were spending weeks manually sourcing acquisition targets. We built autonomous agentic workflows that match investor criteria to off-market businesses — ~80 sourced/hour vs. 4/week manually, months before MCP and agents were a \"thing.\"",
+            "Built the full pipeline from scratch: SERP API, OpenAI, Bright Data + Playwright for scraping, DynamoDB, Docker/ECS.",
+            "Shipped the production web app (React, TypeScript, DynamoDB) for search, evaluation, and deal management.",
         ],
         techStack: ['TypeScript', 'OpenAI API', 'SERP API', 'Bright Data', 'Playwright', 'DynamoDB', 'Docker', 'ECS'],
         links: [
@@ -93,8 +92,8 @@ const projects = [
         },
         cardDescription: 'Structured memory and context management for AI coding agents — solving the cross-session persistence gap in agentic development.',
         content: [
-            "AI coding agents are powerful but forgetful. Every time context resets, they lose track of what they were working on, what decisions were made, and what's left to do. Beads solves this by applying engineering task decomposition — epics, stories, tasks, dependencies — to agent memory, all backed by git.",
-            "I contributed Dolt (Git-for-data SQL database) CLI tooling integration and shipped bug fixes that unblocked the Gastown agent framework after its storage layer migration. It's the kind of infrastructure work that's invisible when it's working and catastrophic when it's not.",
+            "AI coding agents are powerful but forgetful. Every time context resets, they lose track of what they were working on, what decisions were made, and what's left to do. Beads solves this by enabling persistent, structured task tracking.",
+            "I contributed Dolt (Git-for-data SQL database) CLI tooling integration and shipped bug fixes that unblocked the Gastown agent framework after its storage layer migration.",
         ],
         techStack: ['TypeScript', 'Dolt', 'Git'],
         links: [
@@ -104,7 +103,7 @@ const projects = [
     {
         slug: 'kilo-code',
         title: 'Kilo Code',
-        role: 'Contributor',
+        role: 'Software Engineer (R&D)',
         subtitle: 'Open source AI coding agent',
         dateRange: '2026 – Present',
         icon: Code,
@@ -118,8 +117,8 @@ const projects = [
         cardDescription: 'The most popular open-source AI coding agent — a VS Code extension and CLI with 500+ models, zero markup, used by 1.5M+ developers.',
         content: [
             // placeholder — need more details on specific contributions
-            "Kilo Code is the most popular open-source AI coding agent, used by over 1.5 million developers and processing more than 25 trillion tokens. It's a VS Code extension and CLI that supports 500+ models with zero markup on inference costs and cross-device sync.",
-            "I contribute to the project alongside using it daily as part of my development workflow.",
+            "Kilo Code is the most popular open-source AI coding agent & an all-in-one agentic development platform, used by over 1.5 million developers and processing more than 25 trillion tokens.",
+            "We dogfood hard.",
         ],
         techStack: ['TypeScript', 'VS Code Extension API', 'CLI'],
         links: [
@@ -143,9 +142,8 @@ const projects = [
         },
         cardDescription: 'My first-ever programming project — a Bukkit plugin that added spacesuits and zero-gravity mechanics to Minecraft multiplayer servers.',
         content: [
-            "Spacesuits was my first real project. I was thirteen and wanted to add space exploration to Minecraft — so I taught myself Java and the Bukkit plugin API to make it happen.",
-            "The plugin added craftable spacesuits with custom recipes, zero-gravity movement mechanics, and oxygen management. Players could equip suits and experience altered physics. It ran on multiplayer servers using the Bukkit/Spigot framework that was standard at the time.",
-            "Looking back, this is where everything started. The feedback loop of writing code, reloading the server, and immediately seeing the result in-game is what got me hooked on building software.",
+            "Spacesuits was my first project. I managed to get it working without learning a single thing about programming. I had a blast!",
+            "The plugin added spacesuits and oxygen management. It ran on multiplayer servers using the Bukkit framework.",
         ],
         techStack: ['Java', 'Bukkit API'],
         links: [],
@@ -166,9 +164,8 @@ const projects = [
         },
         cardDescription: 'A Spigot/Paper plugin that lets players spawn and own custom horse mounts with configurable attributes and an ownership system.',
         content: [
-            "Mounts is a Spigot/Paper server plugin that turns any item into a mount spawn egg. Right-click to summon a tamed, saddled horse with custom attributes — speed, jump height, whatever you want. Mounts can be owned by specific players or left unowned for public use.",
-            "The ownership system is the core mechanic. Owned mounts display the player's name in gold, unowned ones show in green. Players can only ride their own mounts (unless they have admin permissions), which makes mounts work as rare loot or event rewards without the usual duplication problems.",
-            "Admins configure mounts through two commands: /mount to create mount items with optional ownership, and /mountedit to tweak horse attributes on the fly. Attributes are stored as item metadata and listed in red below the item name, so players can see exactly what they're getting.",
+            "Mounts is a Spigot/Paper server plugin that turns enables horses to be owned by specific players or left unowned for public use.",
+            "Commissioned and built for the Killion Prison server."
         ],
         techStack: ['Java', 'Spigot/Paper API', 'Gradle'],
         links: [
@@ -192,7 +189,7 @@ const projects = [
         cardDescription: 'B.S. Computer Science with a Minor in Mathematics. GPA 3.96.',
         content: [
             "I studied Computer Science with a Minor in Mathematics at the University of Miami, graduating with a 3.96 GPA.",
-            "The CS program gave me a strong foundation in algorithms, data structures, systems programming, and software engineering. The math minor — linear algebra, discrete math, probability — turned out to be directly useful once I started working with machine learning and data pipelines.",
+            "The CS program gave me a strong foundation in algorithms, data structures, systems, and software engineering. The math minor turned out to be directly useful once I started working with machine learning and data pipelines.",
         ],
         techStack: [],
         links: [],
