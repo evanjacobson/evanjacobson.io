@@ -15,8 +15,8 @@ const THESIS_PARAGRAPHS = [
 ];
 
 const ABOUT_PARAGRAPHS = [
-    <>As technical cofounder of <Link to="/?project=orai" className="text-blue-400 hover:text-blue-300 transition-colors">OrAI</Link>, I own everything from investor strategy to architecture to compliance, with agent teams handling the design, implementation, review, and audit of code and architecture. It's a sharp contrast to my time as founding engineer at <Link to="/?project=onedeal" className="text-purple-400 hover:text-purple-300 transition-colors">OneDeal</Link> (Techstars '23), where I built agentic web search from scratch — months before MCP or AI web search existed — but the development itself was still largely manual.</>,
-    <>By day I'm a Software Engineer in R&D at <Link to="/?project=kilo-code" className="text-yellow-400 hover:text-yellow-300 transition-colors">Kilo Code</Link>, where we're building the most popular open-source AI coding agent & an all-in-one agentic development platform.</>,
+    <>Very excited to start my journey as a Software Engineer at <Link to="/?project=kilo-code" className="text-yellow-400 hover:text-yellow-300 transition-colors">Kilo Code</Link>, where we're building the most popular open-source agentic development platform. We are also the best place to use hosted OpenClaw (KiloClaw)!</>,
+    <>Where time permits, I'm also a technical cofounder of <Link to="/?project=orai" className="text-blue-400 hover:text-blue-300 transition-colors">OrAI</Link>, where I own everything from investor strategy to architecture to compliance, with agent teams handling the design, implementation, review, and audit of code and architecture. It's a sharp contrast to my time as founding engineer at <Link to="/?project=onedeal" className="text-purple-400 hover:text-purple-300 transition-colors">OneDeal</Link> (Techstars '23), where I built agentic web search from scratch — months before MCP or AI web search existed — but the development itself was still largely manual.</>
 ];
 
 function GraphHomeHeader() {
