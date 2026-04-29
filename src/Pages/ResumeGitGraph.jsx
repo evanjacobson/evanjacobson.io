@@ -17,6 +17,7 @@ const COMMIT_ROW_HEIGHT = 56;
 const MERGE_ROW_HEIGHT = PROTO.compactMerges ? 36 : COMMIT_ROW_HEIGHT;
 const LANE_GAP = 28;
 const GRAPH_LEFT = 48;
+const INACTIVE_BRANCH_LINE_OPACITY = 0.45;
 
 const { rows, branchMap, branchSpans, yearMarkers } = buildGraph(ENTRIES, BRANCHES, { groupByBranch: PROTO.groupByBranch });
 
@@ -124,7 +125,7 @@ export default function ResumeGitGraph({ activeProject = null, onSelectProject =
 
     const lineOp = (branchId) => {
         const base = branchMap[branchId]?._isEnded ? 0.35 : 0.6;
-        return highlightBranch ? (isBranchHit(branchId) ? Math.min(base + 0.3, 0.9) : 0.08) : base;
+        return highlightBranch ? (isBranchHit(branchId) ? Math.min(base + 0.3, 0.9) : INACTIVE_BRANCH_LINE_OPACITY) : base;
     };
 
     const dotOp = (branchId) =>
