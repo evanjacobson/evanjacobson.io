@@ -147,16 +147,25 @@ const agents = [
     statusLabel: "Daily Driver",
     url: "https://kilo.ai/",
     description:
-      "Agentic engineering platform — CLI agent, VS Code extension, and swarm orchestration in one. Replaced both Claude Code and Cursor as my primary environment. I'm also a contributor.",
+      "The most popular open-source agentic engineering platform. The CLI replaced Claude Code, the VS Code extension replaced Cursor, and Gas Town by Kilo replaced Gas Town. I work there.",
   },
   {
     name: "KiloClaw",
     icon: KiloCrab,
     status: "daily-driver",
     statusLabel: "Daily Driver",
-    url: "https://kilo.ai/",
+    url: "https://kilo.ai/kiloclaw",
     description:
       "Kilo's managed OpenClaw service. Drives countless daily workflows to keep me streamlined and on task.",
+  },
+  {
+    name: "Beads",
+    icon: GitBranch,
+    status: "contributor",
+    statusLabel: "Contributor",
+    url: "https://github.com/cyanheads/beads",
+    description:
+      "Issue tracking designed for AI agents. Solves the context reset problem. I'm a core contributor.",
   },
   {
     name: "Claude Code",
@@ -168,22 +177,13 @@ const agents = [
       "Anthropic's terminal-based coding agent. Retired in favor of Kilo CLI.",
   },
   {
-    name: "GasTown",
+    name: "Gas Town",
     icon: Terminal,
     status: "semi-retired",
     statusLabel: "Semi-Retired",
-    url: "https://github.com/steveyegge/gastown",
+    url: "https://github.com/steveyegge/Gas Town",
     description:
-      "Steve Yegge's multi-agent swarm manager. Semi-retired in favor of GasTown by Kilo.",
-  },
-  {
-    name: "Beads",
-    icon: GitBranch,
-    status: "contributor",
-    statusLabel: "Contributor",
-    url: "https://github.com/cyanheads/beads",
-    description:
-      "Git-backed issue tracking designed for AI agents. Solves the context reset problem. I'm a core contributor.",
+      "Steve Yegge's multi-agent swarm manager. Semi-retired in favor of Gas Town by Kilo.",
   },
   {
     name: "Cursor",

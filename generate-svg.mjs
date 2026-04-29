@@ -25,11 +25,10 @@ const OUT_PATH = outIdx >= 0 && args[outIdx + 1]
 // BIO (plain-text version of the JSX paragraphs in Home.jsx)
 // ═══════════════════════════════════════════════════════════════
 
-const BIO_PARAGRAPHS = [
-    "Right now I'm co-founding OrAI, where we're giving early childhood educators their time back — automating lesson plans, parent communications, document tracking, and compliant scheduling so they can spend less time on paperwork and more time with kids. I own everything from architecture to compliance to investor strategy, because I believe engineers should be owners, not ticket-takers.",
-    "Before that I was the founding engineer at OneDeal (Techstars '23), where I built agentic web search from scratch — months before MCP or AI web search existed. I'm obsessed with agentic AI systems: multi-agent pipelines, autonomous search, AI tooling. I've been building these before the frameworks existed, and I keep building them because it's what I care about most.",
-    "By day I'm a Software Engineer II at Alarm.com, where I shipped one of the company's first LLM-powered internal tools and led engineering for Stripe-managed subscriptions. I also contribute to open source AI tooling like Beads and Kilo Code.",
-    "I'm looking for a team where shipping fast and talking to users is the culture, not the exception — where engineers own problems end-to-end and velocity is the default.",
+const ABOUT_PARAGRAPHS = [
+    "Based in Denver, CO with my girlfriend Hayley and my orange tabby, Sampson.",
+    "My focus is agentic engineering — specifically the reliability and quality-control layer that sits between a capable model and a trustworthy system. When I'm not building, I'm usually skiing, camping, or traveling.",
+    "Links in the footer if you want to connect.",
 ];
 
 // ═══════════════════════════════════════════════════════════════

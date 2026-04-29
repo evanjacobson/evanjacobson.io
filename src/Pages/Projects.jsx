@@ -63,7 +63,7 @@ function Projects() {
                         <ProjectComponent
                             title="Beads"
                             status="Open Source Agent Memory Framework"
-                            description="Contributor to Beads, a structured memory and context management framework for AI coding agents. Applies engineering task decomposition (epics, stories, tasks, dependencies) to agent memory — solving the cross-session persistence gap in agentic development. Integrated Dolt (Git-for-data SQL database) CLI tooling and shipped bug fixes to unblock the Gastown agent framework."
+                            description="Contributor to Beads, a structured memory and context management framework for AI coding agents. Applies engineering task decomposition (epics, stories, tasks, dependencies) to agent memory — solving the cross-session persistence gap in agentic development. Integrated Dolt (Git-for-data SQL database) CLI tooling and shipped bug fixes to unblock the Gas Town agent framework."
                             techStack={["TypeScript", "Dolt", "Git"]}
                             accentColor="green"
                             icon={Github}

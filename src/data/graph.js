@@ -55,7 +55,7 @@ export const ENTRIES = [
     { branch: 'onedeal', label: 'OneDeal', subtitle: 'Founding Engineer', slug: 'onedeal', start: '2024-10', end: '2025-10' },
     { branch: 'orai', label: 'OrAI', subtitle: 'Technical Cofounder', slug: 'orai', start: '2025-08' },
     { branch: 'trade', label: 'Trade Intel', subtitle: 'Personal Project', slug: 'trade-intel', start: '2025-08' },
-    { branch: 'beads', label: 'Beads & Gastown', subtitle: 'Contributor · Agent Memory Framework · Dolt Integration', slug: 'beads', start: '2026-01' },
+    { branch: 'beads', label: 'Beads & Gas Town', subtitle: 'Contributor · Agent Memory Framework · Dolt Integration', slug: 'beads', start: '2026-01' },
     { branch: 'kilo', label: 'Hired as Software Engineer', subtitle: 'Research and Development (R&D) · Open Source AI Development Platform', slug: 'kilo', start: '2026-03-09', end: null },
 ];
 

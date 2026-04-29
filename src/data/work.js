@@ -93,7 +93,7 @@ const projects = [
         cardDescription: 'Structured memory and context management for AI coding agents — solving the cross-session persistence gap in agentic development.',
         content: [
             "AI coding agents are powerful but forgetful. Every time context resets, they lose track of what they were working on, what decisions were made, and what's left to do. Beads solves this by enabling persistent, structured task tracking.",
-            "I contributed Dolt (Git-for-data SQL database) CLI tooling integration and shipped bug fixes that unblocked the Gastown agent framework after its storage layer migration.",
+            "I contributed Dolt (Git-for-data SQL database) CLI tooling integration and shipped bug fixes that unblocked the Gas Town agent framework after its storage layer migration.",
         ],
         techStack: ['TypeScript', 'Dolt', 'Git'],
         links: [
@@ -118,7 +118,7 @@ const projects = [
         content: [
             "My work at Kilo has been primarily focused on building, maintaining, and supporting KiloClaw, our managed OpenClaw service.",
         ],
-        techStack: ['TypeScript', 'VS Code Extension API', 'CLI'],
+        techStack: ['Next.js', 'Distributed Systems', 'OpenClaw'],
         links: [
             { label: 'Kilo', url: 'https://kilo.ai/' },
             { label: 'KiloClaw', url: 'https://kilo.ai/kiloclaw' },
