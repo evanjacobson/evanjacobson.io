@@ -20,6 +20,39 @@ import {
   Mail,
 } from "lucide-react";
 
+function KiloCrab({ className }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 32 32"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.33"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <path d="M13.66,14.7h4.65c2.61,0,4.73,2.12,4.73,4.73v.77c0,3.12-2.54,5.66-5.66,5.66h-2.79c-3.12,0-5.66-2.54-5.66-5.66v-.77c0-2.61,2.12-4.73,4.73-4.73Z"/>
+      <circle cx="11.42" cy="11.39" r="1.22"/>
+      <path d="M11.42,12.61s-.13,1.7.85,2.29"/>
+      <path d="M9.87,23.3c-1.91.34-3.59,2.17-3.59,4.22"/>
+      <path d="M8.9,19.95h0c-2.65,0-4.85,1.98-5.7,4.8"/>
+      <path d="M12.6,25.49c-1.27,0-2.29,1.09-2.29,2.35v.17"/>
+      <path d="M22.06,23.3c1.91.34,3.59,2.17,3.59,4.22"/>
+      <path d="M23.03,19.95h0c2.65,0,4.85,1.98,5.7,4.8"/>
+      <path d="M19.33,25.49c1.27,0,2.29,1.09,2.29,2.35v.17"/>
+      <path d="M30.73,6.82v1.47c0,1.57-1.27,2.84-2.83,2.84h-.39c-1.45,0-2.62-1.17-2.62-2.62h2.62V3.99h.39c1.56,0,2.83,1.27,2.83,2.83Z"/>
+      <path d="M27.51,11.13c0,2.83-.13,3.53-2.53,4.8l-2.47,1.36"/>
+      <path d="M1.18,6.82v1.47c0,1.57,1.27,2.84,2.83,2.84h.39c1.45,0,2.62-1.17,2.62-2.62h-2.62V3.99s-.39,0-.39,0c-1.56,0-2.83,1.27-2.83,2.83Z"/>
+      <path d="M4.41,11.13c0,2.83.13,3.53,2.53,4.8l2.47,1.36"/>
+      <circle cx="20.56" cy="11.39" r="1.22"/>
+      <path d="M20.56,12.61s.13,1.7-.85,2.29"/>
+      <path d="M19.1,17.56l-.85.9c-.54.57-.83,1.33-.83,2.11v2.72"/>
+      <path d="M12.87,17.56l.85.9c.54.57.83,1.33.83,2.11v2.72"/>
+    </svg>
+  );
+}
+
 const statusStyles = {
   "daily-driver":
     "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20",
@@ -108,22 +141,22 @@ function GuestPassCard() {
 
 const agents = [
   {
-    name: "Claude Code",
-    icon: Bot,
+    name: "Kilo",
+    icon: Code,
     status: "daily-driver",
     statusLabel: "Daily Driver",
-    url: "https://claude.com/claude-code",
+    url: "https://kilo.ai/",
     description:
-      "The agent that writes most of my code. I describe what I want, review the output, and ship. This website? Claude Code wrote about 95% of it.",
+      "The most popular open-source agentic engineering platform. The CLI replaced Claude Code, the VS Code extension replaced Cursor, and Gas Town by Kilo replaced Gas Town. I work there.",
   },
   {
-    name: "GasTown",
-    icon: Terminal,
+    name: "KiloClaw",
+    icon: KiloCrab,
     status: "daily-driver",
     statusLabel: "Daily Driver",
-    url: "https://github.com/steveyegge/gastown",
+    url: "https://kilo.ai/kiloclaw",
     description:
-      "Steve Yegge's multi-agent swarm manager. When one Claude Code agent isn't enough, Gas Town runs 20-30 of them in parallel with persistent memory.",
+      "Kilo's managed OpenClaw service. Drives countless daily workflows to keep me streamlined and on task.",
   },
   {
     name: "Beads",
@@ -132,16 +165,25 @@ const agents = [
     statusLabel: "Contributor",
     url: "https://github.com/cyanheads/beads",
     description:
-      "Git-backed issue tracking designed for AI agents. Solves the context reset problem. I'm a core contributor.",
+      "Issue tracking designed for AI agents. Solves the context reset problem. I'm a core contributor.",
   },
   {
-    name: "Kilo Code",
-    icon: Code,
-    status: "contributor",
-    statusLabel: "Contributor",
-    url: "https://kilo.ai/",
+    name: "Claude Code",
+    icon: Bot,
+    status: "semi-retired",
+    statusLabel: "Semi-Retired",
+    url: "https://claude.com/claude-code",
     description:
-      "Open-source AI coding agent for VS Code. 500+ models, zero markup on inference costs. The Swiss Army knife when I need a different model.",
+      "Anthropic's terminal-based coding agent. Retired in favor of Kilo CLI.",
+  },
+  {
+    name: "Gas Town",
+    icon: Terminal,
+    status: "semi-retired",
+    statusLabel: "Semi-Retired",
+    url: "https://github.com/steveyegge/Gas Town",
+    description:
+      "Steve Yegge's multi-agent swarm manager. Semi-retired in favor of Gas Town by Kilo.",
   },
   {
     name: "Cursor",
@@ -150,11 +192,20 @@ const agents = [
     statusLabel: "Semi-Retired",
     url: "https://cursor.com/",
     description:
-      "My first AI editor love. These days it handles quick edits while Claude Code runs the show.",
+      "My first AI editor love. Retired in favor of Kilo's VS Code extension.",
   },
 ];
 
 const cloud = [
+  {
+    name: "Supabase",
+    icon: Database,
+    status: "daily-driver",
+    statusLabel: "Daily Driver",
+    url: "https://supabase.com/",
+    description:
+      "Postgres, auth, storage, and realtime in one platform. The backend for OrAI. Row-level security means tenant data stays isolated.",
+  },
   {
     name: "Cloudflare Workers",
     icon: Cloud,
@@ -172,15 +223,6 @@ const cloud = [
     url: "https://ai.cloudflare.com/",
     description:
       "AI Search (AutoRAG) for document retrieval and AI Gateway for routing, caching, and observability across AI providers.",
-  },
-  {
-    name: "Supabase",
-    icon: Database,
-    status: "daily-driver",
-    statusLabel: "Daily Driver",
-    url: "https://supabase.com/",
-    description:
-      "Postgres, auth, storage, and realtime in one platform. The backend for OrAI. Row-level security means tenant data stays isolated.",
   },
   {
     name: "AWS",

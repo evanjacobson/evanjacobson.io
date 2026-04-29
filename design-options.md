@@ -9,7 +9,7 @@ Work         → Grid of project cards, each linking to a dedicated page
   /work/trade-intel → Same
   /work/onedeal    → Same
   /work/beads      → Same (contributor story)
-  /work/kilo-code  → Same
+  /work/kilo  → Same
 Toolbox      → Stays as-is (unique content, no overlap)
 Resume       → Slim: PDF download + timeline (titles, companies, dates only)
                Each role links to its case study. No bullet points duplicating Work pages.
@@ -55,7 +55,7 @@ Resume       → PDF link only (in sidebar/footer, no dedicated page)
 Home         → Narrative one-screen (leerob-inspired, no scroll)
                Name, tagline, storytelling paragraphs, "See my work" / "Browse my toolbox" links
 Work         → Grid of project cards → /work/[slug]
-  /work/orai, /work/trade-intel, /work/onedeal, /work/beads, /work/kilo-code
+  /work/orai, /work/trade-intel, /work/onedeal, /work/beads, /work/kilo
 Toolbox      → Stays as-is
 Resume       → Timeline with colored dots, one-line descriptions, "Read case study" links
                Skills grid, education, PDF download button
