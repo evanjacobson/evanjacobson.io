@@ -101,9 +101,9 @@ const projects = [
         ],
     },
     {
-        slug: 'kilo-code',
-        title: 'Kilo Code',
-        role: 'Software Engineer (R&D)',
+        slug: 'kilo',
+        title: 'Kilo',
+        role: 'Software Engineer (Customer Engineering)',
         subtitle: 'Open source AI coding agent',
         dateRange: '2026 – Present',
         icon: Code,
@@ -114,16 +114,16 @@ const projects = [
             bg: 'bg-[oklch(0.95_0.15_108)]/10',
             badge: 'bg-[oklch(0.95_0.15_108)]/15 text-[oklch(0.95_0.15_108)]',
         },
-        cardDescription: 'The most popular open-source AI coding agent — a VS Code extension and CLI with 500+ models, zero markup, used by 1.5M+ developers.',
+        cardDescription: 'The most popular open-source agentic engineering platform.',
         content: [
-            // placeholder — need more details on specific contributions
-            "Kilo Code is the most popular open-source AI coding agent & an all-in-one agentic development platform, used by over 1.5 million developers and processing more than 25 trillion tokens.",
-            "We dogfood hard.",
+            "My work at Kilo has been primarily focused on building, maintaining, and supporting KiloClaw, our managed OpenClaw service.",
         ],
         techStack: ['TypeScript', 'VS Code Extension API', 'CLI'],
         links: [
-            { label: 'Website', url: 'https://kilo.ai/' },
-            { label: 'GitHub', url: 'https://github.com/Kilo-Org/kilocode' },
+            { label: 'Kilo', url: 'https://kilo.ai/' },
+            { label: 'KiloClaw', url: 'https://kilo.ai/kiloclaw' },
+            { label: 'GitHub (Extension, CLI)', url: 'https://github.com/Kilo-Org/kilocode' },
+            { label: 'GitHub (KiloClaw, Cloud)', url: 'https://github.com/Kilo-Org/cloud' }
         ],
     },
     {

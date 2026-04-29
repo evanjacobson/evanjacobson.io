@@ -12,7 +12,7 @@ export const BRANCHES = [
     { id: 'orai', color: '#3b82f6', label: 'OrAI' },
     { id: 'trade', color: '#ef4444', label: 'Trade Intel' },
     { id: 'beads', color: '#22c55e', label: 'Open Source Contributions' },
-    { id: 'kilo-code', color: 'oklch(0.95 0.15 108)', label: 'Kilo Code' },
+    { id: 'kilo', color: 'oklch(0.95 0.15 108)', label: 'Kilo Code' },
     { id: 'minecraft',  color: '#f59e0b', label: 'Minecraft Server Plugin' },           // amber-500
     { id: 'mounts',     color: '#d97706', label: 'Minecraft Server Plugin' },           // amber-600
     { id: 'spark',      color: '#14b8a6', label: 'Incubator' },        // teal-500
@@ -56,7 +56,7 @@ export const ENTRIES = [
     { branch: 'orai', label: 'OrAI', subtitle: 'Technical Cofounder', slug: 'orai', start: '2025-08' },
     { branch: 'trade', label: 'Trade Intel', subtitle: 'Personal Project', slug: 'trade-intel', start: '2025-08' },
     { branch: 'beads', label: 'Beads & Gastown', subtitle: 'Contributor · Agent Memory Framework · Dolt Integration', slug: 'beads', start: '2026-01' },
-    { branch: 'kilo-code', label: 'Hired as Software Engineer', subtitle: 'Research and Development (R&D) · Open Source AI Development Platform', slug: 'kilo-code', start: '2026-03-09', end: null },
+    { branch: 'kilo', label: 'Hired as Software Engineer', subtitle: 'Research and Development (R&D) · Open Source AI Development Platform', slug: 'kilo', start: '2026-03-09', end: null },
 ];
 
 // ── Graph builder ─────────────────────────────────────────────
