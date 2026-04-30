@@ -329,7 +329,7 @@ function BinaryConsoleApp() {
             {canRender ? (
               <canvas
                 ref={canvasRef}
-                className="block w-full rounded-xl bg-black"
+                className="block w-full bg-black"
                 style={{ aspectRatio: previewAspectRatio }}
                 aria-label="Generated binary console image preview"
               />
