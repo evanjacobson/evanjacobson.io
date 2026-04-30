@@ -100,9 +100,7 @@ function drawBinaryConsoleImage(canvas, bits, width, height, seed, padding, base
   const lines = wrapBits(bits, columns);
 
   for (let row = 0; row < rows; row += 1) {
-    const source = lines[row % lines.length];
-    const offset = source.length > 1 ? Math.floor(random() * source.length) : 0;
-    const line = `${source.slice(offset)}${source.slice(0, offset)}`;
+    const line = lines[row % lines.length];
     const y = safePadding + glyphAscent + row * rowGap;
 
     for (let column = 0; column < Math.min(line.length, columns); column += 1) {
@@ -143,46 +141,40 @@ function drawBinaryConsoleImage(canvas, bits, width, height, seed, padding, base
 function BinaryConsoleApp() {
   const canvasRef = useRef(null);
   const [text, setText] = useState('01001011 01001001 01001100 01001111');
-  const [width, setWidth] = useState(1024);
-  const [height, setHeight] = useState(1024);
+  const [width, setWidth] = useState('1024');
+  const [height, setHeight] = useState('1024');
   const [scale, setScale] = useState(100);
   const [padding, setPadding] = useState(24);
   const [baseColor, setBaseColor] = useState('#00ff60');
   const [seed, setSeed] = useState(7);
   const bits = useMemo(() => normalizeBits(text), [text]);
   const canRender = bits.length > 0;
-  const aspectRatio = width / height;
-  const previewAspectRatio = `${width} / ${height}`;
+  const renderWidth = Math.max(1, Number(width) || 1);
+  const renderHeight = Math.max(1, Number(height) || 1);
+  const previewAspectRatio = `${renderWidth} / ${renderHeight}`;
 
   useEffect(() => {
     if (!canvasRef.current || !canRender) return;
 
-    drawBinaryConsoleImage(canvasRef.current, bits, width, height, seed, padding, baseColor);
-  }, [bits, width, height, seed, padding, baseColor, canRender]);
+    drawBinaryConsoleImage(canvasRef.current, bits, renderWidth, renderHeight, seed, padding, baseColor);
+  }, [bits, renderWidth, renderHeight, seed, padding, baseColor, canRender]);
 
   const updateWidth = (value) => {
-    const nextWidth = Math.max(128, Number(value) || 128);
-
-    setWidth(nextWidth);
-    setHeight(Math.max(128, Math.round(nextWidth / aspectRatio)));
-    setScale(Math.round((nextWidth / 1024) * 100));
+    setWidth(value);
+    setScale(100);
   };
 
   const updateHeight = (value) => {
-    const nextHeight = Math.max(128, Number(value) || 128);
-
-    setHeight(nextHeight);
-    setWidth(Math.max(128, Math.round(nextHeight * aspectRatio)));
-    setScale(Math.round(((nextHeight * aspectRatio) / 1024) * 100));
+    setHeight(value);
+    setScale(100);
   };
 
   const updateScale = (value) => {
     const nextScale = Number(value);
-    const nextWidth = Math.round(1024 * (nextScale / 100));
 
     setScale(nextScale);
-    setWidth(nextWidth);
-    setHeight(Math.max(128, Math.round(nextWidth / aspectRatio)));
+    setWidth(String(Math.max(1, Math.round(renderWidth * (nextScale / scale)))));
+    setHeight(String(Math.max(1, Math.round(renderHeight * (nextScale / scale)))));
   };
 
   const randomizeSeed = () => {
@@ -237,7 +229,7 @@ function BinaryConsoleApp() {
                   value={width}
                   onChange={(event) => updateWidth(event.target.value)}
                   type="number"
-                  min="128"
+                  min="1"
                   className="mt-2 w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-200 outline-none transition-colors focus:border-emerald-500/60"
                 />
               </label>
@@ -248,7 +240,7 @@ function BinaryConsoleApp() {
                   value={height}
                   onChange={(event) => updateHeight(event.target.value)}
                   type="number"
-                  min="128"
+                  min="1"
                   className="mt-2 w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-200 outline-none transition-colors focus:border-emerald-500/60"
                 />
               </label>
