@@ -32,90 +32,158 @@ function wrapBits(bits, columns) {
   return lines;
 }
 
-function drawBinaryConsoleImage(canvas, bits, size, seed) {
+function parseHexColor(hexColor) {
+  const normalized = hexColor.replace('#', '');
+  const value = normalized.length === 3
+    ? normalized.split('').map((character) => `${character}${character}`).join('')
+    : normalized;
+
+  if (!/^[0-9a-f]{6}$/i.test(value)) {
+    return { red: 0, green: 255, blue: 96 };
+  }
+
+  return {
+    red: parseInt(value.slice(0, 2), 16),
+    green: parseInt(value.slice(2, 4), 16),
+    blue: parseInt(value.slice(4, 6), 16),
+  };
+}
+
+function clampColor(value) {
+  return Math.max(0, Math.min(255, Math.round(value)));
+}
+
+function drawBinaryConsoleImage(canvas, bits, width, height, seed, padding, baseColor) {
   const random = createRandom(Number(seed) || 0);
   const context = canvas.getContext('2d');
   const glowCanvas = document.createElement('canvas');
   const glowContext = glowCanvas.getContext('2d');
   const vignetteCanvas = document.createElement('canvas');
   const vignetteContext = vignetteCanvas.getContext('2d');
+  const color = parseHexColor(baseColor);
+  const shortestSide = Math.min(width, height);
+  const safePadding = Math.min(padding, Math.floor(shortestSide / 2) - 1);
 
-  canvas.width = size;
-  canvas.height = size;
-  glowCanvas.width = size;
-  glowCanvas.height = size;
-  vignetteCanvas.width = size;
-  vignetteCanvas.height = size;
+  canvas.width = width;
+  canvas.height = height;
+  glowCanvas.width = width;
+  glowCanvas.height = height;
+  vignetteCanvas.width = width;
+  vignetteCanvas.height = height;
 
   context.fillStyle = '#000000';
-  context.fillRect(0, 0, size, size);
+  context.fillRect(0, 0, width, height);
 
-  const fontSize = Math.max(10, Math.floor(size / 28));
+  const fontSize = Math.max(10, Math.floor(shortestSide / 28));
   const font = `${fontSize}px Menlo, SFMono-Regular, Consolas, 'Liberation Mono', monospace`;
 
   context.font = font;
   glowContext.font = font;
-  context.textBaseline = 'top';
-  glowContext.textBaseline = 'top';
+  context.textBaseline = 'alphabetic';
+  glowContext.textBaseline = 'alphabetic';
 
-  const charWidth = Math.max(1, context.measureText('0').width);
+  const zeroMetrics = context.measureText('0');
+  const charWidth = Math.max(1, zeroMetrics.width);
+  const glyphLeft = zeroMetrics.actualBoundingBoxLeft || 0;
+  const glyphRight = zeroMetrics.actualBoundingBoxRight || charWidth;
+  const glyphAscent = zeroMetrics.actualBoundingBoxAscent || fontSize;
+  const glyphDescent = zeroMetrics.actualBoundingBoxDescent || Math.ceil(fontSize * 0.2);
+  const glyphWidth = glyphLeft + glyphRight;
+  const glyphHeight = glyphAscent + glyphDescent;
   const lineHeight = fontSize + Math.max(4, Math.floor(fontSize / 3));
-  const columns = Math.max(1, Math.floor((size - 48) / charWidth));
-  const rows = Math.max(1, Math.floor((size - 48) / lineHeight));
+  const usableWidth = Math.max(1, width - safePadding * 2);
+  const usableHeight = Math.max(1, height - safePadding * 2);
+  const columns = Math.max(1, Math.floor((usableWidth - glyphWidth) / charWidth) + 1);
+  const rows = Math.max(1, Math.floor((usableHeight - glyphHeight) / lineHeight) + 1);
+  const columnGap = columns > 1 ? (usableWidth - glyphWidth) / (columns - 1) : 0;
+  const rowGap = rows > 1 ? (usableHeight - glyphHeight) / (rows - 1) : 0;
   const lines = wrapBits(bits, columns);
 
   for (let row = 0; row < rows; row += 1) {
     const source = lines[row % lines.length];
     const offset = source.length > 1 ? Math.floor(random() * source.length) : 0;
     const line = `${source.slice(offset)}${source.slice(0, offset)}`;
-    const y = 24 + row * lineHeight;
+    const y = safePadding + glyphAscent + row * rowGap;
 
     for (let column = 0; column < Math.min(line.length, columns); column += 1) {
-      const x = 24 + column * charWidth;
-      const brightness = randomInt(random, 120, 255);
-      const blue = randomInt(random, 35, 90);
+      const x = safePadding + glyphLeft + column * columnGap;
+      const brightness = randomInt(random, 60, 115) / 100;
+      const red = clampColor(color.red * brightness);
+      const green = clampColor(color.green * brightness);
+      const blue = clampColor(color.blue * brightness);
 
-      glowContext.fillStyle = `rgba(0, ${brightness}, 60, 0.35)`;
+      glowContext.fillStyle = `rgba(${red}, ${green}, ${blue}, 0.35)`;
       glowContext.fillText(line[column], x, y);
-      context.fillStyle = `rgb(0, ${brightness}, ${blue})`;
+      context.fillStyle = `rgb(${red}, ${green}, ${blue})`;
       context.fillText(line[column], x, y);
     }
   }
 
   context.save();
-  context.filter = `blur(${Math.max(1, Math.floor(size / 180))}px)`;
+  context.filter = `blur(${Math.max(1, Math.floor(shortestSide / 180))}px)`;
   context.globalAlpha = 0.85;
   context.drawImage(glowCanvas, 0, 0);
   context.restore();
 
   const gradient = vignetteContext.createRadialGradient(
-    size / 2,
-    size / 2,
-    size / 5,
-    size / 2,
-    size / 2,
-    size * 0.7,
+    width / 2,
+    height / 2,
+    shortestSide / 5,
+    width / 2,
+    height / 2,
+    shortestSide * 0.7,
   );
   gradient.addColorStop(0, 'rgba(0,0,0,0)');
   gradient.addColorStop(1, 'rgba(0,0,0,0.55)');
   vignetteContext.fillStyle = gradient;
-  vignetteContext.fillRect(0, 0, size, size);
+  vignetteContext.fillRect(0, 0, width, height);
   context.drawImage(vignetteCanvas, 0, 0);
 }
 
 function BinaryConsoleApp() {
   const canvasRef = useRef(null);
   const [text, setText] = useState('01001011 01001001 01001100 01001111');
-  const [size, setSize] = useState(1024);
+  const [width, setWidth] = useState(1024);
+  const [height, setHeight] = useState(1024);
+  const [scale, setScale] = useState(100);
+  const [padding, setPadding] = useState(24);
+  const [baseColor, setBaseColor] = useState('#00ff60');
   const [seed, setSeed] = useState(7);
   const bits = useMemo(() => normalizeBits(text), [text]);
   const canRender = bits.length > 0;
+  const aspectRatio = width / height;
+  const previewAspectRatio = `${width} / ${height}`;
 
   useEffect(() => {
     if (!canvasRef.current || !canRender) return;
 
-    drawBinaryConsoleImage(canvasRef.current, bits, size, seed);
-  }, [bits, size, seed, canRender]);
+    drawBinaryConsoleImage(canvasRef.current, bits, width, height, seed, padding, baseColor);
+  }, [bits, width, height, seed, padding, baseColor, canRender]);
+
+  const updateWidth = (value) => {
+    const nextWidth = Math.max(128, Number(value) || 128);
+
+    setWidth(nextWidth);
+    setHeight(Math.max(128, Math.round(nextWidth / aspectRatio)));
+    setScale(Math.round((nextWidth / 1024) * 100));
+  };
+
+  const updateHeight = (value) => {
+    const nextHeight = Math.max(128, Number(value) || 128);
+
+    setHeight(nextHeight);
+    setWidth(Math.max(128, Math.round(nextHeight * aspectRatio)));
+    setScale(Math.round(((nextHeight * aspectRatio) / 1024) * 100));
+  };
+
+  const updateScale = (value) => {
+    const nextScale = Number(value);
+    const nextWidth = Math.round(1024 * (nextScale / 100));
+
+    setScale(nextScale);
+    setWidth(nextWidth);
+    setHeight(Math.max(128, Math.round(nextWidth / aspectRatio)));
+  };
 
   const randomizeSeed = () => {
     setSeed(Math.floor(Math.random() * 100000));
@@ -164,28 +232,75 @@ function BinaryConsoleApp() {
 
             <div className="grid grid-cols-2 gap-4">
               <label className="block">
-                <span className="text-sm font-medium text-slate-300">Size</span>
-                <select
-                  value={size}
-                  onChange={(event) => setSize(Number(event.target.value))}
+                <span className="text-sm font-medium text-slate-300">Width</span>
+                <input
+                  value={width}
+                  onChange={(event) => updateWidth(event.target.value)}
+                  type="number"
+                  min="128"
                   className="mt-2 w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-200 outline-none transition-colors focus:border-emerald-500/60"
-                >
-                  <option value={512}>512px</option>
-                  <option value={1024}>1024px</option>
-                  <option value={1536}>1536px</option>
-                </select>
+                />
               </label>
 
               <label className="block">
-                <span className="text-sm font-medium text-slate-300">Seed</span>
+                <span className="text-sm font-medium text-slate-300">Height</span>
                 <input
-                  value={seed}
-                  onChange={(event) => setSeed(event.target.value)}
+                  value={height}
+                  onChange={(event) => updateHeight(event.target.value)}
                   type="number"
+                  min="128"
                   className="mt-2 w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-200 outline-none transition-colors focus:border-emerald-500/60"
                 />
               </label>
             </div>
+
+            <label className="block">
+              <span className="flex items-center justify-between text-sm font-medium text-slate-300">
+                <span>Scale</span>
+                <span className="text-xs text-slate-500">{scale}%</span>
+              </span>
+              <input
+                value={scale}
+                onChange={(event) => updateScale(event.target.value)}
+                type="range"
+                min="25"
+                max="200"
+                className="mt-3 w-full accent-emerald-500"
+              />
+            </label>
+
+            <div className="grid grid-cols-2 gap-4">
+              <label className="block">
+                <span className="text-sm font-medium text-slate-300">Padding</span>
+                <input
+                  value={padding}
+                  onChange={(event) => setPadding(Math.max(0, Number(event.target.value) || 0))}
+                  type="number"
+                  min="0"
+                  className="mt-2 w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-200 outline-none transition-colors focus:border-emerald-500/60"
+                />
+              </label>
+
+              <label className="block">
+                <span className="text-sm font-medium text-slate-300">Base color</span>
+                <input
+                  value={baseColor}
+                  onChange={(event) => setBaseColor(event.target.value)}
+                  type="color"
+                  className="mt-2 h-[46px] w-full rounded-xl border border-slate-800 bg-slate-950 px-3 py-2 outline-none transition-colors focus:border-emerald-500/60"
+                />
+              </label>
+            </div>
+
+            <label className="block">
+              <span className="text-sm font-medium text-slate-300">Seed</span>
+              <input
+                value={seed}
+                onChange={(event) => setSeed(event.target.value)}
+                type="number"
+                className="mt-2 w-full rounded-xl border border-slate-800 bg-slate-950 px-4 py-3 text-sm text-slate-200 outline-none transition-colors focus:border-emerald-500/60"
+              />
+            </label>
 
             <div className="flex flex-col sm:flex-row gap-3">
               <button
@@ -214,11 +329,15 @@ function BinaryConsoleApp() {
             {canRender ? (
               <canvas
                 ref={canvasRef}
-                className="block aspect-square w-full rounded-xl bg-black"
+                className="block w-full rounded-xl bg-black"
+                style={{ aspectRatio: previewAspectRatio }}
                 aria-label="Generated binary console image preview"
               />
             ) : (
-              <div className="flex aspect-square w-full items-center justify-center rounded-xl border border-dashed border-slate-800 bg-slate-950 text-slate-600">
+              <div
+                className="flex w-full items-center justify-center rounded-xl border border-dashed border-slate-800 bg-slate-950 text-slate-600"
+                style={{ aspectRatio: previewAspectRatio }}
+              >
                 <ImageIcon className="w-10 h-10" />
               </div>
             )}
