@@ -17,12 +17,16 @@ function randomInt(random, min, max) {
   return Math.floor(random() * (max - min + 1)) + min;
 }
 
-function normalizeBits(text) {
-  return text.replace(/[^01]/g, '');
+function normalizePatternText(text) {
+  return text.replace(/[\r\n]+/g, ' ').trim();
 }
 
-function wrapBits(bits, columns) {
-  const repeated = bits.repeat(Math.floor((columns * columns) / bits.length) + 3);
+function normalizeExactText(text) {
+  return text.replace(/\r\n?/g, '\n');
+}
+
+function wrapTerminalText(terminalText, columns) {
+  const repeated = terminalText.repeat(Math.floor((columns * columns) / terminalText.length) + 3);
   const lines = [];
 
   for (let index = 0; index < repeated.length; index += columns) {
@@ -53,7 +57,7 @@ function clampColor(value) {
   return Math.max(0, Math.min(255, Math.round(value)));
 }
 
-function drawBinaryConsoleImage(canvas, bits, width, height, seed, padding, baseColor) {
+function drawBinaryConsoleImage(canvas, terminalText, width, height, seed, padding, baseColor, displayMode) {
   const random = createRandom(Number(seed) || 0);
   const context = canvas.getContext('2d');
   const glowCanvas = document.createElement('canvas');
@@ -93,14 +97,19 @@ function drawBinaryConsoleImage(canvas, bits, width, height, seed, padding, base
   const lineHeight = fontSize + Math.max(4, Math.floor(fontSize / 3));
   const usableWidth = Math.max(1, width - safePadding * 2);
   const usableHeight = Math.max(1, height - safePadding * 2);
-  const columns = Math.max(1, Math.floor((usableWidth - glyphWidth) / charWidth) + 1);
-  const rows = Math.max(1, Math.floor((usableHeight - glyphHeight) / lineHeight) + 1);
-  const columnGap = columns > 1 ? (usableWidth - glyphWidth) / (columns - 1) : 0;
-  const rowGap = rows > 1 ? (usableHeight - glyphHeight) / (rows - 1) : 0;
-  const lines = wrapBits(bits, columns);
+  const isExactMode = displayMode === 'exact';
+  const columns = isExactMode
+    ? Math.max(1, Math.floor(usableWidth / charWidth))
+    : Math.max(1, Math.floor((usableWidth - glyphWidth) / charWidth) + 1);
+  const rows = isExactMode
+    ? Math.max(1, Math.floor(usableHeight / lineHeight))
+    : Math.max(1, Math.floor((usableHeight - glyphHeight) / lineHeight) + 1);
+  const columnGap = isExactMode ? charWidth : columns > 1 ? (usableWidth - glyphWidth) / (columns - 1) : 0;
+  const rowGap = isExactMode ? lineHeight : rows > 1 ? (usableHeight - glyphHeight) / (rows - 1) : 0;
+  const lines = isExactMode ? terminalText.split('\n') : wrapTerminalText(terminalText, columns);
 
-  for (let row = 0; row < rows; row += 1) {
-    const line = lines[row % lines.length];
+  for (let row = 0; row < Math.min(rows, lines.length); row += 1) {
+    const line = lines[row];
     const y = safePadding + glyphAscent + row * rowGap;
 
     for (let column = 0; column < Math.min(line.length, columns); column += 1) {
@@ -147,8 +156,8 @@ function BinaryConsoleApp() {
   const [padding, setPadding] = useState(24);
   const [baseColor, setBaseColor] = useState('#00ff60');
   const [seed, setSeed] = useState(7);
-  const bits = useMemo(() => normalizeBits(text), [text]);
-  const canRender = bits.length > 0;
+  const terminalText = useMemo(() => normalizeTerminalText(text), [text]);
+  const canRender = terminalText.length > 0;
   const renderWidth = Math.max(1, Number(width) || 1);
   const renderHeight = Math.max(1, Number(height) || 1);
   const previewAspectRatio = `${renderWidth} / ${renderHeight}`;
@@ -156,8 +165,8 @@ function BinaryConsoleApp() {
   useEffect(() => {
     if (!canvasRef.current || !canRender) return;
 
-    drawBinaryConsoleImage(canvasRef.current, bits, renderWidth, renderHeight, seed, padding, baseColor);
-  }, [bits, renderWidth, renderHeight, seed, padding, baseColor, canRender]);
+    drawBinaryConsoleImage(canvasRef.current, terminalText, renderWidth, renderHeight, seed, padding, baseColor);
+  }, [terminalText, renderWidth, renderHeight, seed, padding, baseColor, canRender]);
 
   const updateWidth = (value) => {
     setWidth(value);
@@ -185,7 +194,7 @@ function BinaryConsoleApp() {
     if (!canvasRef.current || !canRender) return;
 
     const link = document.createElement('a');
-    link.download = 'binary-console.png';
+    link.download = 'hacker-terminal.png';
     link.href = canvasRef.current.toDataURL('image/png');
     link.click();
   };
@@ -196,18 +205,18 @@ function BinaryConsoleApp() {
         <div className="p-6 sm:p-8 border-b lg:border-b-0 lg:border-r border-slate-800">
           <div className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-emerald-400 mb-4">
             <Sparkles className="w-4 h-4" />
-            Binary Console Image
+            Hacker Terminal
           </div>
           <h2 className="text-2xl font-bold text-slate-50 tracking-tight">
-            Turn binary text into a glowing console tile.
+            Turn terminal text into a glowing hacker tile.
           </h2>
           <p className="mt-3 text-sm text-slate-500 leading-relaxed">
-            A browser-native port of the Python generator, with deterministic seeds and instant PNG export.
+            A browser-native terminal image generator with deterministic seeds and instant PNG export.
           </p>
 
           <div className="mt-8 space-y-5">
             <label className="block">
-              <span className="text-sm font-medium text-slate-300">Binary text</span>
+              <span className="text-sm font-medium text-slate-300">Terminal text</span>
               <textarea
                 value={text}
                 onChange={(event) => setText(event.target.value)}
@@ -217,7 +226,7 @@ function BinaryConsoleApp() {
               />
               {!canRender && (
                 <span className="mt-2 block text-xs text-amber-400">
-                  Enter at least one 0 or 1.
+                  Enter at least one character.
                 </span>
               )}
             </label>
@@ -323,7 +332,7 @@ function BinaryConsoleApp() {
                 ref={canvasRef}
                 className="block w-full bg-black"
                 style={{ aspectRatio: previewAspectRatio }}
-                aria-label="Generated binary console image preview"
+                aria-label="Generated hacker terminal image preview"
               />
             ) : (
               <div
