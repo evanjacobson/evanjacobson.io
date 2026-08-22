@@ -5,6 +5,7 @@ import Layout from './Layout.jsx'
 import Home from './Pages/Home.jsx'
 import WorkDetail from './Pages/WorkDetail.jsx'
 import Toolbox from './Pages/Toolbox.jsx'
+import Apps from './Pages/Apps.jsx'
 import './index.css'
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/log" element={<Navigate to="/" replace />} />
           <Route path="/work/:slug" element={<WorkDetail />} />
           <Route path="/toolbox" element={<Toolbox />} />
+          <Route path="/apps" element={<Apps />} />
         </Routes>
       </Layout>
     </BrowserRouter>

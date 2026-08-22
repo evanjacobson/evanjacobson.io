@@ -6,7 +6,7 @@ import { getCalApi } from "@calcom/embed-react";
 function Nav() {
     const location = useLocation();
 
-    const isActive = (path) => location.pathname === path;
+    const isActive = (path) => location.pathname === path || location.pathname.startsWith(`${path}/`);
 
     const linkClass = (path) =>
         `transition-colors ${isActive(path) ? 'text-slate-200' : 'text-slate-500 hover:text-slate-300'}`;
@@ -16,6 +16,7 @@ function Nav() {
             <Link to="/" className="text-slate-500 hover:text-slate-200 transition-colors font-medium mr-auto">
                 Evan Jacobson
             </Link>
+            <Link to="/apps" className={linkClass('/apps')}>Apps</Link>
             <Link to="/toolbox" className={linkClass('/toolbox')}>Toolbox</Link>
         </nav>
     );
