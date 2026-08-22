@@ -40,7 +40,7 @@ function Projects() {
                             buttons={[
                                 {
                                     text: "Launch Trade Intel",
-                                    href: "https://app.evanjacobson.io/"
+                                    href: "https://geniuses.trade/"
                                 }
                             ]}
                         />

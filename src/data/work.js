@@ -45,9 +45,9 @@ const projects = [
             "I started with a single-agent approach and hit context window limits almost immediately. The solution came organically: segment the work across specialized agents (split, verify, classify, extract, union) so each one handles a focused task instead of trying to find needles in a haystack. This was my first real experience with multi-agent decomposition, and it changed how I think about every AI pipeline I've built since.",
             "Emails get ingested via n8n through the Gmail API, routed through the multi-agent extraction pipeline, and delivered as structured data to a .NET API running on AWS Lambda. The React frontend sits behind CloudFront. PostgreSQL (via Prisma Data Platform) is the primary database. The entire AWS infrastructure — Lambda, API Gateway, S3, CloudFront, IAM — is managed with Terraform across three environments.",
         ],
-        techStack: ['C#/.NET', 'React', 'AWS Lambda', 'PostgreSQL', 'Terraform', 'CloudFront', 'n8n', 'GitHub Actions'],
+        techStack: ['Next.js', 'PostgreSQL (Supabase)', 'CloudFlare Workers', 'CloudFlare Workflows', 'GitHub Actions'],
         links: [
-            { label: 'Launch Trade Intel', url: 'https://app.evanjacobson.io/' },
+            { label: 'Launch Trade Intel', url: 'https://geniuses.trade/' },
         ],
     },
     {
