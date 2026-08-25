@@ -18,6 +18,9 @@ export function Footer() {
     return (
         <footer className="border-t border-slate-800">
             <div className="max-w-2xl mx-auto px-6 py-12 text-center">
+                <p className="text-sm text-slate-500 mb-6">
+                    Evan Jacobson — agentic AI engineer based in Denver, Colorado.
+                </p>
                 <div className="flex items-center justify-center gap-6 flex-wrap mb-6">
                     <button
                         data-cal-link="evanjacobson"

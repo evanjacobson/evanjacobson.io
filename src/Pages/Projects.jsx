@@ -1,104 +1,57 @@
-import { PageHeader } from '@/Components/Shared/PageHeader';
-import { ProjectComponent } from '@/Components/Shared/ProjectComponent';
-import { Zap, Brain, Search, Github, Code } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
+import projects from '@/data/work';
 
 function Projects() {
     return (
-        <div className="bg-slate-900 text-slate-200 min-h-screen">
-            <div className="container mx-auto px-4 py-8">
-                <PageHeader
-                    title="Projects"
-                    description="AI-powered products, multi-agent systems, and open source tools I've built and co-founded"
-                />
+        <div className="max-w-4xl mx-auto px-6 py-12">
+            <header className="max-w-2xl mb-12">
+                <p className="text-xs font-medium uppercase tracking-[0.18em] text-emerald-400 mb-3">
+                    AI engineering portfolio
+                </p>
+                <h1 className="text-3xl sm:text-4xl font-bold text-slate-50 tracking-tight">
+                    Production AI systems and engineering work
+                </h1>
+                <p className="mt-4 text-slate-400 leading-relaxed">
+                    Case studies across agentic AI, multi-agent workflows, LLM applications, coding-agent infrastructure, and the full-stack products around them.
+                </p>
+            </header>
 
-                <div className="mt-12 pb-20">
-                    {/* Projects Grid */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <ProjectComponent
-                            title="OrAI"
-                            status="AI Tools for Early Childhood Educators & Administrators"
-                            description="Co-founded a SaaS platform that gives early childhood educators and administrators their time back. OrAI automates the tedious deliverables that drive quality outcomes — lesson planning, parent communications, document tracking & review, and compliant staff scheduling — so educators can spend less time on paperwork and more time with kids."
-                            techStack={["TypeScript", "React", "Cloudflare Workers", "Cloudflare AI Search", "Cloudflare AI Gateway", "Supabase", "OpenAI API", "Vercel AI SDK", "assistant-ui", "Stripe", "Playwright"]}
-                            accentColor="blue"
-                            icon={Brain}
-                            date="August 2025 – Present"
-                            buttons={[
-                                {
-                                    text: "Visit OrAI",
-                                    href: "https://www.oraieducator.com/"
-                                }
-                            ]}
-                        />
-                        <ProjectComponent
-                            title="Trade Intel"
-                            status="Multi-Agent Financial Intelligence Pipeline"
-                            description="An email extraction pipeline that converts long-form financial newsletters into structured data — securities, sentiment, and recommendations. After hitting context window limits with a single-agent approach, organically discovered multi-agent decomposition as the solution, splitting work across specialized agents (split, verify, classify, extract, union) to eliminate needle-in-a-haystack failures."
-                            techStack={["C#/.NET 8", "React", "AWS Lambda", "PostgreSQL", "Terraform", "CloudFront", "n8n", "GitHub Actions"]}
-                            accentColor="red"
-                            icon={Zap}
-                            date="August 2025 – Present"
-                            buttons={[
-                                {
-                                    text: "Launch Trade Intel",
-                                    href: "https://geniuses.trade/"
-                                }
-                            ]}
-                        />
-                        <ProjectComponent
-                            title="OneDeal"
-                            status="Agentic Business Sourcing Platform"
-                            subtitle="Techstars '23"
-                            description="Built agentic scouts from scratch that autonomously source off-market businesses matching investor criteria — ~80 sourced/hour vs. 4/week manually. Designed and shipped the full agentic pipeline months before MCP or AI web search existed. Shipped a production web platform for PE firms and SMB investors."
-                            techStack={["TypeScript", "OpenAI API", "Bright Data", "Playwright", "DynamoDB", "Docker", "ECS"]}
-                            accentColor="purple"
-                            icon={Search}
-                            date="October 2024 – October 2025"
-                            buttons={[
-                                {
-                                    text: "Visit OneDeal",
-                                    href: "https://onedealapp.com"
-                                }
-                            ]}
-                        />
-                        <ProjectComponent
-                            title="Beads"
-                            status="Open Source Agent Memory Framework"
-                            description="Contributor to Beads, a structured memory and context management framework for AI coding agents. Applies engineering task decomposition (epics, stories, tasks, dependencies) to agent memory — solving the cross-session persistence gap in agentic development. Integrated Dolt (Git-for-data SQL database) CLI tooling and shipped bug fixes to unblock the Gas Town agent framework."
-                            techStack={["TypeScript", "Dolt", "Git"]}
-                            accentColor="green"
-                            icon={Github}
-                            date="January 2026 – Present"
-                            buttons={[
-                                {
-                                    text: "GitHub",
-                                    href: "https://github.com/cyanheads/beads",
-                                    icon: Github
-                                }
-                            ]}
-                        />
-                        <ProjectComponent
-                            title="Kilo Code"
-                            status="Open Source AI Coding Agent"
-                            description="Contributor to Kilo Code, the most popular open-source AI coding agent. A VS Code extension and CLI with 500+ models, zero markup on inference, and cross-device sync. Used by 1.5M+ developers and processing 25T+ tokens."
-                            techStack={["TypeScript", "VS Code Extension", "CLI"]}
-                            accentColor="orange"
-                            icon={Code}
-                            date="2026 – Present"
-                            buttons={[
-                                {
-                                    text: "Website",
-                                    href: "https://kilo.ai/"
-                                },
-                                {
-                                    text: "GitHub",
-                                    href: "https://github.com/Kilo-Org/kilocode",
-                                    icon: Github,
-                                    colorOverride: "slate"
-                                }
-                            ]}
-                        />
-                    </div>
-                </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {projects.map((project) => {
+                    const Icon = project.icon;
+                    return (
+                        <article key={project.slug} className="border border-slate-800 rounded-xl p-5 flex flex-col">
+                            <div className="flex items-start gap-3">
+                                <div className={`w-10 h-10 ${project.colors.accent} rounded-lg flex items-center justify-center shrink-0`}>
+                                    <Icon className={`w-5 h-5 ${project.colors.iconText || 'text-slate-950'}`} />
+                                </div>
+                                <div>
+                                    <h2 className="font-semibold text-slate-100">{project.title}</h2>
+                                    <p className="text-xs text-slate-500 mt-1">{project.role} · {project.dateRange}</p>
+                                </div>
+                            </div>
+
+                            <p className="text-sm text-slate-400 leading-relaxed mt-4 flex-1">
+                                {project.cardDescription}
+                            </p>
+
+                            {project.techStack.length > 0 && (
+                                <p className="text-xs text-slate-600 mt-4 line-clamp-2">
+                                    {project.techStack.join(' · ')}
+                                </p>
+                            )}
+
+                            <Link
+                                to={`/work/${project.slug}`}
+                                className="inline-flex items-center gap-1.5 text-sm text-emerald-400 hover:text-emerald-300 mt-5"
+                            >
+                                Read case study
+                                <ArrowRight className="w-3.5 h-3.5" />
+                            </Link>
+                        </article>
+                    );
+                })}
             </div>
         </div>
     );

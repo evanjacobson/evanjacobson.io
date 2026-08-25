@@ -18,7 +18,7 @@ const projects = [
         cardDescription: 'Co-founded a SaaS platform that gives early childhood educators their time back — automating lesson planning, communications, document tracking, and compliant staff scheduling.',
         content: [
             "Educators spend too much time on lesson plans, parent communications, document tracking, and compliant scheduling. OrAI automates all of it so educators can spend less time in front of a screen and more time with kids.",
-            "OrAI aims to ",
+            "I own the technical product end to end: TypeScript and React application development, Supabase data and authorization, OpenAI-powered workflows, document retrieval, payments, analytics, and compliance-aware product design.",
         ],
         techStack: ['TypeScript', 'React', 'Cloudflare Workers', 'Cloudflare AI Search', 'Cloudflare AI Gateway', 'Supabase', 'OpenAI API', 'Vercel AI SDK', 'assistant-ui', 'Stripe', 'Playwright', 'PostHog'],
         links: [
@@ -43,7 +43,7 @@ const projects = [
         content: [
             "Trade Intel converts long-form financial newsletters into structured data — analysis and recommendations — so my trading group can get what they need at a glance.",
             "I started with a single-agent approach and hit context window limits almost immediately. The solution came organically: segment the work across specialized agents (split, verify, classify, extract, union) so each one handles a focused task instead of trying to find needles in a haystack. This was my first real experience with multi-agent decomposition, and it changed how I think about every AI pipeline I've built since.",
-            "Emails get ingested via n8n through the Gmail API, routed through the multi-agent extraction pipeline, and delivered as structured data to a .NET API running on AWS Lambda. The React frontend sits behind CloudFront. PostgreSQL (via Prisma Data Platform) is the primary database. The entire AWS infrastructure — Lambda, API Gateway, S3, CloudFront, IAM — is managed with Terraform across three environments.",
+            "The current implementation uses Next.js, PostgreSQL through Supabase, Cloudflare Workers and Workflows, and GitHub Actions to run and deliver the multi-agent extraction pipeline.",
         ],
         techStack: ['Next.js', 'PostgreSQL (Supabase)', 'CloudFlare Workers', 'CloudFlare Workflows', 'GitHub Actions'],
         links: [
