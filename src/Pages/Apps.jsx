@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Sparkles } from 'lucide-react';
 import BinaryConsoleApp from '../Components/BinaryConsoleApp.jsx';
+import DoctorChatbotApp from '../Components/DoctorChatbotApp.jsx';
 
 const apps = [
   {
@@ -9,6 +10,13 @@ const apps = [
     status: 'Live',
     description: 'Generate glowing hacker-console PNGs from binary text.',
     component: BinaryConsoleApp,
+  },
+  {
+    id: 'doctor-chatbot',
+    name: 'Ultra Low Latency Doctor',
+    status: 'Live',
+    description: 'Receive an immediate, client-side medical diagnosis.',
+    component: DoctorChatbotApp,
   },
 ];
 
