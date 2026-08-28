@@ -1,27 +1,14 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import projects from '../src/data/work.js';
+import tools, { categories } from '../src/data/toolbox.js';
+import apps from '../src/data/apps.js';
+import { ogRouteKey } from './og-pages.mjs';
+import { collectionSchema, jsonLd, pageSchema } from '../src/data/pageSchema.js';
 
 const DIST_DIR = path.resolve('dist');
 const SITE_URL = 'https://evanjacobson.io';
-const PERSON_ID = `${SITE_URL}/#evan-jacobson`;
 const baseHtml = await readFile(path.join(DIST_DIR, 'index.html'), 'utf8');
-
-const person = {
-    '@type': 'Person',
-    '@id': PERSON_ID,
-    name: 'Evan Jacobson',
-    url: `${SITE_URL}/`,
-    jobTitle: ['AI Engineer', 'Software Engineer'],
-    homeLocation: {
-        '@type': 'Place',
-        name: 'Denver, Colorado, United States',
-    },
-    sameAs: [
-        'https://github.com/evanjacobson',
-        'https://linkedin.com/in/evanjacobson3',
-    ],
-};
 
 function escapeHtml(value) {
     return String(value)
@@ -30,54 +17,6 @@ function escapeHtml(value) {
         .replaceAll('>', '&gt;')
         .replaceAll('"', '&quot;')
         .replaceAll("'", '&#039;');
-}
-
-function jsonLd(value) {
-    return JSON.stringify(value).replaceAll('<', '\\u003c');
-}
-
-function pageSchema({ canonicalUrl, title, description, project }) {
-    if (project) {
-        return {
-            '@context': 'https://schema.org',
-            '@graph': [
-                {
-                    '@type': 'WebPage',
-                    '@id': `${canonicalUrl}#page`,
-                    url: canonicalUrl,
-                    name: title,
-                    description,
-                    author: { '@id': PERSON_ID },
-                    breadcrumb: { '@id': `${canonicalUrl}#breadcrumbs` },
-                    mainEntity: {
-                        '@type': 'CreativeWork',
-                        name: project.title,
-                        description: project.cardDescription,
-                        creator: person,
-                        keywords: project.techStack,
-                    },
-                },
-                {
-                    '@type': 'BreadcrumbList',
-                    '@id': `${canonicalUrl}#breadcrumbs`,
-                    itemListElement: [
-                        { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
-                        { '@type': 'ListItem', position: 2, name: 'Work', item: `${SITE_URL}/work` },
-                        { '@type': 'ListItem', position: 3, name: project.title, item: canonicalUrl },
-                    ],
-                },
-            ],
-        };
-    }
-
-    return {
-        '@context': 'https://schema.org',
-        '@type': 'WebPage',
-        url: canonicalUrl,
-        name: title,
-        description,
-        author: person,
-    };
 }
 
 function renderProject(project) {
@@ -114,25 +53,104 @@ function renderWorkIndex() {
     </main>`;
 }
 
+function renderTool(tool) {
+    const paragraphs = tool.body.map((item) => `<p>${escapeHtml(item)}</p>`).join('');
+
+    return `<main>
+      <article>
+        <p><a href="/toolbox">AI engineering toolbox</a></p>
+        <h1>${escapeHtml(tool.name)}</h1>
+        <p>${escapeHtml(categories[tool.category].title)} · ${escapeHtml(tool.statusLabel)}</p>
+        <p>${escapeHtml(tool.description)}</p>
+        <section aria-label="How I use it">${paragraphs}</section>
+        <section><h2>Official site</h2><p><a href="${escapeHtml(tool.url)}">Visit ${escapeHtml(tool.name)}</a></p></section>
+      </article>
+    </main>`;
+}
+
+function renderApp(app) {
+    const paragraphs = app.body.map((item) => `<p>${escapeHtml(item)}</p>`).join('');
+
+    return `<main>
+      <article>
+        <p><a href="/apps">Small apps and experiments</a></p>
+        <h1>${escapeHtml(app.name)}</h1>
+        <p>${escapeHtml(app.status)}</p>
+        <p>${escapeHtml(app.description)}</p>
+        <section><h2>About ${escapeHtml(app.name)}</h2>${paragraphs}</section>
+      </article>
+    </main>`;
+}
+
+function renderToolboxIndex() {
+    const sections = Object.entries(categories).map(([key, category]) => {
+        const items = tools.filter((tool) => tool.category === key).map((tool) => `
+        <article>
+          <h3><a href="/toolbox/${escapeHtml(tool.slug)}">${escapeHtml(tool.name)}</a></h3>
+          <p>${escapeHtml(tool.statusLabel)}</p>
+          <p>${escapeHtml(tool.description)}</p>
+        </article>`).join('');
+
+        return `<section>
+        <h2>${escapeHtml(category.title)}</h2>
+        <p>${escapeHtml(category.subtitle)}</p>
+        ${items}
+      </section>`;
+    }).join('');
+
+    return `<main>
+      <h1>AI engineering toolbox</h1>
+      <p>Agents, cloud platforms, automation tools, and developer infrastructure used to build production AI systems.</p>
+      ${sections}
+    </main>`;
+}
+
+function renderAppsIndex() {
+    const items = apps.map((app) => `
+      <article>
+        <h2><a href="/apps/${escapeHtml(app.id)}">${escapeHtml(app.name)}</a></h2>
+        <p>${escapeHtml(app.status)}</p>
+        <p>${escapeHtml(app.description)}</p>
+      </article>`).join('');
+
+    return `<main>
+      <h1>Small apps and experiments</h1>
+      <p>Software tools, generators, and engineering experiments hosted on evanjacobson.io.</p>
+      ${items}
+    </main>`;
+}
+
 function replaceMeta(html, selector, replacement) {
-    return html.replace(selector, replacement);
+    // Function replacement so `$&`/`$'`/`$$` patterns in data-derived content
+    // are taken literally instead of being treated as replacement patterns.
+    return html.replace(selector, () => replacement);
 }
 
 function renderHtml({ title, description, pathname, body, schema, robots = 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1', type = 'website', canonicalPath = pathname }) {
-    const canonicalUrl = `${SITE_URL}${canonicalPath === '/' ? '/' : canonicalPath}`;
+    const canonicalUrl = `${SITE_URL}${(canonicalPath ?? pathname) === '/' ? '/' : canonicalPath ?? pathname}`;
+    const ogImageUrl = `${SITE_URL}/og/${ogRouteKey(pathname)}.png`;
     let html = baseHtml;
     html = replaceMeta(html, /<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(title)}</title>`);
     html = replaceMeta(html, /<meta name="description"[^>]*>/, `<meta name="description" content="${escapeHtml(description)}" />`);
     html = replaceMeta(html, /<meta name="robots"[^>]*>/, `<meta name="robots" content="${escapeHtml(robots)}" />`);
-    html = replaceMeta(html, /<link rel="canonical"[^>]*>/, `<link rel="canonical" href="${canonicalUrl}" />`);
+    html = canonicalPath === null
+        ? replaceMeta(html, /\n?\s*<link rel="canonical"[^>]*>/, '')
+        : replaceMeta(html, /<link rel="canonical"[^>]*>/, `<link rel="canonical" href="${canonicalUrl}" />`);
     html = replaceMeta(html, /<meta property="og:type"[^>]*>/, `<meta property="og:type" content="${type}" />`);
     html = replaceMeta(html, /<meta property="og:title"[^>]*>/, `<meta property="og:title" content="${escapeHtml(title)}" />`);
     html = replaceMeta(html, /<meta property="og:description"[^>]*>/, `<meta property="og:description" content="${escapeHtml(description)}" />`);
     html = replaceMeta(html, /<meta property="og:url"[^>]*>/, `<meta property="og:url" content="${canonicalUrl}" />`);
+    html = replaceMeta(html, /<meta property="og:image"[^>]*>/, `<meta property="og:image" content="${ogImageUrl}" />`);
+    html = replaceMeta(html, /<meta property="og:image:alt"[^>]*>/, `<meta property="og:image:alt" content="${escapeHtml(title)}" />`);
+    html = replaceMeta(html, /<meta name="twitter:card"[^>]*>/, '<meta name="twitter:card" content="summary_large_image" />');
     html = replaceMeta(html, /<meta name="twitter:title"[^>]*>/, `<meta name="twitter:title" content="${escapeHtml(title)}" />`);
     html = replaceMeta(html, /<meta name="twitter:description"[^>]*>/, `<meta name="twitter:description" content="${escapeHtml(description)}" />`);
+    html = replaceMeta(html, /<meta name="twitter:image"[^>]*>/, `<meta name="twitter:image" content="${ogImageUrl}" />`);
     html = replaceMeta(html, /<script id="structured-data" type="application\/ld\+json">[\s\S]*?<\/script>/, `<script id="structured-data" type="application/ld+json">${jsonLd(schema)}</script>`);
-    html = replaceMeta(html, /<div id="root">[\s\S]*?<\/div>/, `<div id="root">${body}</div>`);
+    // Anchored to the closing </body> tag (Vite hoists the module script into
+    // <head> at build time) so nested divs inside #root cannot truncate the
+    // replacement at the first inner </div>.
+    html = replaceMeta(html, /<div id="root">[\s\S]*?<\/div>(?=\s*<\/body>)/, `<div id="root">${body}</div>`);
     return html;
 }
 
@@ -149,76 +167,100 @@ await writeRoute('/work', {
     title: workTitle,
     description: workDescription,
     body: renderWorkIndex(),
-    schema: {
-        '@context': 'https://schema.org',
-        '@type': 'CollectionPage',
-        url: `${SITE_URL}/work`,
-        name: workTitle,
+    schema: collectionSchema({
+        collection: 'work',
+        canonicalUrl: `${SITE_URL}/work`,
+        title: workTitle,
         description: workDescription,
-        author: person,
-        mainEntity: {
-            '@type': 'ItemList',
-            itemListElement: projects.map((project, index) => ({
-                '@type': 'ListItem',
-                position: index + 1,
-                name: project.title,
-                url: `${SITE_URL}/work/${project.slug}`,
-            })),
-        },
-    },
+    }),
 });
 
 for (const project of projects) {
     const pathname = `/work/${project.slug}`;
     const title = `${project.title} AI Engineering Case Study | Evan Jacobson`;
+    const description = project.metaDescription || project.cardDescription;
     await writeRoute(pathname, {
         title,
-        description: project.cardDescription,
+        description,
         body: renderProject(project),
         schema: pageSchema({
             canonicalUrl: `${SITE_URL}${pathname}`,
             title,
-            description: project.cardDescription,
+            description,
             project,
         }),
     });
 }
 
-const simplePages = [
-    {
-        pathname: '/toolbox',
-        title: 'AI Engineering Toolbox | Evan Jacobson',
-        description: 'The AI agents, cloud platforms, automation tools, and developer infrastructure Evan Jacobson uses to build production AI systems.',
-        body: '<main><h1>AI engineering toolbox</h1><p>Agents, cloud platforms, automation tools, and developer infrastructure used to build production AI systems.</p></main>',
-    },
-    {
-        pathname: '/apps',
-        title: 'Small Apps and Experiments | Evan Jacobson',
-        description: 'Small software tools, generators, and engineering experiments built by Evan Jacobson.',
-        body: '<main><h1>Small apps and experiments</h1><p>Software tools, generators, and engineering experiments hosted on evanjacobson.io.</p></main>',
-    },
-];
+const toolboxTitle = 'AI Engineering Toolbox | Evan Jacobson';
+const toolboxDescription = 'The AI agents, cloud platforms, automation tools, and developer infrastructure Evan Jacobson uses to build production AI systems.';
+await writeRoute('/toolbox', {
+    title: toolboxTitle,
+    description: toolboxDescription,
+    body: renderToolboxIndex(),
+    schema: collectionSchema({
+        collection: 'toolbox',
+        canonicalUrl: `${SITE_URL}/toolbox`,
+        title: toolboxTitle,
+        description: toolboxDescription,
+    }),
+});
 
-for (const page of simplePages) {
-    const canonicalUrl = `${SITE_URL}${page.pathname}`;
-    await writeRoute(page.pathname, {
-        ...page,
-        schema: pageSchema({ canonicalUrl, title: page.title, description: page.description }),
+for (const tool of tools) {
+    const pathname = `/toolbox/${tool.slug}`;
+    await writeRoute(pathname, {
+        title: tool.seoTitle,
+        description: tool.metaDescription,
+        body: renderTool(tool),
+        schema: pageSchema({
+            canonicalUrl: `${SITE_URL}${pathname}`,
+            title: tool.seoTitle,
+            description: tool.metaDescription,
+            tool,
+        }),
+    });
+}
+
+const appsTitle = 'Small Apps and Experiments | Evan Jacobson';
+const appsDescription = 'Small software tools, generators, and engineering experiments built by Evan Jacobson.';
+await writeRoute('/apps', {
+    title: appsTitle,
+    description: appsDescription,
+    body: renderAppsIndex(),
+    schema: collectionSchema({
+        collection: 'apps',
+        canonicalUrl: `${SITE_URL}/apps`,
+        title: appsTitle,
+        description: appsDescription,
+    }),
+});
+
+for (const app of apps) {
+    const pathname = `/apps/${app.id}`;
+    await writeRoute(pathname, {
+        title: app.seoTitle,
+        description: app.metaDescription,
+        body: renderApp(app),
+        schema: pageSchema({
+            canonicalUrl: `${SITE_URL}${pathname}`,
+            title: app.seoTitle,
+            description: app.metaDescription,
+            app,
+        }),
     });
 }
 
 await writeRoute('/book-a-call', {
     title: 'Book a Call with Evan Jacobson',
     description: 'Schedule a call with Evan Jacobson.',
-    canonicalPath: '/',
     robots: 'noindex, follow',
     body: '<main><h1>Book a call with Evan Jacobson</h1><p>Use the scheduling interface to find a time.</p></main>',
-    schema: pageSchema({ canonicalUrl: `${SITE_URL}/`, title: 'Evan Jacobson | Agentic AI Engineer in Denver', description: 'Denver-based agentic AI engineer building reliable LLM applications, multi-agent workflows, coding-agent infrastructure, and AI systems for remote teams.' }),
+    schema: pageSchema({ canonicalUrl: `${SITE_URL}/book-a-call`, title: 'Evan Jacobson | Agentic AI Engineer in Denver', description: 'Denver-based agentic AI engineer building reliable LLM applications, multi-agent workflows, coding-agent infrastructure, and AI systems for remote teams.' }),
 });
 
 const notFoundHtml = renderHtml({
     pathname: '/404',
-    canonicalPath: '/404',
+    canonicalPath: null,
     title: 'Page Not Found | Evan Jacobson',
     description: 'The requested page could not be found.',
     robots: 'noindex, follow',
@@ -226,3 +268,37 @@ const notFoundHtml = renderHtml({
     schema: pageSchema({ canonicalUrl: `${SITE_URL}/404`, title: 'Page Not Found | Evan Jacobson', description: 'The requested page could not be found.' }),
 });
 await writeFile(path.join(DIST_DIR, '404.html'), notFoundHtml);
+
+const indexedRoutes = [
+    '/',
+    '/work',
+    ...projects.map((project) => `/work/${project.slug}`),
+    '/toolbox',
+    ...tools.map((tool) => `/toolbox/${tool.slug}`),
+    '/apps',
+    ...apps.map((app) => `/apps/${app.id}`),
+];
+const sitemapEntries = indexedRoutes
+    .map((route) => `  <url><loc>${SITE_URL}${route === '/' ? '/' : route}</loc></url>`)
+    .join('\n');
+const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${sitemapEntries}
+</urlset>
+`;
+await writeFile(path.join(DIST_DIR, 'sitemap.xml'), sitemap);
+
+const redirectRoutes = [
+    '/work',
+    '/toolbox',
+    '/apps',
+    '/book-a-call',
+    ...projects.map((project) => `/work/${project.slug}`),
+    ...tools.map((tool) => `/toolbox/${tool.slug}`),
+    ...apps.map((app) => `/apps/${app.id}`),
+];
+const redirects = [
+    '/log / 301',
+    ...redirectRoutes.map((route) => `${route}/ ${route} 301`),
+].join('\n');
+await writeFile(path.join(DIST_DIR, '_redirects'), `${redirects}\n`);

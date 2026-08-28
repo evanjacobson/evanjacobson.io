@@ -32,7 +32,31 @@
 - Full-stack AI product engineering
 - TypeScript, React, Cloudflare, AWS, and OpenAI API integrations
 
-## More
+## AI engineering toolbox
 
 - [AI engineering toolbox](https://evanjacobson.io/toolbox): Agents, cloud platforms, automation, and developer tools used in practice.
+- [Kilo](https://evanjacobson.io/toolbox/kilo): Open-source agentic engineering platform; daily-driver CLI and VS Code extension.
+- [KiloClaw](https://evanjacobson.io/toolbox/kiloclaw): Kilo's managed OpenClaw service for daily automated workflows.
+- [Beads](https://evanjacobson.io/toolbox/beads): Issue tracking designed for AI agents; core contributor.
+- [Claude Code](https://evanjacobson.io/toolbox/claude-code): Anthropic's terminal-based coding agent, semi-retired in favor of Kilo CLI.
+- [Gas Town](https://evanjacobson.io/toolbox/gas-town): Multi-agent swarm manager, semi-retired in favor of Gas Town by Kilo.
+- [Cursor](https://evanjacobson.io/toolbox/cursor): AI editor, semi-retired in favor of Kilo's VS Code extension.
+- [Supabase](https://evanjacobson.io/toolbox/supabase): Postgres, auth, storage, and realtime; the backend for OrAI.
+- [Cloudflare Workers](https://evanjacobson.io/toolbox/cloudflare-workers): Edge-first serverless compute that runs OrAI.
+- [Cloudflare AI](https://evanjacobson.io/toolbox/cloudflare-ai): AI Search (AutoRAG) and AI Gateway for retrieval, routing, and observability.
+- [AWS](https://evanjacobson.io/toolbox/aws): Lambda, API Gateway, S3, CloudFront, and EC2 behind Trade Intel.
+- [Terraform](https://evanjacobson.io/toolbox/terraform): Infrastructure as code across dev, stage, and prod environments.
+- [n8n](https://evanjacobson.io/toolbox/n8n): Self-hosted workflow automation feeding multi-agent extraction pipelines.
+- [GitHub Actions](https://evanjacobson.io/toolbox/github-actions): CI/CD with OIDC auth for tests, deploys, and infrastructure.
+- [Stripe](https://evanjacobson.io/toolbox/stripe): Payment processing and subscription tiers for OrAI.
+- [Playwright](https://evanjacobson.io/toolbox/playwright): End-to-end browser testing for OrAI.
+- [PostHog](https://evanjacobson.io/toolbox/posthog): Product analytics and LLM tracing.
+- [Streamlit](https://evanjacobson.io/toolbox/streamlit): Python dashboards for fast data insights.
+- [Graphite](https://evanjacobson.io/toolbox/graphite): Stacked pull requests and Git workflow tooling.
+- [Docker](https://evanjacobson.io/toolbox/docker): Containers for local development and production deploys.
+
+## On-site apps
+
 - [On-site apps](https://evanjacobson.io/apps): Small software tools and experiments.
+- [Binary Console Image](https://evanjacobson.io/apps/binary-console): Free browser-based hacker terminal image generator producing glowing console PNGs.
+- [Ultra Low Latency Doctor](https://evanjacobson.io/apps/doctor-chatbot): A joke chatbot that delivers an instant client-side diagnosis; entertainment only.
