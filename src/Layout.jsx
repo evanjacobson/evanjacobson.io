@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Footer } from "./Components/Shared/Footer";
 import { getCalApi } from "@calcom/embed-react";
+import Seo from "./Components/Seo";
 
 function Nav() {
     const location = useLocation();
@@ -16,6 +17,7 @@ function Nav() {
             <Link to="/" className="text-slate-500 hover:text-slate-200 transition-colors font-medium mr-auto">
                 Evan Jacobson
             </Link>
+            <Link to="/work" className={linkClass('/work')}>Work</Link>
             <Link to="/apps" className={linkClass('/apps')}>Apps</Link>
             <Link to="/toolbox" className={linkClass('/toolbox')}>Toolbox</Link>
         </nav>
@@ -44,6 +46,7 @@ export default function Layout({ children }) {
 
     return (
         <div className="min-h-screen bg-slate-950 text-slate-200 flex flex-col">
+            <Seo />
             <Nav />
             <main className="flex-1">
                 {children}

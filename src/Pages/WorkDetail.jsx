@@ -8,7 +8,7 @@ function WorkDetail() {
     const project = projects.find((p) => p.slug === slug);
 
     if (!project) {
-        return <Navigate to="/" replace />;
+        return <Navigate to="/404" replace />;
     }
 
     return (
@@ -21,7 +21,7 @@ function WorkDetail() {
                 Back
             </Link>
 
-            <ProjectContent project={project} />
+            <ProjectContent project={project} headingLevel="h1" />
         </div>
     );
 }

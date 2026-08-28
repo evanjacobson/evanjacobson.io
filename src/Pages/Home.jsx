@@ -14,6 +14,15 @@ const THESIS_PARAGRAPHS = [
     <>Some of this work belongs to specialized agents, but much of it can be enforced entirely through structure, feedback loops, and ensuring every agent is the chief prosecutor against its own claims. I've been tinkering with this infrastructure as a result of the burdens I face in everything else I build, and it's become what I'm by far most passionate about.</>,
 ];
 
+const INTRO_PARAGRAPHS = [
+    <>I'm a Denver-based AI engineer focused on making agentic systems reliable in production. I build LLM applications, multi-agent workflows, AI coding-agent infrastructure, and the full-stack products around them for remote and distributed teams.</>,
+    <>I'm a software engineer at <a href="https://kilo.ai/" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-300">Kilo</a>, where I build and support KiloClaw, and technical cofounder of <a href="https://www.oraieducator.com/" target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:text-emerald-300">OrAI</a>. Previously, I built OneDeal's autonomous sourcing pipeline, increasing throughput from roughly four businesses per week to 80 per hour.</>,
+];
+
+const FEATURED_PROJECTS = projects.filter((project) =>
+    ['onedeal', 'trade-intel', 'beads', 'orai', 'kilo'].includes(project.slug)
+);
+
 const ABOUT_PARAGRAPHS = [
     <>Based in Denver, CO with my girlfriend Hayley and my orange tabby, Sampson.</>,
     <>My focus is agentic engineering — specifically the reliability and quality-control layer that sits between a capable model and a trustworthy system. When I'm not building, I'm usually skiing, camping, or traveling.</>,
@@ -26,6 +35,7 @@ function GraphHomeHeader() {
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-3xl font-bold text-slate-50 mb-1">Evan Jacobson</h1>
+                    <p className="text-sm text-emerald-400">Agentic AI engineer in Denver</p>
                 </div>
                 <a
                     href="/files/Evan Jacobson Resume.pdf"
@@ -45,7 +55,10 @@ function GraphDrawerHeader() {
     return (
         <div className="max-w-4xl mx-auto px-4 mb-8">
             <div className="flex items-center justify-between">
-                <h1 className="text-3xl font-bold text-slate-50">Evan Jacobson</h1>
+                <div>
+                    <h1 className="text-3xl font-bold text-slate-50">Evan Jacobson</h1>
+                    <p className="text-sm text-emerald-400 mt-1">Agentic AI engineer in Denver</p>
+                </div>
                 <a
                     href="/files/Evan Jacobson Resume.pdf"
                     target="_blank"
@@ -62,19 +75,13 @@ function GraphDrawerHeader() {
 
 function Home({ autoOpenBooking = false }) {
     const [searchParams, setSearchParams] = useSearchParams();
-    const activeProject = searchParams.get('project');
+    const requestedProject = searchParams.get('project');
+    const [showDefaultAbout, setShowDefaultAbout] = useState(DETAIL_MODE === 'drawer' && !requestedProject);
+    const activeProject = requestedProject || (showDefaultAbout ? 'about' : null);
     const project = activeProject ? projects.find(p => p.slug === activeProject) : null;
 
-    // In drawer mode, auto-expand the bio ("about") on first load when no project is selected
-    const [autoExpanded, setAutoExpanded] = useState(false);
-    useEffect(() => {
-        if (DETAIL_MODE === 'drawer' && !activeProject && !autoExpanded) {
-            setAutoExpanded(true);
-            setSearchParams({ project: 'about' });
-        }
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
     const handleSelectProject = (slug) => {
+        setShowDefaultAbout(false);
         if (slug === activeProject) {
             // Toggle off if clicking the same row
             setSearchParams({});
@@ -84,6 +91,7 @@ function Home({ autoOpenBooking = false }) {
     };
 
     const handleCloseProject = () => {
+        setShowDefaultAbout(false);
         setSearchParams({});
     };
 
@@ -126,9 +134,45 @@ function Home({ autoOpenBooking = false }) {
             {HOME_LAYOUT === 'graphDrawer' && <GraphDrawerHeader />}
 
             <div className="max-w-4xl mx-auto px-4 mb-12">
+                <section aria-labelledby="intro-heading" className="mb-10">
+                    <h2 id="intro-heading" className="text-lg font-semibold text-slate-100 mb-4">
+                        Reliable AI systems, beyond the demo
+                    </h2>
+                    <div className="space-y-4 text-slate-300 leading-relaxed text-sm">
+                        {INTRO_PARAGRAPHS.map((p, i) => <p key={i}>{p}</p>)}
+                    </div>
+                </section>
+
+                <section aria-labelledby="featured-work-heading" className="mb-10">
+                    <div className="flex items-baseline justify-between gap-4 mb-3">
+                        <h2 id="featured-work-heading" className="text-xs font-medium uppercase tracking-wider text-slate-400">
+                            Selected AI engineering work
+                        </h2>
+                        <Link to="/work" className="text-xs text-emerald-400 hover:text-emerald-300">
+                            View all case studies
+                        </Link>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                        {FEATURED_PROJECTS.map((featuredProject) => (
+                            <Link
+                                key={featuredProject.slug}
+                                to={`/work/${featuredProject.slug}`}
+                                className="text-xs px-2.5 py-1 rounded-full border border-slate-700 text-slate-300 hover:border-slate-600 hover:text-slate-100 transition-colors"
+                            >
+                                {featuredProject.title}: {featuredProject.subtitle}
+                            </Link>
+                        ))}
+                    </div>
+                </section>
+
+                <section aria-labelledby="perspective-heading">
+                    <h2 id="perspective-heading" className="text-lg font-semibold text-slate-100 mb-4">
+                        What I'm exploring: reliable AI agents
+                    </h2>
                 <div className="space-y-4 text-slate-300 leading-relaxed text-sm">
                     {THESIS_PARAGRAPHS.map((p, i) => <p key={i}>{p}</p>)}
                 </div>
+                </section>
             </div>
 
             <ResumeGitGraph

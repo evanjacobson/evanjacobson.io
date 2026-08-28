@@ -1,7 +1,8 @@
 import { ExternalLink } from 'lucide-react';
 
-export default function ProjectContent({ project, compact = false }) {
+export default function ProjectContent({ project, compact = false, headingLevel = 'h2' }) {
     const IconComponent = project.icon;
+    const Heading = headingLevel;
 
     return (
         <>
@@ -11,10 +12,13 @@ export default function ProjectContent({ project, compact = false }) {
                         <IconComponent className={`w-6 h-6 ${project.colors.iconText || 'text-slate-950'}`} />
                     </div>
                     <div>
-                        <h2 className="text-2xl font-bold text-slate-50">{project.title}</h2>
+                        <Heading className="text-2xl font-bold text-slate-50">{project.title}</Heading>
                         <p className="text-slate-400 mt-1 text-sm">
                             {project.role} &middot; {project.dateRange}
                         </p>
+                        {headingLevel === 'h1' && (
+                            <p className="text-slate-300 mt-2 text-sm">{project.subtitle}</p>
+                        )}
                         {project.badge && (
                             <span className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full mt-2 ${project.colors.badge}`}>
                                 {project.badge}
@@ -28,6 +32,12 @@ export default function ProjectContent({ project, compact = false }) {
                 <span className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full mb-3 ${project.colors.badge}`}>
                     {project.badge}
                 </span>
+            )}
+
+            {!compact && headingLevel === 'h1' && (
+                <p className="mt-6 text-base text-slate-300 leading-relaxed">
+                    {project.cardDescription}
+                </p>
             )}
 
             <div className={`${compact ? '' : 'mt-8 '}space-y-4 text-slate-300 leading-relaxed text-sm`}>
