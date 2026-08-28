@@ -25,8 +25,8 @@ const apps = [
         name: 'Ultra Low Latency Doctor',
         status: 'Live',
         description: 'Receive an immediate, client-side medical diagnosis.',
-        seoTitle: 'Fastest Doctor Chatbot Ever Made (a Joke App)',
-        metaDescription: "The world's fastest doctor chatbot: zero latency, no server round-trips, instant answers to any symptom. A joke app — not medical advice.",
+        seoTitle: 'Fastest Doctor Chatbot Ever Made — Zero Latency',
+        metaDescription: "The world's fastest doctor chatbot: zero latency, no server round-trips, instant answers to any symptom. The doctor is always in.",
         keywords: [
             'fastest doctor chatbot',
             'ultra low latency chatbot',
@@ -36,9 +36,9 @@ const apps = [
             'ai doctor parody',
         ],
         body: [
-            "The Ultra Low Latency Doctor is, as far as I know, the fastest doctor chatbot ever built. Dr. Instant responds to any symptom in zero milliseconds of server time — no API call, no model inference, no streaming tokens. How? The entire medical knowledge base ships in the client bundle. Describe a headache, a funny knee, or mild existential dread, and the answer arrives instantly. To be perfectly clear: this is a joke app.",
+            "The Ultra Low Latency Doctor is, as far as I know, the fastest doctor chatbot ever built. Dr. Instant responds to any symptom in zero milliseconds of server time — no API call, no model inference, no streaming tokens. How? The entire medical knowledge base ships in the client bundle. Describe a headache, a funny knee, or mild existential dread, and the answer arrives instantly.",
             "Using it works like any chat interface: type what's bothering you, press Enter, and receive your diagnosis before the network tab even wakes up. There's no rate limit, no login, and no waiting room. The doctor is permanently online and accepts every condition.",
-            "It exists as a parody of two things at once: AI health chatbots that confidently diagnose you from a sentence, and latency benchmarks that get bragged about without asking what the response is actually worth. This app wins both categories — instant answers, every time — while being medically useless by design. It is for entertainment purposes only and is not medical advice. If something actually hurts, please see a real doctor, who will be slower and dramatically more accurate.",
+            "Most AI health chatbots make you wait while a model reasons about your symptoms. Dr. Instant eliminated the reasoning entirely, which turned out to be where all the latency was. The result is a chatbot that answers with total confidence in zero milliseconds — a benchmark no other medical product has been brave enough to chase. If something actually hurts, see a real doctor; they are slower, but dramatically more accurate.",
         ],
     },
 ];
