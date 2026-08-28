@@ -1,4 +1,4 @@
-import { Brain, Zap, Search, GitBranch, Code, Gamepad2, Sword, GraduationCap } from 'lucide-react';
+import { Brain, Zap, Search, GitBranch, Code, Gamepad2, Sword, GraduationCap, Shield, Plane, Lightbulb } from 'lucide-react';
 
 const projects = [
     {
@@ -16,6 +16,7 @@ const projects = [
             badge: 'bg-blue-500/15 text-blue-300',
         },
         cardDescription: 'Co-founded a SaaS platform that gives early childhood educators their time back — automating lesson planning, communications, document tracking, and compliant staff scheduling.',
+        metaDescription: 'Co-founded a SaaS platform that gives early childhood educators their time back — automating lesson planning, communications, and compliant scheduling.',
         content: [
             "Educators spend too much time on lesson plans, parent communications, document tracking, and compliant scheduling. OrAI automates all of it so educators can spend less time in front of a screen and more time with kids.",
             "I own the technical product end to end: TypeScript and React application development, Supabase data and authorization, OpenAI-powered workflows, document retrieval, payments, analytics, and compliance-aware product design.",
@@ -127,6 +128,30 @@ const projects = [
         ],
     },
     {
+        slug: 'alarm',
+        title: 'Alarm.com',
+        role: 'Software Engineer Intern → Software Engineer II',
+        subtitle: 'Internal tools, SQL CI, Stripe subscriptions, and LLM-powered developer tooling',
+        dateRange: 'Summer 2020 · August 2021 – March 2026',
+        icon: Shield,
+        colors: {
+            accent: 'bg-orange-600',
+            text: 'text-orange-400',
+            border: 'border-l-orange-600',
+            bg: 'bg-orange-600/10',
+            badge: 'bg-orange-600/15 text-orange-300',
+        },
+        cardDescription: 'From intern to Software Engineer II — internationalized email reaching 100K+ users/yr, an automated SQL validation pipeline, an LLM-powered refactoring bot with 8x maintenance productivity, Stripe subscriptions, and a provisional patent.',
+        metaDescription: 'From intern to Software Engineer II at Alarm.com — internationalized email for 100K+ users/yr, an LLM-powered SQL refactoring bot, and a provisional patent.',
+        content: [
+            "I interned at Alarm.com in the summer of 2020, architecting a dynamic, auto-translated email system sent to hundreds of thousands of users per year. I returned full-time in August 2021 and was promoted to Software Engineer II in April 2024.",
+            "Along the way I shipped developer-experience tooling — Chrome extensions, a Login-with-Two-Factor microservice, and gamification features — and drove a SQL CI initiative that added an automated SQL validation pipeline. That work led to an LLM-powered, self-validating SQL refactoring bot that delivered 8x maintenance productivity.",
+            "I also led engineering for Stripe customer-managed subscriptions with cross-team coordination, built Handoff Bot — a GitHub App and Claude skill that generates PR review docs for QEs — and filed a provisional patent in the IoT / smart-security space.",
+        ],
+        techStack: ['SQL', 'Stripe', 'LLMs', 'Chrome Extensions', 'GitHub Apps'],
+        links: [],
+    },
+    {
         slug: 'minecraft',
         title: 'Spacesuits',
         role: 'Personal Project',
@@ -190,6 +215,50 @@ const projects = [
         content: [
             "I studied Computer Science with a Minor in Mathematics at the University of Miami, graduating with a 3.96 GPA.",
             "The CS program gave me a strong foundation in algorithms, data structures, systems, and software engineering. The math minor turned out to be directly useful once I started working with machine learning and data pipelines.",
+        ],
+        techStack: [],
+        links: [],
+    },
+    {
+        slug: 'garmin',
+        title: 'Garmin',
+        role: 'Software Engineer Intern',
+        subtitle: 'Avionics — GI 275 Attitude Indicator',
+        dateRange: 'May 2019 – August 2019',
+        icon: Plane,
+        colors: {
+            accent: 'bg-fuchsia-700',
+            text: 'text-fuchsia-400',
+            border: 'border-l-fuchsia-700',
+            bg: 'bg-fuchsia-700/10',
+            badge: 'bg-fuchsia-700/15 text-fuchsia-300',
+        },
+        cardDescription: 'Avionics software engineering internship — wrote 80+ tests in C for the GI 275 Attitude Indicator following FAA standards.',
+        content: [
+            "I spent the summer of 2019 as a software engineering intern on an avionics team at Garmin.",
+            "My work centered on the GI 275 Attitude Indicator, where I wrote 80+ tests in C following FAA standards.",
+        ],
+        techStack: ['C'],
+        links: [],
+    },
+    {
+        slug: 'spark',
+        title: 'Spark Technology Solutions',
+        role: 'High School Tech Incubator',
+        subtitle: 'Websites for companies + an app for the St. Louis Zoo',
+        dateRange: 'January 2015 – May 2017',
+        icon: Lightbulb,
+        colors: {
+            accent: 'bg-teal-500',
+            text: 'text-teal-400',
+            border: 'border-l-teal-500',
+            bg: 'bg-teal-500/10',
+            badge: 'bg-teal-500/15 text-teal-300',
+        },
+        cardDescription: 'A high school technology incubator where I built websites for companies and an app for the St. Louis Zoo.',
+        content: [
+            "Spark Technology Solutions was a high school technology incubator I was part of from 2015 to 2017.",
+            "Through Spark, I built websites for companies and an app for the St. Louis Zoo — my first taste of shipping software for real clients.",
         ],
         techStack: [],
         links: [],

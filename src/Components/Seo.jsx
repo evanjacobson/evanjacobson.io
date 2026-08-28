@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import projects from '@/data/work';
+import tools from '@/data/toolbox';
+import apps from '@/data/apps';
+import { ogRouteKey } from '@/data/ogRouteKey';
+import { collectionSchema, homeSchema, jsonLd, pageSchema } from '@/data/pageSchema';
 
 const SITE_URL = 'https://evanjacobson.io';
 const DEFAULT_DESCRIPTION = 'Denver-based agentic AI engineer building reliable LLM applications, multi-agent workflows, coding-agent infrastructure, and AI systems for remote teams.';
@@ -14,14 +18,17 @@ const staticPages = {
     '/work': {
         title: 'AI Engineering Case Studies | Evan Jacobson',
         description: 'Production AI agents, LLM applications, multi-agent pipelines, coding-agent infrastructure, and full-stack AI systems built by Evan Jacobson.',
+        collection: 'work',
     },
     '/toolbox': {
         title: 'AI Engineering Toolbox | Evan Jacobson',
         description: 'The AI agents, cloud platforms, automation tools, and developer infrastructure Evan Jacobson uses to build production AI systems.',
+        collection: 'toolbox',
     },
     '/apps': {
         title: 'Small Apps and Experiments | Evan Jacobson',
         description: 'Small software tools, generators, and engineering experiments built by Evan Jacobson.',
+        collection: 'apps',
     },
 };
 
@@ -36,7 +43,7 @@ function upsertMeta(selector, attributes) {
 
 function pageFor(pathname) {
     if (pathname === '/book-a-call') {
-        return { ...staticPages['/'], canonicalPath: '/', robots: 'noindex, follow' };
+        return { ...staticPages['/'], robots: 'noindex, follow' };
     }
 
     if (pathname.startsWith('/work/')) {
@@ -45,8 +52,32 @@ function pageFor(pathname) {
         if (project) {
             return {
                 title: `${project.title} AI Engineering Case Study | Evan Jacobson`,
-                description: project.cardDescription,
+                description: project.metaDescription || project.cardDescription,
                 project,
+            };
+        }
+    }
+
+    if (pathname.startsWith('/toolbox/')) {
+        const slug = pathname.slice('/toolbox/'.length);
+        const tool = tools.find((item) => item.slug === slug);
+        if (tool) {
+            return {
+                title: tool.seoTitle,
+                description: tool.metaDescription,
+                tool,
+            };
+        }
+    }
+
+    if (pathname.startsWith('/apps/')) {
+        const id = pathname.slice('/apps/'.length);
+        const app = apps.find((item) => item.id === id);
+        if (app) {
+            return {
+                title: app.seoTitle,
+                description: app.metaDescription,
+                app,
             };
         }
     }
@@ -57,86 +88,30 @@ function pageFor(pathname) {
         title: 'Page Not Found | Evan Jacobson',
         description: 'The requested page could not be found.',
         robots: 'noindex, follow',
+        notFound: true,
     };
 }
 
 function structuredData(page, canonicalUrl) {
-    const person = {
-        '@type': 'Person',
-        '@id': `${SITE_URL}/#evan-jacobson`,
-        name: 'Evan Jacobson',
-        url: `${SITE_URL}/`,
-        jobTitle: ['AI Engineer', 'Software Engineer'],
-        homeLocation: {
-            '@type': 'Place',
-            name: 'Denver, Colorado, United States',
-        },
-        sameAs: [
-            'https://github.com/evanjacobson',
-            'https://linkedin.com/in/evanjacobson3',
-        ],
-    };
+    if (canonicalUrl === `${SITE_URL}/`) return homeSchema();
 
-    if (page.project) {
-        return {
-            '@context': 'https://schema.org',
-            '@type': 'WebPage',
-            url: canonicalUrl,
-            name: page.title,
+    if (page.collection) {
+        return collectionSchema({
+            collection: page.collection,
+            canonicalUrl,
+            title: page.title,
             description: page.description,
-            author: { '@id': person['@id'] },
-            mainEntity: {
-                '@type': 'CreativeWork',
-                name: page.project.title,
-                description: page.project.cardDescription,
-                creator: person,
-                keywords: page.project.techStack,
-            },
-        };
+        });
     }
 
-    if (canonicalUrl === `${SITE_URL}/`) {
-        return {
-            '@context': 'https://schema.org',
-            '@type': 'ProfilePage',
-            '@id': `${SITE_URL}/#profile`,
-            url: canonicalUrl,
-            name: page.title,
-            description: page.description,
-            mainEntity: {
-                ...person,
-                image: `${SITE_URL}/images/Evan%20Jacobson.jpg`,
-                email: 'mailto:contact@evanjacobson.io',
-                description: DEFAULT_DESCRIPTION,
-                worksFor: {
-                    '@type': 'Organization',
-                    name: 'Kilo',
-                    url: 'https://kilo.ai/',
-                },
-                alumniOf: {
-                    '@type': 'CollegeOrUniversity',
-                    name: 'University of Miami',
-                },
-                knowsAbout: [
-                    'Agentic AI',
-                    'AI agents',
-                    'Large language model applications',
-                    'Multi-agent systems',
-                    'AI agent reliability',
-                    'AI coding agents',
-                ],
-            },
-        };
-    }
-
-    return {
-        '@context': 'https://schema.org',
-        '@type': 'WebPage',
-        url: canonicalUrl,
-        name: page.title,
+    return pageSchema({
+        canonicalUrl,
+        title: page.title,
         description: page.description,
-        author: person,
-    };
+        project: page.project,
+        tool: page.tool,
+        app: page.app,
+    });
 }
 
 export default function Seo() {
@@ -147,6 +122,7 @@ export default function Seo() {
         const canonicalPath = page.canonicalPath ?? pathname;
         const canonicalUrl = `${SITE_URL}${canonicalPath === '/' ? '/' : canonicalPath}`;
         const robots = page.robots ?? 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
+        const ogImageUrl = `${SITE_URL}/og/${ogRouteKey(page.notFound ? '/404' : pathname)}.png`;
 
         document.title = page.title;
         upsertMeta('meta[name="description"]', { name: 'description', content: page.description });
@@ -155,19 +131,26 @@ export default function Seo() {
         upsertMeta('meta[property="og:description"]', { property: 'og:description', content: page.description });
         upsertMeta('meta[property="og:url"]', { property: 'og:url', content: canonicalUrl });
         upsertMeta('meta[property="og:type"]', { property: 'og:type', content: page.type ?? 'website' });
+        upsertMeta('meta[property="og:image"]', { property: 'og:image', content: ogImageUrl });
+        upsertMeta('meta[property="og:image:alt"]', { property: 'og:image:alt', content: page.title });
         upsertMeta('meta[name="twitter:title"]', { name: 'twitter:title', content: page.title });
         upsertMeta('meta[name="twitter:description"]', { name: 'twitter:description', content: page.description });
+        upsertMeta('meta[name="twitter:image"]', { name: 'twitter:image', content: ogImageUrl });
 
         let canonical = document.head.querySelector('link[rel="canonical"]');
-        if (!canonical) {
-            canonical = document.createElement('link');
-            canonical.rel = 'canonical';
-            document.head.appendChild(canonical);
+        if (page.notFound) {
+            if (canonical) canonical.remove();
+        } else {
+            if (!canonical) {
+                canonical = document.createElement('link');
+                canonical.rel = 'canonical';
+                document.head.appendChild(canonical);
+            }
+            canonical.href = canonicalUrl;
         }
-        canonical.href = canonicalUrl;
 
         const schema = document.getElementById('structured-data');
-        if (schema) schema.textContent = JSON.stringify(structuredData(page, canonicalUrl));
+        if (schema) schema.textContent = jsonLd(structuredData(page, canonicalUrl));
     }, [pathname]);
 
     return null;

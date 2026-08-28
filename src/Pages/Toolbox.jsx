@@ -1,8 +1,8 @@
+import { Link } from "react-router-dom";
 import {
+  ArrowRight,
   Bot,
   Cloud,
-  Zap,
-  ExternalLink,
   Terminal,
   GitBranch,
   BarChart3,
@@ -19,6 +19,7 @@ import {
   Sparkles,
   Mail,
 } from "lucide-react";
+import tools, { categories } from "@/data/toolbox";
 
 function KiloCrab({ className }) {
   return (
@@ -73,12 +74,32 @@ const sectionColors = {
   devtools: { text: "text-cyan-400" },
 };
 
-function ToolCard({ name, icon: Icon, status, statusLabel, description, url }) {
+const toolIcons = {
+  kilo: Code,
+  kiloclaw: KiloCrab,
+  beads: GitBranch,
+  "claude-code": Bot,
+  "gas-town": Terminal,
+  cursor: MousePointerClick,
+  supabase: Database,
+  "cloudflare-workers": Cloud,
+  "cloudflare-ai": Sparkles,
+  aws: Cloud,
+  terraform: Layers,
+  n8n: Workflow,
+  "github-actions": Play,
+  stripe: CreditCard,
+  playwright: TestTube,
+  posthog: BarChart3,
+  streamlit: LayoutDashboard,
+  graphite: GitBranch,
+  docker: Container,
+};
+
+function ToolCard({ slug, name, icon: Icon, status, statusLabel, description }) {
   return (
-    <a
-      href={url}
-      target="_blank"
-      rel="noopener noreferrer"
+    <Link
+      to={`/toolbox/${slug}`}
       className="group block border border-slate-800 rounded-lg p-5 hover:border-slate-700 transition-colors"
     >
       <div className="flex items-start gap-3 mb-2">
@@ -95,12 +116,12 @@ function ToolCard({ name, icon: Icon, status, statusLabel, description, url }) {
             </span>
           </div>
         </div>
-        <ExternalLink className="w-3.5 h-3.5 text-slate-600 group-hover:text-slate-400 transition-colors shrink-0 mt-0.5" />
+        <ArrowRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-slate-400 transition-colors shrink-0 mt-0.5" />
       </div>
       <p className="text-sm text-slate-500 leading-relaxed ml-8">
         {description}
       </p>
-    </a>
+    </Link>
   );
 }
 
@@ -139,188 +160,24 @@ function GuestPassCard() {
   );
 }
 
-const agents = [
-  {
-    name: "Kilo",
-    icon: Code,
-    status: "daily-driver",
-    statusLabel: "Daily Driver",
-    url: "https://kilo.ai/",
-    description:
-      "The most popular open-source agentic engineering platform. The CLI replaced Claude Code, the VS Code extension replaced Cursor, and Gas Town by Kilo replaced Gas Town. I work there.",
-  },
-  {
-    name: "KiloClaw",
-    icon: KiloCrab,
-    status: "daily-driver",
-    statusLabel: "Daily Driver",
-    url: "https://kilo.ai/kiloclaw",
-    description:
-      "Kilo's managed OpenClaw service. Drives countless daily workflows to keep me streamlined and on task.",
-  },
-  {
-    name: "Beads",
-    icon: GitBranch,
-    status: "contributor",
-    statusLabel: "Contributor",
-    url: "https://github.com/cyanheads/beads",
-    description:
-      "Issue tracking designed for AI agents. Solves the context reset problem. I'm a core contributor.",
-  },
-  {
-    name: "Claude Code",
-    icon: Bot,
-    status: "semi-retired",
-    statusLabel: "Semi-Retired",
-    url: "https://claude.com/claude-code",
-    description:
-      "Anthropic's terminal-based coding agent. Retired in favor of Kilo CLI.",
-  },
-  {
-    name: "Gas Town",
-    icon: Terminal,
-    status: "semi-retired",
-    statusLabel: "Semi-Retired",
-    url: "https://github.com/steveyegge/Gas Town",
-    description:
-      "Steve Yegge's multi-agent swarm manager. Semi-retired in favor of Gas Town by Kilo.",
-  },
-  {
-    name: "Cursor",
-    icon: MousePointerClick,
-    status: "semi-retired",
-    statusLabel: "Semi-Retired",
-    url: "https://cursor.com/",
-    description:
-      "My first AI editor love. Retired in favor of Kilo's VS Code extension.",
-  },
-];
-
-const cloud = [
-  {
-    name: "Supabase",
-    icon: Database,
-    status: "daily-driver",
-    statusLabel: "Daily Driver",
-    url: "https://supabase.com/",
-    description:
-      "Postgres, auth, storage, and realtime in one platform. The backend for OrAI. Row-level security means tenant data stays isolated.",
-  },
-  {
-    name: "Cloudflare Workers",
-    icon: Cloud,
-    status: "daily-driver",
-    statusLabel: "Daily Driver",
-    url: "https://workers.cloudflare.com/",
-    description:
-      "Edge-first serverless compute. OrAI runs entirely on Workers -- no cold starts, no origin servers, just code at the edge in 300+ cities.",
-  },
-  {
-    name: "Cloudflare AI",
-    icon: Sparkles,
-    status: "daily-driver",
-    statusLabel: "Daily Driver",
-    url: "https://ai.cloudflare.com/",
-    description:
-      "AI Search (AutoRAG) for document retrieval and AI Gateway for routing, caching, and observability across AI providers.",
-  },
-  {
-    name: "AWS",
-    icon: Cloud,
-    status: "essential",
-    statusLabel: "Essential",
-    url: "https://aws.amazon.com/",
-    description:
-      "Lambda, API Gateway, S3, CloudFront, EC2. Trade Intel's entire backend runs on AWS.",
-  },
-  {
-    name: "Terraform",
-    icon: Layers,
-    status: "essential",
-    statusLabel: "Essential",
-    url: "https://www.terraform.io/",
-    description:
-      "Infrastructure as code. Three environments (dev, stage, prod) from a single codebase.",
-  },
-];
-
-const automation = [
-  {
-    name: "n8n",
-    icon: Workflow,
-    status: "self-hosted",
-    statusLabel: "Self-Hosted",
-    url: "https://n8n.io/",
-    description:
-      "Self-hosted workflow automation running on EC2. Ingests financial newsletters via Gmail and routes them through multi-agent extraction pipelines.",
-  },
-  {
-    name: "GitHub Actions",
-    icon: Play,
-    status: "essential",
-    statusLabel: "Essential",
-    url: "https://github.com/features/actions",
-    description:
-      "CI/CD that runs tests, lints code, deploys infrastructure, and pushes to production. OIDC auth with AWS means no stored credentials.",
-  },
-  {
-    name: "Stripe",
-    icon: CreditCard,
-    status: "essential",
-    statusLabel: "Essential",
-    url: "https://stripe.com/",
-    description:
-      "Payment processing for OrAI subscriptions. Free, Basic, and Premium tiers with usage-based quotas and referral rewards.",
-  },
-];
-
-const devtools = [
-  {
-    name: "Playwright",
-    icon: TestTube,
-    status: "essential",
-    statusLabel: "Essential",
-    url: "https://playwright.dev/",
-    description:
-      "End-to-end browser testing for OrAI. Three test personas, mobile viewport testing, and auth state persistence.",
-  },
-  {
-    name: "PostHog",
-    icon: BarChart3,
-    status: "daily-driver",
-    statusLabel: "Daily Driver",
-    url: "https://posthog.com/",
-    description:
-      "Product analytics and LLM tracing. The @posthog/ai middleware traces every LLM call.",
-  },
-  {
-    name: "Streamlit",
-    icon: LayoutDashboard,
-    status: "essential",
-    statusLabel: "Essential",
-    url: "https://streamlit.io/",
-    description:
-      "Python dashboards for when I need answers fast. Spin up a dashboard in 20 minutes, get insights that would take days in React.",
-  },
-  {
-    name: "Graphite",
-    icon: GitBranch,
-    status: "daily-driver",
-    statusLabel: "Daily Driver",
-    url: "https://graphite.dev/",
-    description:
-      "Git stacking done right. Stack PRs, review them independently, and merge in order.",
-  },
-  {
-    name: "Docker",
-    icon: Container,
-    status: "essential",
-    statusLabel: "Essential",
-    url: "https://www.docker.com/",
-    description:
-      "Containers for local dev and production deploys. PostgreSQL, n8n, all running in isolated containers.",
-  },
-];
+function ToolSection({ category }) {
+  return (
+    <section>
+      <SectionHeader
+        title={categories[category].title}
+        subtitle={categories[category].subtitle}
+        color={sectionColors[category]}
+      />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {tools
+          .filter((tool) => tool.category === category)
+          .map((tool) => (
+            <ToolCard key={tool.slug} icon={toolIcons[tool.slug]} {...tool} />
+          ))}
+      </div>
+    </section>
+  );
+}
 
 function Toolbox() {
   return (
@@ -337,57 +194,10 @@ function Toolbox() {
       <div className="mt-12 space-y-14">
         <GuestPassCard />
 
-        <section>
-          <SectionHeader
-            title="AI Agents & Copilots"
-            subtitle="The team that writes most of the code"
-            color={sectionColors.agents}
-          />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {agents.map((tool) => (
-              <ToolCard key={tool.name} {...tool} />
-            ))}
-          </div>
-        </section>
-
-        <section>
-          <SectionHeader
-            title="Cloud & Infrastructure"
-            subtitle="Where the code actually runs"
-            color={sectionColors.cloud}
-          />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {cloud.map((tool) => (
-              <ToolCard key={tool.name} {...tool} />
-            ))}
-          </div>
-        </section>
-
-        <section>
-          <SectionHeader
-            title="Automation & Workflows"
-            subtitle="The robots behind the robots"
-            color={sectionColors.automation}
-          />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {automation.map((tool) => (
-              <ToolCard key={tool.name} {...tool} />
-            ))}
-          </div>
-        </section>
-
-        <section>
-          <SectionHeader
-            title="Dev Experience"
-            subtitle="The supporting cast"
-            color={sectionColors.devtools}
-          />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {devtools.map((tool) => (
-              <ToolCard key={tool.name} {...tool} />
-            ))}
-          </div>
-        </section>
+        <ToolSection category="agents" />
+        <ToolSection category="cloud" />
+        <ToolSection category="automation" />
+        <ToolSection category="devtools" />
       </div>
     </div>
   );
