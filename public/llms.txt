@@ -59,4 +59,4 @@
 
 - [On-site apps](https://evanjacobson.io/apps): Small software tools and experiments.
 - [Binary Console Image](https://evanjacobson.io/apps/binary-console): Free browser-based hacker terminal image generator producing glowing console PNGs.
-- [Ultra Low Latency Doctor](https://evanjacobson.io/apps/doctor-chatbot): A joke chatbot that delivers an instant client-side diagnosis; entertainment only.
+- [Ultra Low Latency Doctor](https://evanjacobson.io/apps/doctor-chatbot): The world's fastest doctor chatbot; delivers an instant client-side diagnosis with zero latency.

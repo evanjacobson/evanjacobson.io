@@ -31,9 +31,9 @@ const apps = [
             'fastest doctor chatbot',
             'ultra low latency chatbot',
             'instant diagnosis chatbot',
-            'doctor chatbot joke',
-            'funny medical chatbot',
-            'ai doctor parody',
+            'fastest medical chatbot',
+            'zero latency chatbot',
+            'client-side chatbot',
         ],
         body: [
             "The Ultra Low Latency Doctor is, as far as I know, the fastest doctor chatbot ever built. Dr. Instant responds to any symptom in zero milliseconds of server time — no API call, no model inference, no streaming tokens. How? The entire medical knowledge base ships in the client bundle. Describe a headache, a funny knee, or mild existential dread, and the answer arrives instantly.",
