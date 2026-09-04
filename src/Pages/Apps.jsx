@@ -1,16 +1,13 @@
-import { useState } from 'react';
+import { useNavigate, useParams, Navigate } from 'react-router-dom';
 import { Sparkles } from 'lucide-react';
+import apps from '@/data/apps';
 import BinaryConsoleApp from '../Components/BinaryConsoleApp.jsx';
+import DoctorChatbotApp from '../Components/DoctorChatbotApp.jsx';
 
-const apps = [
-  {
-    id: 'binary-console',
-    name: 'Binary Console Image',
-    status: 'Live',
-    description: 'Generate glowing hacker-console PNGs from binary text.',
-    component: BinaryConsoleApp,
-  },
-];
+const appComponents = {
+  'binary-console': BinaryConsoleApp,
+  'doctor-chatbot': DoctorChatbotApp,
+};
 
 function AppCard({ app, active, onSelect }) {
   return (
@@ -40,9 +37,15 @@ function AppCard({ app, active, onSelect }) {
 }
 
 function Apps() {
-  const [activeAppId, setActiveAppId] = useState(apps[0].id);
-  const activeApp = apps.find((app) => app.id === activeAppId) || apps[0];
-  const ActiveAppComponent = activeApp.component;
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  if (id && !apps.some((app) => app.id === id)) {
+    return <Navigate to="/404" replace />;
+  }
+
+  const activeApp = apps.find((app) => app.id === id) || apps[0];
+  const ActiveAppComponent = appComponents[activeApp.id];
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-12">
@@ -69,13 +72,24 @@ function Apps() {
               key={app.id}
               app={app}
               active={app.id === activeApp.id}
-              onSelect={() => setActiveAppId(app.id)}
+              onSelect={() => navigate(`/apps/${app.id}`)}
             />
           ))}
         </div>
       </section>
 
       <ActiveAppComponent />
+
+      <section className="mt-10 max-w-3xl">
+        <h2 className="text-xl font-bold text-slate-50 tracking-tight">About {activeApp.name}</h2>
+        <div className="mt-4 space-y-4">
+          {activeApp.body.map((paragraph) => (
+            <p key={paragraph} className="text-slate-400 leading-relaxed">
+              {paragraph}
+            </p>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

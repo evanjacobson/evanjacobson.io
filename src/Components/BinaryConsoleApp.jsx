@@ -156,7 +156,7 @@ function BinaryConsoleApp() {
   const [padding, setPadding] = useState(24);
   const [baseColor, setBaseColor] = useState('#00ff60');
   const [seed, setSeed] = useState(7);
-  const terminalText = useMemo(() => normalizeTerminalText(text), [text]);
+  const terminalText = useMemo(() => normalizePatternText(text), [text]);
   const canRender = terminalText.length > 0;
   const renderWidth = Math.max(1, Number(width) || 1);
   const renderHeight = Math.max(1, Number(height) || 1);
